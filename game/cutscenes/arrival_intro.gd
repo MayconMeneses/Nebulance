@@ -1,24 +1,23 @@
 class_name ArrivalIntro
 extends CanvasLayer
-## Chegada curta da Astralis (PLACEHOLDER: texto e fade). Pulavel; pular nao altera progresso nem recompensas.
+## Chegada curta da Astralis: texto sobre a cena (a nave desce em 3D). Pulavel a qualquer momento;
+## pular nao altera progresso nem recompensas.
 
 signal finished
 
-@export var duration: float = 4.0
+const DURATION: float = 4.0
+
+@export var duration: float = DURATION
 
 var _elapsed: float = 0.0
 var _done: bool = false
 
 
 func _ready() -> void:
-	var fade := ColorRect.new()
-	fade.color = Color(0.02, 0.06, 0.1, 0.85)
-	fade.set_anchors_preset(Control.PRESET_FULL_RECT)
-	add_child(fade)
 	var label := Label.new()
-	label.text = "SYLVARA\nA Astralis pousa. O trio desembarca.\n\n(E ou Espaco para pular)"
-	label.add_theme_font_size_override(&"font_size", 30)
-	label.position = Vector2(360.0, 240.0)
+	label.text = "SYLVARA\nA Astralis pousa. O trio desembarca.   (E ou Espaco para pular)"
+	label.add_theme_font_size_override(&"font_size", 26)
+	label.position = Vector2(360.0, 90.0)
 	add_child(label)
 
 

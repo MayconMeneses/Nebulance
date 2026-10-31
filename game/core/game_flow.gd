@@ -123,14 +123,17 @@ func _start_level() -> void:
 	audio.play_music("res://assets/audio/music_sylvara.wav")
 	if play_intro:
 		level.rig.body.set_locked_state(MovementState.State.CUTSCENE)
+		level.astralis.arrive(ArrivalIntro.DURATION - 0.5)
 		intro = ArrivalIntro.new()
 		add_child(intro)
 		intro.finished.connect(_on_intro_finished)
 
 
 func _on_intro_finished() -> void:
-	if level != null and not level.controller.completed:
-		level.rig.body.set_locked_state(-1)
+	if level != null:
+		level.astralis.skip()
+		if not level.controller.completed:
+			level.rig.body.set_locked_state(-1)
 
 
 func _on_completed(receipt: Dictionary) -> void:

@@ -16,17 +16,24 @@ var controller: LevelController
 var definition: LevelDefinition
 var camera: SideCamera
 var visual: HeroVisual
+var astralis: AstralisView
+var effects: EffectsDirector
 
 
 func _ready() -> void:
 	definition = load(DEFINITION) as LevelDefinition
 	_build_environment()
 	_build_geometry()
+	astralis = AstralisView.new()
+	add_child(astralis)
 	_build_rig()
 	controller = LevelController.new()
 	controller.name = "LevelController"
 	add_child(controller)
 	controller.setup(rig, definition, save)
+	effects = EffectsDirector.new()
+	add_child(effects)
+	effects.bind(controller, rig.body)
 	controller.level_completed.connect(func(receipt: Dictionary) -> void: completed.emit(receipt))
 
 
@@ -73,8 +80,6 @@ func _build_geometry() -> void:
 	# A: desembarque e ensino de corrida/salto (area segura).
 	b.solid(Vector3(7.0, -0.5, 0.0), Vector3(30.0, 1.0, 4.0), ground)
 	b.solid(Vector3(10.0, 0.4, 0.0), Vector3(2.0, 0.8, 4.0), ground)
-	b.decor(Vector3(-4.0, 2.6, -3.0), Vector3(6.0, 0.6, 3.0), Color("E9EEF5"), true)
-	b.decor(Vector3(-3.0, 3.2, -3.0), Vector3(2.0, 0.7, 1.6), Color("23CFF5"), true)
 	# B: ponte simples com uma tabua faltando (abismo embaixo).
 	b.solid(Vector3(24.5, -0.15, 0.0), Vector3(5.0, 0.3, 4.0), wood)
 	b.solid(Vector3(31.75, -0.15, 0.0), Vector3(4.5, 0.3, 4.0), wood)

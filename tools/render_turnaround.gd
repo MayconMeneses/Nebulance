@@ -1,6 +1,6 @@
 extends SceneTree
 ## Gera renders de conferencia (frente, lado, costas, 3/4) de um modelo, NA ENGINE (janela real, nao headless).
-## Uso: godot --path . --script res://tools/render_turnaround.gd -- <heroi> [clipe] [altura_alvo]
+## Uso: godot --path . --script res://tools/render_turnaround.gd -- <heroi> [clipe] [altura_alvo] [centro_y]
 ## Saida: docs/visual/<heroi>_<vista>.png (renders proprios, para validacao visual).
 
 const VIEWS: Dictionary = {
@@ -16,6 +16,7 @@ func _initialize() -> void:
 	var hero: String = args[0]
 	var clip: String = args[1] if args.size() > 1 else "idle"
 	var height: float = float(args[2]) if args.size() > 2 else 1.8
+	var center_y: float = float(args[3]) if args.size() > 3 else height * 0.5
 	var viewport := SubViewport.new()
 	viewport.size = Vector2i(640, 800)
 	viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
@@ -52,7 +53,7 @@ func _initialize() -> void:
 	var dist: float = height * 3.6
 	for view_name in VIEWS:
 		var dir: Vector3 = (VIEWS[view_name] as Vector3).normalized()
-		cam.look_at_from_position(Vector3(0.0, height * 0.55, 0.0) + dir * dist, Vector3(0.0, height * 0.5, 0.0))
+		cam.look_at_from_position(Vector3(0.0, center_y + height * 0.05, 0.0) + dir * dist, Vector3(0.0, center_y, 0.0))
 		for i in 3:
 			await process_frame
 		await RenderingServer.frame_post_draw
