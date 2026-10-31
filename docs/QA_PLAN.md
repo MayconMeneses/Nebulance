@@ -41,3 +41,18 @@ Benchmark de JOGO REAL (dev, NÃO é o alvo; bot joga a fase 01 com HUD e áudio
 - build exportado: 1086 quadros, média 59,0 FPS, 1% low 59,5 FPS, pior quadro 145,4 ms (travamento único aparente);
 - projeto no editor (sem export): 1070 quadros, média 58,2 FPS, 1% low 48,3 FPS, pior quadro 141,8 ms.
 Taxa do monitor/vsync não verificada. Não prova 60 FPS em hardware-alvo.
+
+## Atualizacao Fases 4 e 5 (suite completa: 328 checagens)
+- TC-013 PASS tambem nas fases 02 e 03 (estabilizador, plataformas, mecanismos e portao voltam ao snapshot).
+- TC-014 PASS: portal com origem/destino/retorno, estado de origem preservado, repeticao sem duplicar (fase 03 -> S01).
+- TC-039 PARCIAL: perfis Baixo/Medio/Alto existem e o bot completa a fase 01 nos tres no build exportado (sem quebra funcional); desempenho medido abaixo.
+- TC-026 PARCIAL: mapa mostra so rotas disponiveis e contagem (sem spoilers) em 7 estados de QA; segredos conhecidos por contagem.
+- TC-025 PARCIAL: introducao com a Astralis 3D pulavel a qualquer momento sem efeitos.
+
+Benchmark por perfil (build exportado, Intel UHD 620, gl_compatibility, bot joga a fase 01 com HUD/audio/efeitos; NAO e o hardware-alvo):
+| Perfil | Com vsync: media / 1% low | Sem vsync: media / 1% low |
+|---|---|---|
+| Baixo | 57,5 / 45,2 | 137,7 / 94,0 |
+| Medio | 58,0 / 40,1 | 69,3 / 57,3 |
+| Alto | 54,9 / 38,0 | 70,6 / 51,4 |
+Pior quadro ~145-150 ms em todas as execucoes (travamento unico no inicio, provavelmente compilacao de shaders; cache frio/quente NAO separados). 60 FPS estaveis NAO foram atingidos em Medio/Alto com vsync nesta maquina.

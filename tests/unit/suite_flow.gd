@@ -90,7 +90,7 @@ func _full_cycle(tree: SceneTree, out: Array) -> void:
 	await tree.process_frame
 	await tree.process_frame
 	TestWorld.rec(out, "fluxo: Voltar do mapa leva ao menu com Continuar ativo", flow.state == GameFlow.State.MAIN_MENU and not flow.menu._continue.disabled)
-	flow.continue_game(true)
+	flow.continue_game(true, "sylvara_01")
 	await tree.process_frame
 	TestWorld.rec(out, "TC-020 fluxo: continuar recupera as moedas do perfil", flow.profile["economy"]["coin_balance"] == 81)
 	var input2 := ScriptedInput.new()

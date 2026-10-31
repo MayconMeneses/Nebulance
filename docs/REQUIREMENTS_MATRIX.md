@@ -47,3 +47,11 @@ Ver docs/QA_PLAN.md (estado atualizado por TC). Executados com PASS: TC-003 a TC
 - Planetas/guardiões: Sylvara/Vyrkan · Cristália/Zythra · Mecatron/Ferrorraiz · Aquarys/Thalassa · Aerion/Zefrion · Umbraxis/Necryon. Vilão: Caeldron.
 - Fases 01–36 e S01 Jardim Além do Portal, S02 Câmara das Frequências Perdidas, S03 Oficina Zero, S04 Oceano Esquecido, S05 Jardim Sem Gravidade, S06 Câmara da Primeira Expedição (detalhes no PDF §10; LEVEL_BIBLE ainda por escrever).
 - Cinemáticas (referência): abertura 45–75 s, chegada de planeta 15–25 s, descoberta 3–8 s, baú 3–6 s, vitória de boss 20–35 s, final 60–100 s.
+
+## Atualizacao Fases 4 e 5
+- RF-001: 4 das 42 fases implementadas (sylvara_01, 02, 03 e a secreta S01), todas com bot; portais: 1 (sylvara_03 -> S01). Chefes: 0 de 6.
+- RF-005 (Mapa Galactico): mapa derivado do save, 6 planetas, raizes, painel sem spoilers, modo QA; viagens da Astralis reduzidas a chegada 3D pulavel (sem decolagem/tunel).
+- RF-006 (portais): 1 portal funcional; faltam os demais secretos (S02-S06).
+- RNF-002: perfis graficos e benchmark registrados; 60 FPS em hardware-alvo NAO validado.
+- Visual: modelos 3D de primeira passagem (ADR-0007); fidelidade a arte aprovada NAO validada pelo dono.
+- Gap do PDF §22 item 07 (portal menor no vertical slice): atendido pelo portal da fase 03 -> S01.

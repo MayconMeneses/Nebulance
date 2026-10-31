@@ -54,12 +54,12 @@ func start_new_game(skip_map: bool = false) -> void:
 	_start_level() if skip_map else _show_map()
 
 
-func continue_game(skip_map: bool = false) -> void:
+func continue_game(skip_map: bool = false, level_id: String = "") -> void:
 	var loaded: Dictionary = service.load_save()
 	if loaded["data"].is_empty():
 		return
 	profile = loaded["data"]
-	_start_level() if skip_map else _show_map()
+	_start_level(level_id) if skip_map else _show_map()
 
 
 func _show_map() -> void:
