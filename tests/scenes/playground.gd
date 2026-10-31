@@ -8,7 +8,7 @@ const BENCH_SECONDS: float = 15.0
 
 var rig: TrioRig
 var _label: Label
-var _visual: PlaceholderVisual
+var _visual: HeroVisual
 var _bench: bool = false
 var _bench_time: float = 0.0
 var _frame_times: PackedFloat32Array = PackedFloat32Array()
@@ -51,10 +51,9 @@ func _build_rig() -> void:
 	rig.use_input_reader = not _bench
 	rig.position = Vector3(0.0, 1.0, 0.0)
 	add_child(rig)
-	_visual = PlaceholderVisual.new()
+	_visual = HeroVisual.new()
 	rig.body.add_child(_visual)
-	_visual.show_hero(profiles[0])
-	rig.hero_changed.connect(_visual.show_hero)
+	_visual.bind(rig.body, rig)
 	if _bench:
 		rig.body.intent_provider = _script_input.read
 

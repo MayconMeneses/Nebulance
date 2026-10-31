@@ -15,6 +15,7 @@ var rig: TrioRig
 var controller: LevelController
 var definition: LevelDefinition
 var camera: SideCamera
+var visual: HeroVisual
 
 
 func _ready() -> void:
@@ -39,10 +40,9 @@ func _build_rig() -> void:
 	rig.use_input_reader = use_input_reader
 	rig.position = Vector3(0.0, 1.0, 0.0)
 	add_child(rig)
-	var visual := PlaceholderVisual.new()
+	visual = HeroVisual.new()
 	rig.body.add_child(visual)
-	visual.show_hero(profiles[0])
-	rig.hero_changed.connect(visual.show_hero)
+	visual.bind(rig.body, rig)
 	camera = SideCamera.new()
 	camera.target = rig.body
 	camera.position = Vector3(0.0, 3.0, 12.0)
