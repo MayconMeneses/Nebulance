@@ -28,6 +28,9 @@ func _initialize() -> void:
 			["cristalia_09_cp1"], [], ["memory_orchid_signals_09"]))
 	_save(_def("cristalia_s02", "Camara das Frequencias Perdidas", "Toque os cristais na ordem certa", 4,
 			[], ["cristalia_s02_explorer_lens", "cristalia_s02_prism_item"], []))
+	var d10: LevelDefinition = _def("cristalia_10", "O Trem de Luz", "Atravesse o tunel, fuja dos fragmentos e abra o bau", 9,
+			["cristalia_10_cp1"], ["cristalia_10_rail_collectible"], [], ["cristalia_10_creature"])
+	_save(d10)
 	quit(0)
 
 
