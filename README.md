@@ -2,7 +2,7 @@
 
 Plataforma 2.5D offline para Windows (Godot 4.7.2, GDScript tipado). Especificação: PDF "Prompt Mestre Supremo" (fora do repositório).
 
-Estado: **Fase Zero** concluída (fundação). Não há jogo jogável ainda; só uma cena de teste com corpo provisório.
+Estado: **Fase 2** (núcleo de controles) implementada e testada automaticamente; falta playtest humano. Cena jogável: `tests/scenes/playground.tscn` (graybox).
 
 ## Rodar
 ```

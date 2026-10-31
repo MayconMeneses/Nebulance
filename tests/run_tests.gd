@@ -5,7 +5,7 @@ extends SceneTree
 
 const SUITES: Array[String] = [
 	"suite_foundation", "asset_pipeline_checks", "skills_checks",
-	"suite_controller", "suite_swap", "suite_abilities", "suite_vitals", "suite_camera",
+	"suite_controller", "suite_swap", "suite_abilities", "suite_vitals", "suite_camera", "suite_playground",
 ]
 
 var _failures: int = 0

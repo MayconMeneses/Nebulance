@@ -37,6 +37,15 @@ func _tc006(tree: SceneTree, out: Array) -> void:
 			"(x=%.2f)" % wall.body.global_position.x)
 	wall.dispose()
 
+	var unmarked := TestWorld.create(tree, 0)
+	var barrier4: ImpactBarrier = unmarked.add_barrier(Vector3(3.0, 1.5, 0.0), Vector3(1.0, 3.0, 3.0))
+	barrier4.remove_from_group(&"impact_target")
+	await unmarked.step(20)
+	unmarked.input.press_special()
+	await unmarked.step(40)
+	TestWorld.rec(out, "TC-006 alvo com on_impacted mas NAO marcado (fora do grupo) nao quebra", not barrier4.is_broken)
+	unmarked.dispose()
+
 	var zuri := TestWorld.create(tree, 1)
 	var barrier3: ImpactBarrier = zuri.add_barrier(Vector3(3.0, 1.5, 0.0), Vector3(1.0, 3.0, 3.0))
 	await zuri.step(20)
