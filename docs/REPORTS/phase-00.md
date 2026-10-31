@@ -38,7 +38,7 @@ Nenhum bug de produto. Obstáculos de ambiente: o leitor de PDF (`pdftoppm`) nã
 3. **Controles**: Q/E para trocar e E para interagir (ADR-0003).
 4. **Fase 16 × S03**: texto diz "Portal menor ou acesso à Oficina Zero" (16) e "acesso confirmado na 17" — definir qual é o portal oficial.
 5. **Ambiguidade**: o PDF pede na VISUAL_BIBLE "11 elementos", mas a tabela da seção 11 lista 6 linhas (Rocco, Zuri, Pipa, Astralis, Caeldron, Chefões). Provável referência à seção 11; a confirmar.
-6. **Caminho do projeto na OneDrive**: sincroniza `.git`/`.godot` e pode corromper ou travar. Recomendo mover o repositório para fora da OneDrive (ex.: `D:\Projetos\Nebulance`, como o PDF sugere) ou pausar a sincronização. NÃO feito, aguardando decisão.
+6. **Caminho do projeto na OneDrive**: risco de sincronização em `.git`/`.godot`. DECIDIDO pelo dono: manter aqui (ADR-0004).
 7. **Hardware**: 8 GB/UHD 620 é muito modesto; meta de 60 FPS só se mede aqui e não prova hardware-alvo.
 8. **Marca**: disponibilidade de "NEBULANCE" não pesquisada.
 
