@@ -1,15 +1,21 @@
-# RELATORIO - FASE 5 / Producao dos planetas (Sylvara, em andamento)
-Data: 2026-10-31 | Suite completa: 328 checagens, 0 falhas.
+# RELATORIO - FASE 5 / Producao dos planetas (Sylvara implementada; planetas 2 a 6 pendentes)
+Data: 2026-10-31 | Suite completa: 365 checagens, 0 falhas, 0 erros de script.
 
 ## Escopo honesto
-O PDF proibe produzir as 42 fases em lote. Esta etapa entrega a BASE reutilizavel e as primeiras fases de Sylvara, cada uma com bot de completabilidade. NAO esta concluido: fases 04, 05, 06 (Vyrkan), semente, relíquia e rota para Cristalia; planetas 2 a 6.
+O PDF proibe produzir as 42 fases em lote. Esta etapa entrega Sylvara completa em graybox (fases 01 a 06 + S01 + chefe Vyrkan) com bots, e a base reutilizavel. NAO entregues: Cristalia, Mecatron, Aquarys, Aerion, Umbraxis (36 fases, 5 chefes, 5 secretas), Caeldron/final.
 
 ## Entregue (executado)
-`LevelScene` (base de fases), `LevelCatalog`, mecanicas (plataforma de ruptura, mecanismo, portao), gravidade localizada, portal com retorno consistente, interacao generica (E). Fases: sylvara_02 (A Ponte Desaparecida), sylvara_03 (Segredos da Floresta), S01 (O Jardim Alem do Portal). Cada uma completada por bot sem teleporte; mutacao (estabilizador sem efeito) falha o bot. ADR-0008.
+Base: `LevelScene`, `LevelCatalog`, mecanicas (plataforma de ruptura, movel, mecanismo, portao, onda de raizes), gravidade localizada, portal com retorno consistente, resgate. Fases: 02 (ponte), 03 (floresta + portal), S01, 04 (rio), 05 (torre), 06 (Vyrkan). Chefe: 3 fases, Golpe Triade, camera de arena. `ProgressLedger.commit_seed` (transacao unica, salva na hora), reacao de Caeldron, mapa atualizado (Sylvara salvo, Cristalia disponivel). ADR-0008.
 
 ## Testes
-TC-013 (fases 02/03), TC-014 (portal: entrar, concluir S01, voltar, repetir sem duplicar). Bots: fase 02 (Ouro), fase 03 (Ouro, 3 mecanismos + portal), S01 (4 moedas + 2 itens).
+Cada fase tem bot que a completa sem teleporte (Ouro nas 02-05; chefe: 6 moedas, 0 vidas perdidas). TC-013, 014, 027, 028, 029 PASS. Mutacoes: estabilizador, semente sem checagem, sem telegraph, restore sem save, Triade desativado: todas falham os testes.
+
+## Bugs encontrados por teste e corrigidos
+1. Onda de raizes criada depois do setup do controller nao reiniciava ao morrer (nao entrava no snapshot). Corrigido (nasce com a geometria); o mesmo cuidado foi aplicado ao chefe e ao Triade.
+2. Pausa/foco do menu, runner isolado e bench (fases anteriores).
+3. Teste "Continuar" jogava a fase errada apos "proxima fase nao concluida": parametro de fase.
+4. Controller passou de 200 linhas: consultas de zona extraidas para `ZoneEffects`.
 
 ## Pendente / nao verificado
-Fases 04 (movel + perseguicao + resgate), 05 (torre), 06 (boss Vyrkan, 3 etapas, Golpe Triade), destruicao da semente (uma vez), reacao de Caeldron, relíquia, primeira rota Cristalia jogavel; atalho lateral da fase 02; playtest humano de diversao, dificuldade e duracao; hitboxes/animacao contra as fases; visual e audio provisorios.
-Gate "Primeira vitoria" (PDF): NAO atendido (falta o boss e a semente).
+Playtest humano (diversao, dificuldade, duracao de todas as fases e do chefe); calibracao do chefe; arte/modelos finais (Vyrkan e arena sao graybox); cutscene de libertacao e restauracao visual do planeta; mordidas/armadilhas de sementes de Vyrkan; compartimento selado da Astralis; pista pos-restauracao (fase 04); texto do holograma (fase 05); atalho com Pipa (fase 02); planetas 2 a 6.
+Gate "Primeira vitoria" (PDF): Sylvara testada integralmente por bot; "playtests de dificuldades e controles" NOT_RUN -> APROVADO PARCIAL (depende do playtest do dono).

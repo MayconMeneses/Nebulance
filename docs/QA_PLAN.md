@@ -56,3 +56,12 @@ Benchmark por perfil (build exportado, Intel UHD 620, gl_compatibility, bot joga
 | Medio | 58,0 / 40,1 | 69,3 / 57,3 |
 | Alto | 54,9 / 38,0 | 70,6 / 51,4 |
 Pior quadro ~145-150 ms em todas as execucoes (travamento unico no inicio, provavelmente compilacao de shaders; cache frio/quente NAO separados). 60 FPS estaveis NAO foram atingidos em Medio/Alto com vsync nesta maquina.
+
+## Atualizacao Sylvara completa (suite: 365 checagens)
+- TC-025 PARCIAL: introducao da Astralis e reacao de Caeldron pulaveis (a reacao tambem nao concede nada).
+- TC-026 PARCIAL: mapa mostra Sylvara salvo e Cristalia disponivel (so em producao) apos vitoria real e nos 7 estados de QA.
+- TC-027 PASS: a semente e uma transacao unica; Caeldron reage 1x (so em `first_time`); salvo na hora; repetir nao duplica. Mutacao (sem checagem) -> FAIL.
+- TC-028 PASS (parcial): semente restaura o estado do planeta no mapa (raiz removida, proxima rota) e liberta o guardiao no save; o chefe nunca ressuscita (mutacao -> FAIL). NAO ha restauracao visual do planeta nem cutscene de libertacao.
+- TC-029 PASS: Vyrkan (padroes, aviso >= 0,6 s, so a erupcao ativa fere, etapas por mecanismo certo, Golpe Triade com 3 herois diferentes). Mutacoes (sem telegraph; Triade desativado) -> FAIL.
+- TC-013 PASS tambem nas fases 04 (onda de raizes, plataformas moveis) e 06.
+- TC-030..036 (outros chefes/final): NOT_RUN.
