@@ -9,10 +9,15 @@ signal activated(mechanism: Mechanism)
 @export var link_id: StringName = &""
 @export var prompt_text: String = "Pressione E para ativar"
 @export var tint: Color = Color("23CFF5")
+## Se > 0, o mecanismo volta a desativar depois desse tempo (a nao ser que o portao o trave): mecanismos SINCRONIZADOS.
+@export var hold_time: float = 0.0
 
 ## Desabilitado ate algo liberar (ex.: a fase do chefe).
 var enabled: bool = true
 var is_active: bool = false
+var latched: bool = false
+
+var _hold_left: float = 0.0
 var _material: StandardMaterial3D
 
 
@@ -53,11 +58,20 @@ func activate() -> void:
 	if is_active:
 		return
 	is_active = true
+	_hold_left = hold_time
 	_paint()
 	for platform in get_tree().get_nodes_in_group(&"rupture_platforms"):
 		if platform.link_id == link_id and link_id != &"":
 			platform.stabilize()
 	activated.emit(self)
+
+
+func _physics_process(delta: float) -> void:
+	if is_active and hold_time > 0.0 and not latched:
+		_hold_left -= delta
+		if _hold_left <= 0.0:
+			is_active = false
+			_paint()
 
 
 func capture() -> Variant:
@@ -66,6 +80,8 @@ func capture() -> Variant:
 
 func restore(state: Variant) -> void:
 	is_active = bool(state)
+	latched = false
+	_hold_left = hold_time
 	_paint()
 
 

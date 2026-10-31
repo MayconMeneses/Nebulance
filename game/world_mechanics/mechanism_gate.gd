@@ -45,6 +45,9 @@ func _check(_m: Mechanism) -> void:
 			active += 1 if m.is_active else 0
 	if total > 0 and active == total:
 		is_open = true
+		for m in get_tree().get_nodes_in_group(&"mechanisms"):
+			if m.link_id == link_id:
+				m.latched = true
 		_apply()
 		opened.emit()
 

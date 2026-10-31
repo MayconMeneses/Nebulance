@@ -5,7 +5,7 @@ extends SceneTree
 
 const SUITES: Array[String] = [
 	"suite_foundation", "asset_pipeline_checks", "skills_checks",
-	"suite_controller", "suite_swap", "suite_abilities", "suite_vitals", "suite_camera", "suite_playground", "suite_save", "suite_economy", "suite_level", "suite_level_bot", "suite_flow", "suite_visual", "suite_settings", "suite_galaxy", "suite_astralis", "suite_vfx", "suite_level_02", "suite_level_03", "suite_level_04", "suite_level_05", "suite_boss", "suite_beams", "suite_cristalia_07", "suite_cristalia_08", "suite_cristalia_09", "suite_cristalia_10",
+	"suite_controller", "suite_swap", "suite_abilities", "suite_vitals", "suite_camera", "suite_playground", "suite_save", "suite_economy", "suite_level", "suite_level_bot", "suite_flow", "suite_visual", "suite_settings", "suite_galaxy", "suite_astralis", "suite_vfx", "suite_level_02", "suite_level_03", "suite_level_04", "suite_level_05", "suite_boss", "suite_beams", "suite_cristalia_07", "suite_cristalia_08", "suite_cristalia_09", "suite_cristalia_10", "suite_cristalia_11",
 ]
 
 var _failures: int = 0

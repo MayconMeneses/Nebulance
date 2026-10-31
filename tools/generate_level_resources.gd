@@ -31,6 +31,8 @@ func _initialize() -> void:
 	var d10: LevelDefinition = _def("cristalia_10", "O Trem de Luz", "Atravesse o tunel, fuja dos fragmentos e abra o bau", 9,
 			["cristalia_10_cp1"], ["cristalia_10_rail_collectible"], [], ["cristalia_10_creature"])
 	_save(d10)
+	_save(_def("cristalia_11", "A Catedral Prismatica", "Resolva a catedral e alcance o arquivo", 9,
+			["cristalia_11_cp1"], [], ["memory_astralis_expedition_11"]))
 	quit(0)
 
 
