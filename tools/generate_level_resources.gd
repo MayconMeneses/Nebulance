@@ -22,6 +22,8 @@ func _initialize() -> void:
 			["sylvara_06_cp1"], [], []))
 	_save(_def("cristalia_07", "O Despertar dos Cristais", "Acenda os cristais e cruze as pontes de luz", 9,
 			["cristalia_07_cp1"], ["cristalia_07_prism_symbol"], []))
+	_save(_def("cristalia_08", "O Labirinto dos Reflexos", "Guie a luz pelos prismas e abra a parede", 9,
+			["cristalia_08_cp1"], ["cristalia_08_music_crystal"], []))
 	quit(0)
 
 

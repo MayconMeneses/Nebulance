@@ -16,14 +16,16 @@ var lit_links: Dictionary = {}
 var dirty: bool = true
 
 var _beams: Array[MeshInstance3D] = []
+var _last_segments: Array = []
 
 
 func cell_to_world(cell: Vector2i) -> Vector3:
 	return origin + Vector3(cell.x, cell.y, 0.0)
 
 
-func add_emitter(cell: Vector2i, dir: Vector2i) -> void:
-	emitters.append({"cell": cell, "dir": dir})
+## `gate`: mecanismo que precisa estar ativo para o emissor funcionar (null = sempre ligado).
+func add_emitter(cell: Vector2i, dir: Vector2i, gate: Mechanism = null) -> void:
+	emitters.append({"cell": cell, "dir": dir, "gate": gate})
 	var mi := MeshInstance3D.new()
 	var mesh := BoxMesh.new()
 	mesh.size = Vector3(0.6, 0.6, 0.6)
@@ -68,9 +70,8 @@ func mark_dirty() -> void:
 
 
 func _physics_process(_delta: float) -> void:
-	if dirty:
-		dirty = false
-		recompute()
+	dirty = false
+	recompute()
 
 
 func recompute() -> void:
@@ -80,13 +81,19 @@ func recompute() -> void:
 	var lit: Dictionary = {}
 	var all_segments: Array = []
 	for e in emitters:
+		if e["gate"] != null and not (e["gate"] as Mechanism).is_active:
+			continue
 		var result: Dictionary = BeamSolver.trace(e["cell"], e["dir"], prism_map, blockers, targets, bounds)
 		all_segments.append_array(result["segments"])
 		for id in result["hits"]:
 			lit[id] = true
+	var was_lit: Dictionary = lit_links
 	lit_links = lit
-	_draw(all_segments)
-	changed.emit()
+	if all_segments != _last_segments:
+		_last_segments = all_segments
+		_draw(all_segments)
+	if was_lit != lit:
+		changed.emit()
 
 
 func _draw(segments: Array) -> void:
