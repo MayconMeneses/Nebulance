@@ -6,6 +6,8 @@ extends Node
 var _times: PackedFloat32Array = PackedFloat32Array()
 var _recording: bool = false
 var _mode: String = ""
+var _stage_log: Array = []
+var _bot: LevelBot
 
 
 func _ready() -> void:
@@ -20,7 +22,11 @@ func _ready() -> void:
 	add_child(flow)
 	_apply_cli(flow)
 	flow.start_new_game(true)
+	# So mede DEPOIS do aquecimento (o aquecimento fica atras da tela de carregamento).
+	while flow.find_children("*", "ShaderWarmup", false, false).size() > 0:
+		await get_tree().process_frame
 	var bot := LevelBot.new(get_tree(), flow.level)
+	_bot = bot
 	_recording = true
 	var finished: bool = await bot.play()
 	_recording = false
@@ -41,9 +47,20 @@ func _apply_cli(flow: GameFlow) -> void:
 func _process(delta: float) -> void:
 	if _recording:
 		_times.append(delta)
+		if delta > 0.05:
+			_stage_log.append("quadro %d (%.1f s) %.0f ms etapa=%s" % [_times.size(), _times_total(), delta * 1000.0, _bot.stage if _bot != null else "?"])
+
+
+func _times_total() -> float:
+	var t: float = 0.0
+	for x in _times:
+		t += x
+	return t
 
 
 func _report(finished: bool, stage: String) -> void:
+	for line in _stage_log:
+		print("HITCH ", line)
 	var sorted: Array = Array(_times)
 	sorted.sort()
 	var total: float = 0.0
@@ -56,5 +73,7 @@ func _report(finished: bool, stage: String) -> void:
 	print(line)
 	var f := FileAccess.open("user://bench_level.txt", FileAccess.WRITE)
 	f.store_line(line)
+	for h in _stage_log:
+		f.store_line("HITCH " + h)
 	f.close()
 	get_tree().quit(0 if finished else 1)

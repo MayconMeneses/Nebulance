@@ -103,14 +103,22 @@ func _swap_and_facing(tree: SceneTree, out: Array) -> void:
 	w.rig.request_swap(2)
 	TestWorld.rec(out, "visual: trocar de heroi troca o modelo (Pipa)", visual.hero_id == &"pipa")
 	w.body.facing = -1.0
-	await w.step(40)
+	await _until_turned(tree, visual, PI)
 	TestWorld.rec(out, "visual: virar para a esquerda gira 180 graus em Y", absf(absf(visual.rotation.y) - PI) < 0.05,
 			"(y=%.2f)" % visual.rotation.y)
 	TestWorld.rec(out, "visual: nunca espelha por escala negativa", visual.scale == Vector3.ONE and visual.model.scale.x > 0.0)
 	w.body.facing = 1.0
-	await w.step(40)
+	await _until_turned(tree, visual, 0.0)
 	TestWorld.rec(out, "visual: voltar a direita zera o giro", absf(visual.rotation.y) < 0.05)
 	var hx: float = w.body.global_position.x
 	await w.step(5)
 	TestWorld.rec(out, "visual: nao altera a fisica (posicao estavel em repouso)", absf(w.body.global_position.x - hx) < 0.01)
 	w.dispose()
+
+
+## O giro roda em _process (tempo real), nao em fisica: espera convergir em vez de contar quadros de fisica.
+func _until_turned(tree: SceneTree, visual: Node3D, target_abs_y: float) -> void:
+	for i in 300:
+		await tree.process_frame
+		if absf(absf(visual.rotation.y) - target_abs_y) < 0.01:
+			return
