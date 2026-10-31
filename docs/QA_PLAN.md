@@ -65,3 +65,10 @@ Pior quadro ~145-150 ms em todas as execucoes (travamento unico no inicio, prova
 - TC-029 PASS: Vyrkan (padroes, aviso >= 0,6 s, so a erupcao ativa fere, etapas por mecanismo certo, Golpe Triade com 3 herois diferentes). Mutacoes (sem telegraph; Triade desativado) -> FAIL.
 - TC-013 PASS tambem nas fases 04 (onda de raizes, plataformas moveis) e 06.
 - TC-030..036 (outros chefes/final): NOT_RUN.
+
+## Atualizacao Cristalia (suite: 436 checagens)
+- TC-027/028/029 PASS tambem para Zythra (transacao unica da semente, arena restaurada, chefe nao ressuscita, etapas na ordem certa, Triade com 3 herois). Mutacoes (sem penalidade, sem etapa do prisma, evidencia quebrada) -> FAIL.
+- TC-030 PARCIAL: Zythra com prismas/luz deterministicos (feixes testados em unidade e integracao). TC-034 (ilusoes de Necryon): so o analogo de Zythra (flor real nao pisca).
+- TC-013/014 PASS tambem em Cristalia (prismas/cristais/mecanismos sincronizados voltam ao snapshot; portal da fase 09).
+- Mapa: viajar abre a fase certa do planeta; apos Zythra, Cristalia Salva e Mecatron Disponivel (em producao).
+- NOT_RUN: TC-031..033, 035, 036 (outros chefes, final).

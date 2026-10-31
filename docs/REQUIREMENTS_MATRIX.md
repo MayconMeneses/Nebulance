@@ -59,3 +59,8 @@ Ver docs/QA_PLAN.md (estado atualizado por TC). Executados com PASS: TC-003 a TC
 ## Atualizacao Sylvara completa
 - RF-004 (combate sem armas, guardiao libertado): Vyrkan implementado (graybox) e libertado no save; Caeldron e os outros 5 guardioes PEND.
 - RF-008: Sylvara salvo no mapa (raiz removida, Cristalia disponivel); restauracao visual PEND.
+
+## Atualizacao Cristalia
+- RF-001: 14 das 42 fases (Sylvara 01-06 + S01; Cristalia 07-12 + S02), todas com bot. Portais: 2 (sylvara_03 -> S01, cristalia_09 -> S02). Chefes: 2 de 6 (Vyrkan, Zythra).
+- RF-004/RF-008: 2 guardioes libertados e 2 sementes destruidas no save; restauracao visual PEND.
+- Suite completa: 436 checagens.

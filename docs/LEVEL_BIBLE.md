@@ -82,3 +82,15 @@ Estado: IMPLEMENTADA em graybox; bot derrota o chefe e abre o bau (6 moedas, 0 v
 Nao implementado: restauracao visual do planeta, cutscene de libertacao, compartimento selado da Astralis (6 simbolos), mordidas e armadilhas de sementes do chefe (so erupcoes de raizes).
 
 ## SYLVARA: 6 fases + S01 + Vyrkan implementados (graybox, com bots). Playtest humano, calibracao e arte final pendentes.
+
+## CRISTALIA (fases 07-12 + S02) — mecanica: prismas, feixes e reflexos (graybox, todas com bot)
+| Fase | Implementacao (resumo) |
+|---|---|
+| 07 O Despertar dos Cristais | 2 prismas girateis; cada cristal aceso forma uma ponte de luz sobre o abismo; checkpoint depois do 1o ativador; segredo: item `cristalia_07_prism_symbol` (1o simbolo Prisma Cosmico) |
+| 08 O Labirinto dos Reflexos | prisma do chao + prisma alto (Zuri escala) + emissor ligado por dispositivo aereo (Pipa planeia); a parede so abre com a luz certa; item `cristalia_08_music_crystal`; checkpoint antes dos refletores |
+| 09 O Jardim das Orquideas | 3 sinais de luz (chao, pedestal de Zuri, plataforma de Pipa) abrem o portao de luz do portal para a S02 (alem do bau); memoria `memory_orchid_signals_09`; checkpoint junto ao portal |
+| 10 O Trem de Luz | carrinhos de cristal (plataformas moveis), tempestade de fragmentos (perseguicao) com buraco, resgate de criatura de cristais, colecionavel no trilho (`cristalia_10_rail_collectible`) |
+| 11 A Catedral Prismatica | parede de luz (prisma) -> torre (Zuri escala) -> 2 mecanismos SINCRONIZADOS (6 s) -> salao do arquivo (memoria `memory_astralis_expedition_11`, confirma a Astralis); checkpoint antes da sequencia final |
+| 12 Zythra, a Orquidea de Cristal | chefe: 3 etapas (prisma ao nucleo; flor real x ilusoes; planeio de Pipa) + Golpe Triade com 3 herois; semente `seed_cristalia`, guardiao `zythra`, `relic_cristalia`, `astralis_memory_cristalia`; reacao de Caeldron (Cristalia): "Reconhece a Astralis; fissura forte" |
+| S02 Camara das Frequencias Perdidas | sequencia de 4 cristais musicais (ordem fixa, dica que pisca); itens Lente do Primeiro Explorador e item Prisma Cosmico |
+Nao implementado em Cristalia: restauracao visual do planeta, cutscene de libertacao, ilusoes visuais mais ricas do chefe (so a flor real x falsas), pétalas/projeteis do chefe alem das faixas de erupcao, texto/imagem do arquivo.
