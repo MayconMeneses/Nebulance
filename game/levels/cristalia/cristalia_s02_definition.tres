@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="LevelDefinition" format=3]
+
+[ext_resource type="Script" path="res://game/progression/level_definition.gd" id="1_by27m"]
+
+[resource]
+script = ExtResource("1_by27m")
+level_id = &"cristalia_s02"
+display_name = "Camara das Frequencias Perdidas"
+planet_id = &"cristalia"
+goal_text = "Toque os cristais na ordem certa"
+chest_id = &"cristalia_s02_chest"
+coin_ids = PackedStringArray("cristalia_s02_coin_01", "cristalia_s02_coin_02", "cristalia_s02_coin_03", "cristalia_s02_coin_04")
+checkpoint_ids = PackedStringArray()
+secret_item_ids = PackedStringArray("cristalia_s02_explorer_lens", "cristalia_s02_prism_item")
+secret_memory_ids = PackedStringArray()
+rescue_ids = PackedStringArray()

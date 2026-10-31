@@ -4,6 +4,8 @@ extends StaticBody3D
 ## O estado e derivado do BeamField a cada quadro (nada guardado a parte; o checkpoint restaura os prismas).
 
 @export var link_id: StringName = &""
+## Alem de `link_id`: todos estes alvos tambem precisam estar acesos (E logico).
+@export var extra_links: Array[StringName] = []
 @export var size: Vector3 = Vector3(6.0, 0.4, 3.0)
 @export var opens_when_lit: bool = false
 
@@ -32,6 +34,8 @@ func _ready() -> void:
 
 func is_solid() -> bool:
 	var lit: bool = field != null and field.is_lit(link_id)
+	for extra in extra_links:
+		lit = lit and field.is_lit(extra)
 	return not lit if opens_when_lit else lit
 
 

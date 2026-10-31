@@ -50,6 +50,16 @@ func walk_to(target: float, tolerance: float = 0.15) -> bool:
 	return false
 
 
+## Corre para a ESQUERDA (eixo -1) ate x <= target.
+func run_left_to(target_x: float, cap: int = 900) -> bool:
+	input.move_axis = -1.0
+	for i in cap:
+		await tree.physics_frame
+		if x() <= target_x:
+			return true
+	return false
+
+
 func wait_floor(cap: int = 180) -> bool:
 	for i in cap:
 		await tree.physics_frame

@@ -24,6 +24,10 @@ func _initialize() -> void:
 			["cristalia_07_cp1"], ["cristalia_07_prism_symbol"], []))
 	_save(_def("cristalia_08", "O Labirinto dos Reflexos", "Guie a luz pelos prismas e abra a parede", 9,
 			["cristalia_08_cp1"], ["cristalia_08_music_crystal"], []))
+	_save(_def("cristalia_09", "O Jardim das Orquideas", "Acenda os tres sinais e siga ate o bau", 9,
+			["cristalia_09_cp1"], [], ["memory_orchid_signals_09"]))
+	_save(_def("cristalia_s02", "Camara das Frequencias Perdidas", "Toque os cristais na ordem certa", 4,
+			[], ["cristalia_s02_explorer_lens", "cristalia_s02_prism_item"], []))
 	quit(0)
 
 
