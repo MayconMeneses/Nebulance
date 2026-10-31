@@ -1,8 +1,8 @@
-# ADR-0004 — Repositório mantido na pasta OneDrive
+# ADR-0004 — Repositório na pasta "OneDrive" (sem sincronização ativa)
 
 Status: decidido pelo dono (2026-10-31).
-Contexto: o projeto está em `C:\Users\maico\OneDrive\Área de Trabalho\Jogo`. A OneDrive sincroniza `.git/` e `.godot/`, o que pode travar ou corromper o repositório e o cache do Godot. O PDF sugere uma pasta fora de sincronização (ex.: `D:\Projetos\Nebulance`).
-Decisão: manter o repositório onde está.
-Riscos aceitos: conflitos de sincronização em `.git/`, bloqueio de arquivos durante import/commit, cache `.godot/` sincronizado sem necessidade.
-Mitigações recomendadas (não aplicadas): excluir `.godot/` e `build/` da sincronização; manter cópia do repositório fora da OneDrive (`git clone` ou `git bundle`) como backup; não rodar Git e Godot enquanto a OneDrive sincroniza muitos arquivos.
-Reversão: mover a pasta inteira e atualizar os caminhos em `README.md` e `docs/ENVIRONMENT.md`.
+Contexto: o projeto está em `C:\Users\maico\OneDrive\Área de Trabalho\Jogo`. Se a OneDrive sincronizasse a pasta, `.git/` e `.godot/` poderiam travar ou corromper. O PDF sugere uma pasta fora de sincronização.
+Evidência: o dono informou que a OneDrive está desativada. Verificado por comando: nenhum processo `OneDrive.exe` em execução, nenhuma conta em `HKCU:\Software\Microsoft\OneDrive\Accounts\Personal`, nenhuma entrada de inicialização da OneDrive.
+Decisão: manter o repositório onde está. O nome "OneDrive" no caminho é só um diretório comum.
+Riscos residuais: se a OneDrive for reativada, a sincronização passa a atingir `.git/` e `.godot/`. Nesse caso, excluir `.godot/` e `build/` da sincronização ou mover o repositório.
+Backup: sem sincronização, o repositório local é a única cópia. Fazer `git bundle` ou clone para outro disco em cada marco.
