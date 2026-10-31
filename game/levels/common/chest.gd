@@ -6,6 +6,8 @@ signal opened(chest: Chest)
 
 @export var chest_id: StringName = &""
 
+## Trancado ate algo (ex.: derrotar o chefe) liberar.
+var locked: bool = false
 var is_open: bool = false
 var _material: StandardMaterial3D
 
@@ -30,7 +32,7 @@ func _ready() -> void:
 
 
 func can_interact() -> bool:
-	return not is_open
+	return not is_open and not locked
 
 
 func prompt() -> String:

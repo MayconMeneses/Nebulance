@@ -16,6 +16,8 @@ func _initialize() -> void:
 			["sylvara_s01_cp1"], ["sylvara_s01_expedition_relic", "sylvara_s01_leaf_crown"], []))
 	_save(_def("sylvara_04", "O Rio Luminoso", "Atravesse o rio, fuja das raizes e abra o bau", 9,
 			["sylvara_04_cp1"], [], [], ["sylvara_04_creature"]))
+	_save(_def("sylvara_05", "A Torre Esquecida", "Suba a torre, cruze o vao e abra o bau", 9,
+			["sylvara_05_cp1"], [], ["memory_tower_hologram_05"]))
 	quit(0)
 
 

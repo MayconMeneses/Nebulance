@@ -10,6 +10,8 @@ signal activated(mechanism: Mechanism)
 @export var prompt_text: String = "Pressione E para ativar"
 @export var tint: Color = Color("23CFF5")
 
+## Desabilitado ate algo liberar (ex.: a fase do chefe).
+var enabled: bool = true
 var is_active: bool = false
 var _material: StandardMaterial3D
 
@@ -36,7 +38,7 @@ func _ready() -> void:
 
 
 func can_interact() -> bool:
-	return not is_active
+	return enabled and not is_active
 
 
 func prompt() -> String:
