@@ -12,6 +12,8 @@ var _vsync: CheckBox
 var _back: Button
 var _key_buttons: Dictionary = {}
 var _message: Label
+var _motion: CheckBox
+var _flashing: CheckBox
 var _capturing: StringName = &""
 
 
@@ -21,7 +23,7 @@ func setup(store: SettingsStore) -> void:
 
 func _ready() -> void:
 	var box := VBoxContainer.new()
-	box.position = Vector2(440.0, 40.0)
+	box.position = Vector2(440.0, 16.0)
 	box.custom_minimum_size = Vector2(400.0, 0.0)
 	add_child(box)
 	var title := Label.new()
@@ -33,6 +35,8 @@ func _ready() -> void:
 	_vsync = CheckBox.new()
 	_vsync.text = "Sincronia vertical (vsync)"
 	box.add_child(_vsync)
+	_motion = _flag(box, "Reduzir movimento (menos particulas, sem pulsos)", "reduce_motion")
+	_flashing = _flag(box, "Reduzir flashes (sem cores alternando)", "reduce_flashing")
 	var keys_title := Label.new()
 	keys_title.text = "TECLAS"
 	keys_title.add_theme_font_size_override(&"font_size", 22)
@@ -130,3 +134,11 @@ func _refresh_keys() -> void:
 	for action in _key_buttons:
 		(_key_buttons[action] as Button).text = KeyBindings.key_name(action)
 
+
+func _flag(parent: Control, text: String, key: String) -> CheckBox:
+	var c := CheckBox.new()
+	c.text = text
+	c.button_pressed = _store.data[key]
+	c.toggled.connect(func(on: bool) -> void: _commit(key, on))
+	parent.add_child(c)
+	return c

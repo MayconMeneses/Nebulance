@@ -17,7 +17,7 @@ Status: CT = concluído e testado · IMP = implementado, aguardando validação 
 | RF-008 | Planetas restaurados e pós-campanha | A | TC-027,028,036 | PEND |
 | RNF-001 | Build Windows offline, sem IA/MCP/rede | A | TC-001,037,038 | DEV (build roda sem conexões observadas; faltam testes com rede bloqueada e máquina limpa) |
 | RNF-002 | Desempenho medido, perfis Baixo/Médio/Alto | B | TC-039 | PEND |
-| RNF-003 | Acessibilidade, cinemáticas puláveis | A | TC-023..025 | PARCIAL (TC-023 remapeamento de teclado PASS; legendas e reduzir movimento pendentes) |
+| RNF-003 | Acessibilidade, cinemáticas puláveis | A | TC-023..025 | PARCIAL (TC-023 remapeamento PASS; reduzir movimento e flashes PASS; legendas pendentes: o jogo ainda nao tem dialogo falado) |
 | RNF-004 | Código modular, sem God File, arte editável | A | revisão, ADR | DEV (maior arquivo de jogo: 197 linhas; 38 scripts em game/) |
 | SEC-001 | Ferramentas de terceiros auditadas | A | TOOLS_AND_MCPS | DEV (Godot, Blender, Krita, Audacity e templates com hash oficial conferido; sem MCPs) |
 | SEC-002 | Save local versionado, tolerante a corrupção | A | TC-016..021 | IMP: TC-016,017,020,021 PASS; disco cheio/permissão NOT_RUN |

@@ -62,6 +62,9 @@ func _physics_process(delta: float) -> void:
 
 func _paint() -> void:
 	if _material != null:
-		var c: Color = Color("C084FC") if steady() else Color("56DDB5")
+		# Sem flashes: a ilusao deixa de alternar e fica em cor propria, mais fraca; a real continua roxa e forte.
+		var calm: bool = Accessibility.reduce_flashing
+		var c: Color = Color("C084FC") if (is_real if calm else steady()) else Color("56DDB5")
 		_material.albedo_color = c
 		_material.emission = c
+		_material.emission_energy_multiplier = 0.5 if calm and not is_real else 1.0

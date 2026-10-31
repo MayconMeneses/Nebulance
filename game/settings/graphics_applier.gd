@@ -9,7 +9,8 @@ static func apply(viewport: Viewport, settings: Dictionary, tree: SceneTree) -> 
 	viewport.scaling_3d_scale = values["render_scale"]
 	Engine.max_fps = settings["max_fps"]
 	DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED if settings["vsync"] else DisplayServer.VSYNC_DISABLED)
-	GraphicsProfile.particle_scale = values["particle_scale"]
+	Accessibility.set_from(settings)
+	GraphicsProfile.particle_scale = values["particle_scale"] * Accessibility.particle_factor()
 	for light in tree.get_nodes_in_group(&"main_light"):
 		(light as Light3D).shadow_enabled = values["shadows"]
 	return values

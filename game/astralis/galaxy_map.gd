@@ -144,7 +144,7 @@ func _draw_map() -> void:
 		return
 	_canvas.draw_rect(Rect2(Vector2.ZERO, Vector2(1280.0, 720.0)), Color("070B1A"))
 	var shown: Dictionary = displayed_save()
-	var pulse: float = 0.55 + 0.25 * sin(_time * 2.0)
+	var pulse: float = 0.55 if Accessibility.reduce_motion else 0.55 + 0.25 * sin(_time * 2.0)
 	for i in _planets.size() - 1:
 		if GalaxyState.root_visible(shown, i):
 			_canvas.draw_line(CENTER, _planet_pos(i), Color(0.76, 0.24, 0.66, pulse), 5.0)
