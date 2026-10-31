@@ -1,0 +1,23 @@
+# Godot
+.godot/
+*.translation
+export_credentials.cfg
+# NAO ignorar *.uid (Godot 4.4+ os versiona)
+
+# Builds e temporarios
+build/
+*.tmp
+*.log
+.DS_Store
+Thumbs.db
+
+# Segredos e tokens (MCP, credenciais)
+godot_mcp_config.json
+.env
+*.key
+*.pem
+.mcp.json
+
+# Referencia pesada do dono (PDF/artes originais ficam fora do repo)
+*.pdf
+docs/reference/
