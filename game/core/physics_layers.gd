@@ -10,3 +10,5 @@ const CLIMBABLE: int = 16
 const WIND: int = 32
 const CHECKPOINT: int = 64
 const ABYSS: int = 128
+const PICKUP: int = 256
+const INTERACTABLE: int = 512

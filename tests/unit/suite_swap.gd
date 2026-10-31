@@ -7,6 +7,7 @@ func run(tree: SceneTree) -> Array:
 	await _tc003_ground(tree, out)
 	await _tc003_extras(tree, out)
 	await _tc004(tree, out)
+	await _real_input_path(tree, out)
 	return out
 
 
@@ -77,3 +78,27 @@ func _tc004(tree: SceneTree, out: Array) -> void:
 			TestWorld.rec(out, "TC-004 sem softlock: ainda se move para fora do tunel", w.body.global_position.x > pos_before.x + 2.0,
 					"(x=%.2f)" % w.body.global_position.x)
 		w.dispose()
+
+
+## Caminho REAL de entrada: InputMap -> InputReader -> HeroIntent -> troca (sem ScriptedInput).
+func _real_input_path(tree: SceneTree, out: Array) -> void:
+	var w := TestWorld.create(tree, 0)
+	var reader := InputReader.new()
+	w.root.add_child(reader)
+	w.body.intent_provider = reader.read
+	await w.step(20)
+	Input.action_press(&"swap_next")
+	await w.step(3)
+	Input.action_release(&"swap_next")
+	TestWorld.rec(out, "entrada real: swap_next (R) troca Rocco -> Zuri", w.rig.active_index == 1, "(indice=%d)" % w.rig.active_index)
+	await w.step(3)
+	Input.action_press(&"swap_next")
+	await w.step(3)
+	Input.action_release(&"swap_next")
+	TestWorld.rec(out, "entrada real: swap_next de novo troca Zuri -> Pipa", w.rig.active_index == 2, "(indice=%d)" % w.rig.active_index)
+	await w.step(3)
+	Input.action_press(&"swap_prev")
+	await w.step(3)
+	Input.action_release(&"swap_prev")
+	TestWorld.rec(out, "entrada real: swap_prev (Q) volta Pipa -> Zuri", w.rig.active_index == 1, "(indice=%d)" % w.rig.active_index)
+	w.dispose()

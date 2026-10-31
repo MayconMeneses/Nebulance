@@ -6,6 +6,8 @@ config_version=5
 [application]
 
 config/name="NEBULANCE: As Sementes do Colapso"
+config/use_custom_user_dir=true
+config/custom_user_dir_name="Nebulance"
 run/main_scene="res://tests/scenes/playground.tscn"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 
@@ -82,6 +84,8 @@ pause={
 3d_physics/layer_6="wind"
 3d_physics/layer_7="checkpoint"
 3d_physics/layer_8="abyss"
+3d_physics/layer_9="pickup"
+3d_physics/layer_10="interactable"
 
 [rendering]
 

@@ -5,7 +5,7 @@ extends SceneTree
 
 const SUITES: Array[String] = [
 	"suite_foundation", "asset_pipeline_checks", "skills_checks",
-	"suite_controller", "suite_swap", "suite_abilities", "suite_vitals", "suite_camera", "suite_playground",
+	"suite_controller", "suite_swap", "suite_abilities", "suite_vitals", "suite_camera", "suite_playground", "suite_save", "suite_economy",
 ]
 
 var _failures: int = 0
@@ -13,6 +13,8 @@ var _total: int = 0
 
 
 func _initialize() -> void:
+	# No primeiro quadro os nos ainda nao receberam _ready: espera um quadro para qualquer suite rodar isolada.
+	await process_frame
 	var only: PackedStringArray = OS.get_cmdline_user_args()
 	for suite_name in SUITES:
 		if only.size() > 0 and not suite_name in only:
