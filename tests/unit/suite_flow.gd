@@ -18,6 +18,7 @@ func run(tree: SceneTree) -> Array:
 func _flow(tree: SceneTree, case_name: String, intro: bool = false) -> GameFlow:
 	var flow := GameFlow.new()
 	flow.save_path = TmpDir.fresh(case_name) + "/slot1.json"
+	flow.settings_path = TmpDir.fresh(case_name + "_cfg") + "/settings.json"
 	flow.play_intro = intro
 	tree.get_root().add_child(flow)
 	return flow
@@ -46,7 +47,7 @@ func _menu(tree: SceneTree, out: Array) -> void:
 	for b in m.find_children("*", "Button", true, false):
 		if (b as Button).disabled:
 			disabled += 1
-	TestWorld.rec(out, "menu: Galeria e Configuracoes aparecem desativadas (nao fingem funcionar)", disabled == 3, "(desativados=%d)" % disabled)
+	TestWorld.rec(out, "menu: Continuar (sem save) e Galeria aparecem desativados (nao fingem funcionar)", disabled == 2, "(desativados=%d)" % disabled)
 	TestWorld.rec(out, "TC-002 menu: foco inicial no primeiro item ativo (Nova Aventura)", m._new_game.has_focus())
 	var ev := InputEventAction.new()
 	ev.action = &"ui_down"
@@ -56,14 +57,14 @@ func _menu(tree: SceneTree, out: Array) -> void:
 	await tree.process_frame
 	var focus: Control = m.get_viewport().gui_get_focus_owner()
 	TestWorld.rec(out, "TC-002 menu: seta para baixo move o foco pulando itens desativados",
-			focus is Button and (focus as Button).text == "Sair", "(foco=%s)" % (focus as Button).text if focus is Button else "(nenhum)")
+			focus is Button and (focus as Button).text == "Configuracoes", "(foco=%s)" % (focus as Button).text if focus is Button else "(nenhum)")
 	await _finish(tree, flow)
 
 
 func _full_cycle(tree: SceneTree, out: Array) -> void:
 	var flow: GameFlow = _flow(tree, "cycle")
 	await tree.process_frame
-	flow.start_new_game()
+	flow.start_new_game(true)
 	await tree.process_frame
 	TestWorld.rec(out, "fluxo: Nova Aventura cria o save e abre a fase", flow.state == GameFlow.State.LEVEL
 			and FileAccess.file_exists(flow.service.path) and flow.level != null)
@@ -84,8 +85,12 @@ func _full_cycle(tree: SceneTree, out: Array) -> void:
 	flow.results.continue_pressed.emit()
 	await tree.process_frame
 	await tree.process_frame
-	TestWorld.rec(out, "fluxo: Continuar volta ao menu com Continuar ativo", flow.state == GameFlow.State.MAIN_MENU and not flow.menu._continue.disabled)
-	flow.continue_game()
+	TestWorld.rec(out, "fluxo: depois dos resultados volta ao Mapa Galactico", flow.state == GameFlow.State.MAP and flow.map != null)
+	flow.map.back_pressed.emit()
+	await tree.process_frame
+	await tree.process_frame
+	TestWorld.rec(out, "fluxo: Voltar do mapa leva ao menu com Continuar ativo", flow.state == GameFlow.State.MAIN_MENU and not flow.menu._continue.disabled)
+	flow.continue_game(true)
 	await tree.process_frame
 	TestWorld.rec(out, "TC-020 fluxo: continuar recupera as moedas do perfil", flow.profile["economy"]["coin_balance"] == 81)
 	var input2 := ScriptedInput.new()
@@ -99,7 +104,12 @@ func _full_cycle(tree: SceneTree, out: Array) -> void:
 	flow.results.continue_pressed.emit()
 	await tree.process_frame
 	await tree.process_frame
+	flow.map.back_pressed.emit()
+	await tree.process_frame
+	await tree.process_frame
 	flow.menu.new_game_pressed.emit()
+	await tree.process_frame
+	flow.map.travel_requested.emit(&"sylvara")
 	await tree.process_frame
 	var archived: bool = FileAccess.file_exists(flow.service.path + ".old-1")
 	var old: Dictionary = SaveService.new(flow.service.path + ".old-1").load_save()
@@ -120,7 +130,7 @@ func _second_process(save_path: String, expected_balance: int) -> bool:
 func _intro(tree: SceneTree, out: Array) -> void:
 	var flow: GameFlow = _flow(tree, "intro", true)
 	await tree.process_frame
-	flow.start_new_game()
+	flow.start_new_game(true)
 	await tree.process_frame
 	await tree.physics_frame
 	var body: ActorController = flow.level.rig.body
@@ -139,7 +149,7 @@ func _intro(tree: SceneTree, out: Array) -> void:
 func _pause(tree: SceneTree, out: Array) -> void:
 	var flow: GameFlow = _flow(tree, "pause")
 	await tree.process_frame
-	flow.start_new_game()
+	flow.start_new_game(true)
 	await tree.process_frame
 	var input := ScriptedInput.new()
 	flow.level.rig.body.intent_provider = input.read
@@ -169,7 +179,7 @@ func _bad_saves(tree: SceneTree, out: Array) -> void:
 	await tree.process_frame
 	TestWorld.rec(out, "TC-021 fluxo: save invalido -> menu avisa e Continuar desativado",
 			flow.menu._continue.disabled and flow.menu._message.text != "")
-	flow.start_new_game()
+	flow.start_new_game(true)
 	await tree.process_frame
 	TestWorld.rec(out, "TC-021 fluxo: Nova Aventura preserva o save invalido (.old-1) em vez de apagar",
 			TmpDir.read(dir + "/slot1.json.old-1") == "{ nao e json")

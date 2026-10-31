@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="PlanetDefinition" format=3]
+
+[ext_resource type="Script" path="res://game/astralis/planet_definition.gd" id="1_raw6t"]
+
+[resource]
+script = ExtResource("1_raw6t")
+planet_id = &"sylvara"
+display_name = "Sylvara"
+theme = "Floresta biotecnologica"
+mechanic = "Biotecnologia, raizes e plataformas de ruptura"
+guardian_name = "Vyrkan"
+seed_id = &"seed_sylvara"
+playable = true
+tint = Color(0.36862746, 0.7607843, 0.47843137, 1)
+secret_ids = PackedStringArray("sylvara_01_glow_scarf", "archive_symbol_sylvara_01")

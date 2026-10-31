@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="PlanetDefinition" format=3]
+
+[ext_resource type="Script" path="res://game/astralis/planet_definition.gd" id="1_a4wt8"]
+
+[resource]
+script = ExtResource("1_a4wt8")
+planet_id = &"aerion"
+display_name = "Aerion"
+theme = "Vento e gravidade"
+mechanic = "Vento e gravidade localizada"
+guardian_name = "Zefrion"
+seed_id = &"seed_aerion"
+tint = Color(0.92941177, 0.72156864, 0.36862746, 1)
+secret_ids = PackedStringArray()

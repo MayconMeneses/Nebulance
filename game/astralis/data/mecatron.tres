@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="PlanetDefinition" format=3]
+
+[ext_resource type="Script" path="res://game/astralis/planet_definition.gd" id="1_v7348"]
+
+[resource]
+script = ExtResource("1_v7348")
+planet_id = &"mecatron"
+display_name = "Mecatron"
+theme = "Maquinaria e magnetismo"
+mechanic = "Maquinas, esteiras e polaridade"
+guardian_name = "Ferrorraiz"
+seed_id = &"seed_mecatron"
+tint = Color(0.9411765, 0.5411765, 0.23137255, 1)
+secret_ids = PackedStringArray()

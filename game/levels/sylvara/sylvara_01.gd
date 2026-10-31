@@ -62,6 +62,7 @@ func _build_environment() -> void:
 	var sun := DirectionalLight3D.new()
 	sun.rotation_degrees = Vector3(-50.0, -30.0, 0.0)
 	sun.light_color = Color("FFE9C4")
+	sun.add_to_group(&"main_light")
 	add_child(sun)
 
 

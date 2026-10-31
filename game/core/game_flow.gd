@@ -2,11 +2,12 @@ class_name GameFlow
 extends Node
 ## Fluxo do jogo: MainMenu -> Level (com introducao) -> Results -> MainMenu. Unico dono do perfil e do save.
 
-enum State { MAIN_MENU, LEVEL, RESULTS }
+enum State { MAIN_MENU, MAP, LEVEL, RESULTS }
 
 const BENCH_SCENE: String = "res://tests/scenes/bench.tscn"
 
 @export var save_path: String = "user://saves/slot1.json"
+@export var settings_path: String = "user://settings.json"
 @export var play_intro: bool = true
 ## Falso no fluxo criado pelo proprio benchmark (evita criar benchmark dentro de benchmark).
 var dev_hooks: bool = true
@@ -21,6 +22,9 @@ var results: ResultsScreen
 var intro: ArrivalIntro
 var audio: AudioDirector
 var last_save_error: Error = OK
+var settings: SettingsStore
+var settings_menu: SettingsMenu
+var map: GalaxyMap
 
 var _pause_layer: CanvasLayer
 
@@ -32,25 +36,55 @@ func _ready() -> void:
 		add_child((load(BENCH_SCENE) as PackedScene).instantiate())
 		return
 	service = SaveService.new(save_path)
+	settings = SettingsStore.new(settings_path)
+	settings.load_settings()
+	GraphicsApplier.apply(get_viewport(), settings.data, get_tree())
 	audio = AudioDirector.new()
 	add_child(audio)
 	_show_menu()
 
 
-func start_new_game() -> void:
+## skip_map: usado pelos testes para ir direto a fase (o fluxo normal passa pelo Mapa Galactico).
+func start_new_game(skip_map: bool = false) -> void:
 	if FileAccess.file_exists(service.path):
 		service.archive_existing()
 	profile = SaveData.new_game()
 	last_save_error = service.save(profile)
-	_start_level()
+	_start_level() if skip_map else _show_map()
 
 
-func continue_game() -> void:
+func continue_game(skip_map: bool = false) -> void:
 	var loaded: Dictionary = service.load_save()
 	if loaded["data"].is_empty():
 		return
 	profile = loaded["data"]
-	_start_level()
+	_start_level() if skip_map else _show_map()
+
+
+func _show_map() -> void:
+	if menu != null:
+		menu.queue_free()
+		menu = null
+	state = State.MAP
+	map = GalaxyMap.new()
+	add_child(map)
+	map.show_state(profile)
+	map.travel_requested.connect(func(_planet_id: StringName) -> void: _start_level())
+	map.back_pressed.connect(_back_to_menu)
+
+
+func show_settings() -> void:
+	if menu != null:
+		menu.queue_free()
+		menu = null
+	settings_menu = SettingsMenu.new()
+	settings_menu.setup(settings)
+	add_child(settings_menu)
+	settings_menu.changed.connect(func(data: Dictionary) -> void: GraphicsApplier.apply(get_viewport(), data, get_tree()))
+	settings_menu.back_pressed.connect(func() -> void:
+		settings_menu.queue_free()
+		settings_menu = null
+		_show_menu())
 
 
 func _show_menu() -> void:
@@ -61,6 +95,7 @@ func _show_menu() -> void:
 	add_child(menu)
 	menu.continue_pressed.connect(continue_game)
 	menu.new_game_pressed.connect(start_new_game)
+	menu.settings_pressed.connect(show_settings)
 	menu.quit_pressed.connect(func() -> void: get_tree().quit())
 	var has_data: bool = not loaded["data"].is_empty()
 	menu.refresh(has_data, loaded["message"], status != SaveService.Status.FUTURE_VERSION)
@@ -70,12 +105,16 @@ func _start_level() -> void:
 	if menu != null:
 		menu.queue_free()
 		menu = null
+	if map != null:
+		map.queue_free()
+		map = null
 	state = State.LEVEL
 	level = SylvaraLevel01.new()
 	level.save = profile
 	# O fluxo roda em ALWAYS (menu/pausa); a fase precisa ser pausavel explicitamente.
 	level.process_mode = Node.PROCESS_MODE_PAUSABLE
 	add_child(level)
+	GraphicsApplier.apply(get_viewport(), settings.data, get_tree())
 	level.completed.connect(_on_completed)
 	level.controller.sfx_requested.connect(audio.play_sfx)
 	hud = Hud.new()
@@ -100,10 +139,30 @@ func _on_completed(receipt: Dictionary) -> void:
 	results = ResultsScreen.new()
 	add_child(results)
 	results.show_receipt(level.definition.display_name, receipt, profile["economy"]["coin_balance"], last_save_error == OK)
-	results.continue_pressed.connect(_back_to_menu)
+	results.continue_pressed.connect(_after_results)
+
+
+func _after_results() -> void:
+	_cleanup_level()
+	_show_map()
+
+
+func _cleanup_level() -> void:
+	for node in [results, hud, level, intro, _pause_layer]:
+		if node != null and is_instance_valid(node):
+			node.queue_free()
+	results = null
+	hud = null
+	level = null
+	_pause_layer = null
+	get_tree().paused = false
+	audio.stop_music()
 
 
 func _back_to_menu() -> void:
+	if map != null:
+		map.queue_free()
+		map = null
 	for node in [results, hud, level, intro, _pause_layer]:
 		if node != null and is_instance_valid(node):
 			node.queue_free()

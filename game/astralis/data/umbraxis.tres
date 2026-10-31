@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="PlanetDefinition" format=3]
+
+[ext_resource type="Script" path="res://game/astralis/planet_definition.gd" id="1_fhoxq"]
+
+[resource]
+script = ExtResource("1_fhoxq")
+planet_id = &"umbraxis"
+display_name = "Umbraxis"
+theme = "Coracao do Colapso"
+mechanic = "Combinacao e ruptura dimensional"
+guardian_name = "Necryon"
+seed_id = &"seed_umbraxis"
+tint = Color(0.7529412, 0.23529412, 0.65882355, 1)
+secret_ids = PackedStringArray()

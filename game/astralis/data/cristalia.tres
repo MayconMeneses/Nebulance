@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="PlanetDefinition" format=3]
+
+[ext_resource type="Script" path="res://game/astralis/planet_definition.gd" id="1_frjcy"]
+
+[resource]
+script = ExtResource("1_frjcy")
+planet_id = &"cristalia"
+display_name = "Cristalia"
+theme = "Cristais e ressonancia"
+mechanic = "Prismas, feixes e reflexos"
+guardian_name = "Zythra"
+seed_id = &"seed_cristalia"
+tint = Color(0.654902, 0.54509807, 0.98039216, 1)
+secret_ids = PackedStringArray()

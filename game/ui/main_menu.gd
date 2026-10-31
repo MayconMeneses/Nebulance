@@ -4,6 +4,7 @@ extends CanvasLayer
 
 signal continue_pressed
 signal new_game_pressed
+signal settings_pressed
 signal quit_pressed
 
 var _continue: Button
@@ -25,7 +26,7 @@ func _ready() -> void:
 	_continue = _button(box, "Continuar", func() -> void: continue_pressed.emit())
 	_new_game = _button(box, "Nova Aventura", _on_new_game)
 	_button(box, "Galeria (em breve)", func() -> void: pass).disabled = true
-	_button(box, "Configuracoes (em breve)", func() -> void: pass).disabled = true
+	_button(box, "Configuracoes", func() -> void: settings_pressed.emit())
 	_button(box, "Sair", func() -> void: quit_pressed.emit())
 	_message = Label.new()
 	box.add_child(_message)
