@@ -2,7 +2,7 @@
 
 Plataforma 2.5D offline para Windows (Godot 4.7.2, GDScript tipado). Especificação: PDF "Prompt Mestre Supremo" (fora do repositório).
 
-Estado: **Fase 2** (núcleo de controles) implementada e testada automaticamente; falta playtest humano. Cena jogável: `tests/scenes/playground.tscn` (graybox).
+Estado: **Fase 3** — vertical slice da fase 01 de Sylvara (O Primeiro Passo) com menu, HUD, moedas, baú, checkpoint, inimigo, segredo, save e áudio provisório; testado automaticamente (um bot completa a fase). Falta playtest humano. Para jogar: abra o projeto no Godot e execute (F5).
 
 ## Rodar
 ```

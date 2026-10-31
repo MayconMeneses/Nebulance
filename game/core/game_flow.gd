@@ -4,8 +4,12 @@ extends Node
 
 enum State { MAIN_MENU, LEVEL, RESULTS }
 
+const BENCH_SCENE: String = "res://tests/scenes/bench.tscn"
+
 @export var save_path: String = "user://saves/slot1.json"
 @export var play_intro: bool = true
+## Falso no fluxo criado pelo proprio benchmark (evita criar benchmark dentro de benchmark).
+var dev_hooks: bool = true
 
 var state: State = State.MAIN_MENU
 var profile: Dictionary = {}
@@ -23,6 +27,10 @@ var _pause_layer: CanvasLayer
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	# Gancho de desenvolvimento: "--bench" roda o benchmark de jogo real (so se a cena existir no pacote).
+	if dev_hooks and "--bench" in OS.get_cmdline_user_args() and ResourceLoader.exists(BENCH_SCENE):
+		add_child((load(BENCH_SCENE) as PackedScene).instantiate())
+		return
 	service = SaveService.new(save_path)
 	audio = AudioDirector.new()
 	add_child(audio)
