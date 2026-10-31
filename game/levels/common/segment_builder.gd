@@ -31,12 +31,13 @@ func decor(center: Vector3, size: Vector3, color: Color, emissive: bool = false)
 	return mi
 
 
-func zone(layer: int, zone_id: String, center: Vector3, size: Vector3, tint: Color, wind: Vector3 = Vector3.ZERO) -> LevelZone:
+func zone(layer: int, zone_id: String, center: Vector3, size: Vector3, tint: Color, wind: Vector3 = Vector3.ZERO, gravity: float = 1.0) -> LevelZone:
 	var z := LevelZone.new()
 	z.zone_layer = layer
 	z.zone_id = StringName(zone_id)
 	z.size = size
 	z.wind_push = wind
+	z.gravity_scale = gravity
 	z.position = center
 	parent.add_child(z)
 	if tint.a > 0.0:

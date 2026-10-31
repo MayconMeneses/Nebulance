@@ -68,12 +68,7 @@ func overlaps(mask: int, areas: bool = true, bodies: bool = false) -> Array[Obje
 
 
 func wind_push() -> Vector3:
-	var push := Vector3.ZERO
-	for zone in overlaps(PhysicsLayers.WIND):
-		var value: Variant = zone.get("wind_push")
-		if value is Vector3:
-			push += value
-	return push
+	return ZoneEffects.wind_push(self)
 
 
 func take_hit(source_x: float = NAN) -> void:
@@ -129,7 +124,7 @@ func _apply_gravity(delta: float, tuning: MovementTuning, on_floor: bool) -> voi
 	if on_floor:
 		velocity.y = maxf(velocity.y, 0.0)
 	else:
-		velocity.y = maxf(velocity.y - tuning.gravity * delta, -tuning.max_fall_speed)
+		velocity.y = maxf(velocity.y - tuning.gravity * ZoneEffects.gravity_scale(self) * delta, -tuning.max_fall_speed)
 
 
 func _apply_horizontal(intent: HeroIntent, delta: float, tuning: MovementTuning, on_floor: bool) -> void:

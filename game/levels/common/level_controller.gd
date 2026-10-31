@@ -6,6 +6,7 @@ extends Node
 signal level_completed(receipt: Dictionary)
 signal prompt_changed(text: String)
 signal sfx_requested(sfx_name: StringName)
+signal portal_requested(portal_id: StringName, destination_level_id: StringName)
 
 var definition: LevelDefinition
 var session: LevelSession = LevelSession.new()
@@ -55,6 +56,8 @@ func _physics_process(_delta: float) -> void:
 			sfx_requested.emit(&"item" if not node is Chest else &"coin")
 			if node is Chest:
 				_complete()
+			elif node is Portal:
+				portal_requested.emit((node as Portal).portal_id, (node as Portal).destination_level_id)
 			prompt = ""
 	if prompt != _prompt:
 		_prompt = prompt

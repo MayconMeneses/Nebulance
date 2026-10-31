@@ -37,6 +37,19 @@ func run_to(target_x: float, cap: int = 900) -> bool:
 	return false
 
 
+## Anda (nos dois sentidos, eixo analogico baixo) ate `target` e para.
+func walk_to(target: float, tolerance: float = 0.15) -> bool:
+	for i in 400:
+		await tree.physics_frame
+		var d: float = target - x()
+		if absf(d) <= tolerance:
+			input.move_axis = 0.0
+			await frames(10)
+			return true
+		input.move_axis = clampf(d * 0.8, -0.4, 0.4)
+	return false
+
+
 func wait_floor(cap: int = 180) -> bool:
 	for i in cap:
 		await tree.physics_frame

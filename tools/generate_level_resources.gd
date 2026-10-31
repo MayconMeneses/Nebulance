@@ -10,6 +10,10 @@ func _initialize() -> void:
 			["sylvara_01_cp1"], ["sylvara_01_glow_scarf"], ["archive_symbol_sylvara_01"]))
 	_save(_def("sylvara_02", "A Ponte Desaparecida", "Atravesse a ponte e alcance o bau", 9,
 			["sylvara_02_cp1"], ["sylvara_02_vine_charm"], ["memory_roots_clue_02"]))
+	_save(_def("sylvara_03", "Segredos da Floresta", "Ative os mecanismos ou siga ate o bau", 9,
+			["sylvara_03_cp1"], [], ["memory_portal_tree_03"]))
+	_save(_def("sylvara_s01", "O Jardim Alem do Portal", "Cruze o jardim e abra o bau", 4,
+			["sylvara_s01_cp1"], ["sylvara_s01_expedition_relic", "sylvara_s01_leaf_crown"], []))
 	quit(0)
 
 

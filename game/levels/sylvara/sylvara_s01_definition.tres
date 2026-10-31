@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="LevelDefinition" format=3]
+
+[ext_resource type="Script" path="res://game/progression/level_definition.gd" id="1_ikleh"]
+
+[resource]
+script = ExtResource("1_ikleh")
+level_id = &"sylvara_s01"
+display_name = "O Jardim Alem do Portal"
+planet_id = &"sylvara"
+goal_text = "Cruze o jardim e abra o bau"
+chest_id = &"sylvara_s01_chest"
+coin_ids = PackedStringArray("sylvara_s01_coin_01", "sylvara_s01_coin_02", "sylvara_s01_coin_03", "sylvara_s01_coin_04")
+checkpoint_ids = PackedStringArray("sylvara_s01_cp1")
+secret_item_ids = PackedStringArray("sylvara_s01_expedition_relic", "sylvara_s01_leaf_crown")
+secret_memory_ids = PackedStringArray()

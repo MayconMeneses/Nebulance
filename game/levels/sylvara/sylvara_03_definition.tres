@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="LevelDefinition" format=3]
+
+[ext_resource type="Script" path="res://game/progression/level_definition.gd" id="1_lfkl7"]
+
+[resource]
+script = ExtResource("1_lfkl7")
+level_id = &"sylvara_03"
+display_name = "Segredos da Floresta"
+planet_id = &"sylvara"
+goal_text = "Ative os mecanismos ou siga ate o bau"
+chest_id = &"sylvara_03_chest"
+coin_ids = PackedStringArray("sylvara_03_coin_01", "sylvara_03_coin_02", "sylvara_03_coin_03", "sylvara_03_coin_04", "sylvara_03_coin_05", "sylvara_03_coin_06", "sylvara_03_coin_07", "sylvara_03_coin_08", "sylvara_03_coin_09")
+checkpoint_ids = PackedStringArray("sylvara_03_cp1")
+secret_item_ids = PackedStringArray()
+secret_memory_ids = PackedStringArray("memory_portal_tree_03")

@@ -8,6 +8,8 @@ extends Area3D
 @export var size: Vector3 = Vector3(2.0, 2.0, 2.0)
 ## Aceleracao aplicada a quem planar na zona (so camada WIND).
 @export var wind_push: Vector3 = Vector3.ZERO
+## Multiplicador de gravidade para quem estiver na zona (camada WIND). 1.0 = normal.
+@export var gravity_scale: float = 1.0
 
 
 func _ready() -> void:

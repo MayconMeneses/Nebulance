@@ -2,7 +2,7 @@ class_name Hud
 extends CanvasLayer
 ## HUD: vidas (patinhas) e coracoes separados, heroi ativo, moedas, meta e dica contextual.
 
-var _level: SylvaraLevel01
+var _level: LevelScene
 var _lives_box: HBoxContainer
 var _hearts_box: HBoxContainer
 var _hero_label: Label
@@ -11,7 +11,7 @@ var _goal_label: Label
 var _prompt_label: Label
 
 
-func bind(level: SylvaraLevel01) -> void:
+func bind(level: LevelScene) -> void:
 	_level = level
 	level.controller.prompt_changed.connect(func(text: String) -> void: _prompt_label.text = text)
 

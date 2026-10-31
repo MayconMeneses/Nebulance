@@ -15,7 +15,7 @@ var dev_hooks: bool = true
 var state: State = State.MAIN_MENU
 var profile: Dictionary = {}
 var service: SaveService
-var level: SylvaraLevel01
+var level: LevelScene
 var menu: MainMenu
 var hud: Hud
 var results: ResultsScreen
@@ -25,6 +25,7 @@ var last_save_error: Error = OK
 var settings: SettingsStore
 var settings_menu: SettingsMenu
 var map: GalaxyMap
+var origin_level: LevelScene
 
 var _pause_layer: CanvasLayer
 
@@ -101,7 +102,7 @@ func _show_menu() -> void:
 	menu.refresh(has_data, loaded["message"], status != SaveService.Status.FUTURE_VERSION)
 
 
-func _start_level() -> void:
+func _start_level(level_id: String = "") -> void:
 	if menu != null:
 		menu.queue_free()
 		menu = null
@@ -109,7 +110,8 @@ func _start_level() -> void:
 		map.queue_free()
 		map = null
 	state = State.LEVEL
-	level = SylvaraLevel01.new()
+	var id: String = level_id if level_id != "" else LevelCatalog.next_for(profile, "sylvara")
+	level = LevelCatalog.make(id)
 	level.save = profile
 	# O fluxo roda em ALWAYS (menu/pausa); a fase precisa ser pausavel explicitamente.
 	level.process_mode = Node.PROCESS_MODE_PAUSABLE
@@ -117,6 +119,7 @@ func _start_level() -> void:
 	GraphicsApplier.apply(get_viewport(), settings.data, get_tree())
 	level.completed.connect(_on_completed)
 	level.controller.sfx_requested.connect(audio.play_sfx)
+	level.controller.portal_requested.connect(_on_portal)
 	hud = Hud.new()
 	add_child(hud)
 	hud.bind(level)
@@ -127,6 +130,49 @@ func _start_level() -> void:
 		intro = ArrivalIntro.new()
 		add_child(intro)
 		intro.finished.connect(_on_intro_finished)
+
+
+## Portal: a fase de origem fica viva (pausada e oculta); a secreta roda por cima e o retorno preserva tudo.
+func _on_portal(portal_id: StringName, destination: StringName) -> void:
+	if origin_level != null or not LevelCatalog.has(String(destination)):
+		return
+	if not String(portal_id) in profile["world"]["portal_ids"]:
+		profile["world"]["portal_ids"].append(String(portal_id))
+	origin_level = level
+	origin_level.process_mode = Node.PROCESS_MODE_DISABLED
+	origin_level.visible = false
+	level = LevelCatalog.make(String(destination))
+	level.save = profile
+	level.process_mode = Node.PROCESS_MODE_PAUSABLE
+	add_child(level)
+	level.camera.make_current()
+	level.completed.connect(_on_secret_completed)
+	level.controller.sfx_requested.connect(audio.play_sfx)
+	hud.bind(level)
+	GraphicsApplier.apply(get_viewport(), settings.data, get_tree())
+
+
+func _on_secret_completed(receipt: Dictionary) -> void:
+	state = State.RESULTS
+	last_save_error = service.save(profile)
+	results = ResultsScreen.new()
+	add_child(results)
+	results.show_receipt(level.definition.display_name, receipt, profile["economy"]["coin_balance"], last_save_error == OK)
+	results.continue_pressed.connect(_return_from_portal)
+
+
+func _return_from_portal() -> void:
+	if results != null:
+		results.queue_free()
+		results = null
+	level.queue_free()
+	level = origin_level
+	origin_level = null
+	level.visible = true
+	level.process_mode = Node.PROCESS_MODE_PAUSABLE
+	level.camera.make_current()
+	hud.bind(level)
+	state = State.LEVEL
 
 
 func _on_intro_finished() -> void:
