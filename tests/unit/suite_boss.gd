@@ -165,9 +165,9 @@ func _flow_and_map(tree: SceneTree, out: Array) -> void:
 	TestWorld.rec(out, "TC-028 o chefe nunca ressuscita (nem depois de uma morte do heroi)", again.boss.is_defeated()
 			and again.boss.lanes[0].collision_layer == 0 and again.boss.lanes[1].collision_layer == 0)
 	var profile: Dictionary = flow.profile
-	TestWorld.rec(out, "TC-028 mapa apos a vitoria REAL: Sylvara Salvo, raiz removida, Cristalia Disponivel mas ainda em producao",
+	TestWorld.rec(out, "TC-028 mapa apos a vitoria REAL: Sylvara Salvo, raiz removida, Cristalia Disponivel e viajavel",
 			GalaxyState.status(profile, 0) == GalaxyState.Status.SAVED and not GalaxyState.root_visible(profile, 0)
-			and GalaxyState.status(profile, 1) == GalaxyState.Status.AVAILABLE and not GalaxyState.can_travel(profile, 1))
+			and GalaxyState.status(profile, 1) == GalaxyState.Status.AVAILABLE and GalaxyState.can_travel(profile, 1))
 	tree.paused = false
 	flow.queue_free()
 	await tree.process_frame

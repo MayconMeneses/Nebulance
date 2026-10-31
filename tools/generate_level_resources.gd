@@ -2,7 +2,7 @@ extends SceneTree
 ## Gera as definicoes de fase (IDs estaveis e tabela de recompensas de TESTE).
 ## Uso: godot --headless --path . --script res://tools/generate_level_resources.gd
 
-const OUT_DIR: String = "res://game/levels/sylvara"
+const OUT_DIR: String = "res://game/levels"
 
 
 func _initialize() -> void:
@@ -20,6 +20,8 @@ func _initialize() -> void:
 			["sylvara_05_cp1"], [], ["memory_tower_hologram_05"]))
 	_save(_def("sylvara_06", "O Guardiao das Raizes", "Liberte Vyrkan e destrua a primeira semente", 6,
 			["sylvara_06_cp1"], [], []))
+	_save(_def("cristalia_07", "O Despertar dos Cristais", "Acenda os cristais e cruze as pontes de luz", 9,
+			["cristalia_07_cp1"], ["cristalia_07_prism_symbol"], []))
 	quit(0)
 
 
@@ -27,7 +29,7 @@ func _def(id: String, title: String, goal: String, coin_count: int, cps: Array, 
 	var d := LevelDefinition.new()
 	d.level_id = StringName(id)
 	d.display_name = title
-	d.planet_id = &"sylvara"
+	d.planet_id = StringName(id.split("_")[0])
 	d.goal_text = goal
 	d.chest_id = StringName(id + "_chest")
 	var coins: PackedStringArray = PackedStringArray()
@@ -42,6 +44,8 @@ func _def(id: String, title: String, goal: String, coin_count: int, cps: Array, 
 
 
 func _save(d: LevelDefinition) -> void:
-	var path: String = "%s/%s_definition.tres" % [OUT_DIR, d.level_id]
+	var dir: String = "%s/%s" % [OUT_DIR, d.planet_id]
+	DirAccess.make_dir_recursive_absolute(dir)
+	var path: String = "%s/%s_definition.tres" % [dir, d.level_id]
 	var err: int = ResourceSaver.save(d, path)
 	print("%s %s (err=%d)" % ["OK" if err == OK else "ERRO", path, err])

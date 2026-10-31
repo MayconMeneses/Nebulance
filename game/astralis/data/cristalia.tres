@@ -10,5 +10,6 @@ theme = "Cristais e ressonancia"
 mechanic = "Prismas, feixes e reflexos"
 guardian_name = "Zythra"
 seed_id = &"seed_cristalia"
+playable = true
 tint = Color(0.654902, 0.54509807, 0.98039216, 1)
-secret_ids = PackedStringArray()
+secret_ids = PackedStringArray("cristalia_07_prism_symbol")
