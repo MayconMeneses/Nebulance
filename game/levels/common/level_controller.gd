@@ -56,6 +56,8 @@ func _physics_process(_delta: float) -> void:
 			sfx_requested.emit(&"item" if not node is Chest else &"coin")
 			if node is Chest:
 				_complete()
+			elif node is Rescue:
+				session.collect_rescue(String((node as Rescue).rescue_id))
 			elif node is Portal:
 				portal_requested.emit((node as Portal).portal_id, (node as Portal).destination_level_id)
 			prompt = ""

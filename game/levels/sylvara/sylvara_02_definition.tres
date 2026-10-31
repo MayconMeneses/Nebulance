@@ -13,3 +13,4 @@ coin_ids = PackedStringArray("sylvara_02_coin_01", "sylvara_02_coin_02", "sylvar
 checkpoint_ids = PackedStringArray("sylvara_02_cp1")
 secret_item_ids = PackedStringArray("sylvara_02_vine_charm")
 secret_memory_ids = PackedStringArray("memory_roots_clue_02")
+rescue_ids = PackedStringArray()

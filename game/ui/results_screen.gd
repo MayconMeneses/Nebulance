@@ -41,6 +41,8 @@ func show_receipt(level_name: String, receipt: Dictionary, balance: int, save_ok
 		lines.append("Novo item: %s" % item)
 	for memory in receipt["new_memories"]:
 		lines.append("Novo registro de arquivo: %s" % memory)
+	for rescue in receipt.get("new_rescues", []):
+		lines.append("Criatura resgatada: %s" % rescue)
 	if not save_ok:
 		lines.append("ATENCAO: nao foi possivel salvar o progresso.")
 	_body.text = "\n".join(lines)

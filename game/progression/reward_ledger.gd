@@ -11,7 +11,7 @@ func commit_completion(save: Dictionary, def: LevelDefinition, session: LevelSes
 	var eco: Dictionary = save["economy"]
 	var grade: int = session.grade(def)
 	var receipt: Dictionary = {"grade": grade, "pickup_coins": 0, "chest_coins": 0,
-			"new_items": [], "new_memories": [], "upgraded": false}
+			"new_items": [], "new_memories": [], "new_rescues": [], "upgraded": false}
 
 	for coin_id in session.coin_ids:
 		if coin_id in def.coin_ids and _claim(eco, "coin:%s" % coin_id):
@@ -37,6 +37,11 @@ func commit_completion(save: Dictionary, def: LevelDefinition, session: LevelSes
 		if memory_id in def.secret_memory_ids and not memory_id in save["story"]["memories"]:
 			save["story"]["memories"].append(memory_id)
 			receipt["new_memories"].append(memory_id)
+
+	for rescue_id in session.rescued_ids:
+		if rescue_id in def.rescue_ids and not rescue_id in save["story"]["rescued_creatures"]:
+			save["story"]["rescued_creatures"].append(rescue_id)
+			receipt["new_rescues"].append(rescue_id)
 
 	if not level_key in save["world"]["completed_levels"]:
 		save["world"]["completed_levels"].append(level_key)

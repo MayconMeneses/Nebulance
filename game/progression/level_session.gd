@@ -6,6 +6,7 @@ extends RefCounted
 var coin_ids: Array[String] = []
 var item_ids: Array[String] = []
 var memory_ids: Array[String] = []
+var rescued_ids: Array[String] = []
 var lives_lost: int = 0
 var damage_taken: int = 0
 
@@ -24,12 +25,16 @@ func collect_memory(id: String) -> bool:
 	return _add(memory_ids, id)
 
 
+func collect_rescue(id: String) -> bool:
+	return _add(rescued_ids, id)
+
+
 func secret_found() -> bool:
-	return not item_ids.is_empty() or not memory_ids.is_empty()
+	return not item_ids.is_empty() or not memory_ids.is_empty() or not rescued_ids.is_empty()
 
 
 func take_snapshot() -> void:
-	_snapshot = {"coins": coin_ids.duplicate(), "items": item_ids.duplicate(), "memories": memory_ids.duplicate()}
+	_snapshot = {"coins": coin_ids.duplicate(), "items": item_ids.duplicate(), "memories": memory_ids.duplicate(), "rescues": rescued_ids.duplicate()}
 
 
 ## Volta as coletas ao ultimo checkpoint (ou ao inicio, se nao houver). Vidas perdidas NAO voltam.
@@ -37,6 +42,7 @@ func restore_snapshot() -> void:
 	coin_ids = _snapshot.get("coins", [] as Array[String]).duplicate()
 	item_ids = _snapshot.get("items", [] as Array[String]).duplicate()
 	memory_ids = _snapshot.get("memories", [] as Array[String]).duplicate()
+	rescued_ids = _snapshot.get("rescues", [] as Array[String]).duplicate()
 
 
 ## Criterios PROPRIOS (classe B, a balancear; ver docs/ECONOMY.md):

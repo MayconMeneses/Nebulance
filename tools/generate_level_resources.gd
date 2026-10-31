@@ -14,10 +14,12 @@ func _initialize() -> void:
 			["sylvara_03_cp1"], [], ["memory_portal_tree_03"]))
 	_save(_def("sylvara_s01", "O Jardim Alem do Portal", "Cruze o jardim e abra o bau", 4,
 			["sylvara_s01_cp1"], ["sylvara_s01_expedition_relic", "sylvara_s01_leaf_crown"], []))
+	_save(_def("sylvara_04", "O Rio Luminoso", "Atravesse o rio, fuja das raizes e abra o bau", 9,
+			["sylvara_04_cp1"], [], [], ["sylvara_04_creature"]))
 	quit(0)
 
 
-func _def(id: String, title: String, goal: String, coin_count: int, cps: Array, items: Array, memories: Array) -> LevelDefinition:
+func _def(id: String, title: String, goal: String, coin_count: int, cps: Array, items: Array, memories: Array, rescues: Array = []) -> LevelDefinition:
 	var d := LevelDefinition.new()
 	d.level_id = StringName(id)
 	d.display_name = title
@@ -31,6 +33,7 @@ func _def(id: String, title: String, goal: String, coin_count: int, cps: Array, 
 	d.checkpoint_ids = PackedStringArray(cps)
 	d.secret_item_ids = PackedStringArray(items)
 	d.secret_memory_ids = PackedStringArray(memories)
+	d.rescue_ids = PackedStringArray(rescues)
 	return d
 
 

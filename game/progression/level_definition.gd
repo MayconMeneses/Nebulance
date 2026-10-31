@@ -13,6 +13,8 @@ extends Resource
 ## Itens unicos escondidos (cosmeticos) e memorias de historia do segredo.
 @export var secret_item_ids: PackedStringArray = PackedStringArray()
 @export var secret_memory_ids: PackedStringArray = PackedStringArray()
+## Criaturas que podem ser resgatadas na fase (contam como segredo).
+@export var rescue_ids: PackedStringArray = PackedStringArray()
 @export var coin_value: int = 1
 @export var bronze_total: int = 80
 @export var silver_total: int = 110
