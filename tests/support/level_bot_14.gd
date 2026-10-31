@@ -3,16 +3,6 @@ extends LevelBot13
 ## Bot da fase 14: Rocco quebra a barreira, esteira, Zuri escala ao item, depois cruza as tres prensas esperando cada uma subir.
 
 
-func cross_press(press: HydraulicPress) -> bool:
-	for i in 1200:
-		await tree.physics_frame
-		if press.state == HydraulicPress.State.RECOVER:
-			break
-	if press.state != HydraulicPress.State.RECOVER:
-		return false
-	return await run_to(press.position.x + 3.0)
-
-
 func play() -> bool:
 	var lv := level as MecatronLevel14
 	stage = "chegada"

@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="LevelDefinition" format=3]
+
+[ext_resource type="Script" path="res://game/progression/level_definition.gd" id="1_by27m"]
+
+[resource]
+script = ExtResource("1_by27m")
+level_id = &"mecatron_s03"
+display_name = "Oficina Zero"
+planet_id = &"mecatron"
+goal_text = "Use as polaridades ate a bancada do bau"
+chest_id = &"mecatron_s03_chest"
+coin_ids = PackedStringArray("mecatron_s03_coin_01", "mecatron_s03_coin_02", "mecatron_s03_coin_03", "mecatron_s03_coin_04")
+checkpoint_ids = PackedStringArray()
+secret_item_ids = PackedStringArray("mecatron_s03_tech_accessory")
+secret_memory_ids = PackedStringArray("memory_astralis_maintenance_s03")
+rescue_ids = PackedStringArray()

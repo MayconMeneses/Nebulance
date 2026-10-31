@@ -3,19 +3,6 @@ extends LevelBot13
 ## Bot da fase 16: sobe no elevador, atravessa o vao no trilho, desce no segundo elevador, inverte a esteira e abre o bau.
 
 
-func ride(platform: PolarityPlatform, at_x: float) -> bool:
-	if not await walk_to(at_x):
-		return false
-	if not await press_until(func() -> bool: return platform.control.is_active):
-		return false
-	for i in 400:
-		await tree.physics_frame
-		if platform.progress >= 1.0:
-			break
-	await frames(8)
-	return platform.progress >= 1.0
-
-
 func play() -> bool:
 	var lv := level as MecatronLevel16
 	stage = "chegada"
