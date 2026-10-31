@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="HeroProfile" format=3]
+
+[ext_resource type="Script" path="res://game/actors/pipa/pipa_ability.gd" id="1_ycocn"]
+[ext_resource type="Script" path="res://game/actors/shared/hero_profile.gd" id="2_bn4gq"]
+[ext_resource type="Script" path="res://game/actors/shared/movement_tuning.gd" id="3_tjv2a"]
+
+[sub_resource type="Resource" id="Resource_ebyvn"]
+script = ExtResource("1_ycocn")
+
+[sub_resource type="Resource" id="Resource_g780q"]
+script = ExtResource("3_tjv2a")
+jump_velocity = 8.0
+
+[resource]
+script = ExtResource("2_bn4gq")
+hero_id = &"pipa"
+display_name = "Pipa"
+tuning = SubResource("Resource_g780q")
+capsule_radius = 0.3
+capsule_height = 1.1
+ability = SubResource("Resource_ebyvn")

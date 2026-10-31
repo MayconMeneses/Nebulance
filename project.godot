@@ -72,6 +72,17 @@ pause={
 ]
 }
 
+[layer_names]
+
+3d_physics/layer_1="world"
+3d_physics/layer_2="hero"
+3d_physics/layer_3="hazard"
+3d_physics/layer_4="impact_target"
+3d_physics/layer_5="climbable"
+3d_physics/layer_6="wind"
+3d_physics/layer_7="checkpoint"
+3d_physics/layer_8="abyss"
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"

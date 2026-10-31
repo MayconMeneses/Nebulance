@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="HeroProfile" format=3]
+
+[ext_resource type="Script" path="res://game/actors/zuri/zuri_ability.gd" id="1_vyv5s"]
+[ext_resource type="Script" path="res://game/actors/shared/hero_profile.gd" id="2_wt5x6"]
+[ext_resource type="Script" path="res://game/actors/shared/movement_tuning.gd" id="3_hbq5o"]
+
+[sub_resource type="Resource" id="Resource_hj2aq"]
+script = ExtResource("1_vyv5s")
+
+[sub_resource type="Resource" id="Resource_a10si"]
+script = ExtResource("3_hbq5o")
+run_speed = 7.0
+jump_velocity = 9.5
+
+[resource]
+script = ExtResource("2_wt5x6")
+hero_id = &"zuri"
+display_name = "Zuri"
+tuning = SubResource("Resource_a10si")
+capsule_radius = 0.35
+capsule_height = 1.5
+ability = SubResource("Resource_hj2aq")

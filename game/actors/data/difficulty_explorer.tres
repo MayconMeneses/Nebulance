@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="DifficultyProfile" format=3]
+
+[ext_resource type="Script" path="res://game/actors/shared/difficulty_profile.gd" id="1_yxjfv"]
+
+[resource]
+script = ExtResource("1_yxjfv")
+id = &"explorer"
+hearts_per_attempt = 5

@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="HeroProfile" format=3]
+
+[ext_resource type="Script" path="res://game/actors/rocco/rocco_ability.gd" id="1_l2w3w"]
+[ext_resource type="Script" path="res://game/actors/shared/hero_profile.gd" id="2_107xh"]
+[ext_resource type="Script" path="res://game/actors/shared/movement_tuning.gd" id="3_872g2"]
+
+[sub_resource type="Resource" id="Resource_r6lp0"]
+script = ExtResource("1_l2w3w")
+
+[sub_resource type="Resource" id="Resource_7j3kj"]
+script = ExtResource("3_872g2")
+run_speed = 5.5
+jump_velocity = 8.5
+
+[resource]
+script = ExtResource("2_107xh")
+hero_id = &"rocco"
+display_name = "Rocco"
+tuning = SubResource("Resource_7j3kj")
+capsule_radius = 0.5
+capsule_height = 1.8
+ability = SubResource("Resource_r6lp0")

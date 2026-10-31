@@ -5,7 +5,7 @@ extends RefCounted
 const SKILLS_DIR: String = "res://agent-skills"
 
 
-func run() -> Array:
+func run(_tree: SceneTree) -> Array:
 	var out: Array = []
 	var dirs: PackedStringArray = DirAccess.get_directories_at(SKILLS_DIR)
 	out.append(["skills_dir_has_skills", dirs.size() >= 6, "(%d)" % dirs.size()])
