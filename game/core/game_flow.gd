@@ -9,6 +9,8 @@ const BENCH_SCENE: String = "res://tests/scenes/bench.tscn"
 @export var save_path: String = "user://saves/slot1.json"
 @export var settings_path: String = "user://settings.json"
 @export var play_intro: bool = true
+## Quadros de aquecimento de shaders atras da tela de carregamento (0 = sem aquecimento; o jogo real usa 24 via main.tscn).
+@export var warmup_frames: int = 0
 ## Falso no fluxo criado pelo proprio benchmark (evita criar benchmark dentro de benchmark).
 var dev_hooks: bool = true
 
@@ -127,9 +129,25 @@ func _start_level(level_id: String = "") -> void:
 	add_child(hud)
 	hud.bind(level)
 	audio.play_music("res://assets/audio/music_sylvara.wav")
+	if warmup_frames > 0:
+		level.rig.body.set_locked_state(MovementState.State.CUTSCENE)
+		var warm := ShaderWarmup.new()
+		add_child(warm)
+		warm.finished.connect(_after_warmup)
+		warm.run(level, warmup_frames)
+	else:
+		_after_warmup()
+
+
+func _after_warmup() -> void:
+	if level == null or not is_instance_valid(level):
+		return
+	if warmup_frames > 0 and not play_intro:
+		level.rig.body.set_locked_state(-1)
 	if play_intro:
 		level.rig.body.set_locked_state(MovementState.State.CUTSCENE)
-		level.astralis.arrive(ArrivalIntro.DURATION - 0.5)
+		if level.astralis != null:
+			level.astralis.arrive(ArrivalIntro.DURATION - 0.5)
 		intro = ArrivalIntro.new()
 		add_child(intro)
 		intro.finished.connect(_on_intro_finished)
@@ -192,7 +210,8 @@ func _on_seed_destroyed(first_time: bool) -> void:
 
 func _on_intro_finished() -> void:
 	if level != null:
-		level.astralis.skip()
+		if level.astralis != null:
+			level.astralis.skip()
 		if not level.controller.completed:
 			level.rig.body.set_locked_state(-1)
 

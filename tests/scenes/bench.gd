@@ -16,6 +16,7 @@ func _ready() -> void:
 	flow.settings_path = "user://bench_settings.json"
 	flow.play_intro = false
 	flow.dev_hooks = false
+	flow.warmup_frames = 24
 	add_child(flow)
 	_apply_cli(flow)
 	flow.start_new_game(true)
