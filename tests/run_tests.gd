@@ -68,3 +68,10 @@ func _run() -> void:
 	_check("z_plane_locked", absf(body.global_position.z) < 0.001)
 
 	root.queue_free()
+
+	# Pipeline de ferramentas (Blender, Krita, audio).
+	var pipeline: Array = await load("res://tests/unit/asset_pipeline_checks.gd").new().run(self)
+	for r in pipeline:
+		_check(r[0], r[1], r[2])
+	for r in load("res://tests/unit/skills_checks.gd").new().run():
+		_check(r[0], r[1], r[2])

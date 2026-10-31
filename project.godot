@@ -9,6 +9,10 @@ config/name="NEBULANCE: As Sementes do Colapso"
 run/main_scene="res://tests/scenes/test_platform_scene.tscn"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 
+[audio]
+
+buses/default_bus_layout="res://game/audio/default_bus_layout.tres"
+
 [display]
 
 window/size/viewport_width=1280

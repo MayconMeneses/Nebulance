@@ -50,3 +50,26 @@ Fase Zero: APROVADO para o escopo "auditoria + projeto Godot mínimo + estrutura
 
 ## Proximo passo
 Decidir local do repositório (item 6) e confirmar itens 1–4; depois instalar Blender/Krita/Audacity (fontes oficiais, hash), provar Blender→Godot, exportar build mínimo Windows e então iniciar Fase 1/2 (controller, troca, câmera).
+
+## Adendo — ambiente completo (2026-10-31)
+Instalados (portáteis, hash oficial conferido): Blender 5.2.3 LTS, Krita 6.0.4.1, Audacity 4.0.1, export templates Godot 4.7.2.
+
+| Teste | Resultado |
+|---|---|
+| Hashes: templates (SHA-512), Blender, Audacity, Krita (SHA-256) = publicados | PASS |
+| Blender: cubo com material → `.blend` + `.glb` (`tools/blender_make_test_asset.py`) | PASS |
+| Godot importa `.glb` (1 mesh, AABB 1×1×1) | PASS |
+| Krita CLI: PNG → `.kra` → PNG; Godot lê alpha (canto transparente, centro opaco) | PASS |
+| Godot: bus SFX existe; WAV importa e toca no bus SFX | PASS |
+| Formato das 6 skills locais | PASS |
+| Suíte completa headless: 33 checagens, 0 falhas, exit 0 | PASS |
+| Export Windows release (`build/nebulance_phase0.exe`, 109 MB) | PASS |
+| `.exe` fora do editor: `--quit-after 240` termina com exit 0; OpenGL Compatibility na UHD 620 | PASS |
+| `.exe` em execução por 10 s: 0 conexões TCP e 0 endpoints UDP | PASS (evidência parcial; NÃO substitui TC-001 com rede bloqueada) |
+| Pacote não inclui docs/tools/agent-skills/assets/sources (log do export) | PASS |
+| Audacity abre e segue em execução 8 s | PASS (edição/exportação de áudio é manual na interface: NOT_RUN) |
+| Rig/animação no glb, múltiplas texturas; instalação em máquina limpa; FPS | NOT_RUN |
+| MCPs (Godot/Blender) | NÃO instalados: necessidade não existe (ADR em TOOLS_AND_MCPS.md) |
+
+Problemas encontrados e corrigidos: (1) `krita.exe` não gera saída na CLI; solução: usar `krita.com`. (2) Documentação com caminhos corrompidos por escapes do Python; corrigida e verificada sem caracteres de controle. (3) `Remove-Item` em `%TEMP%` bloqueado pelo ambiente; temporários deixados em `C:\Ferramentas\*\_download`.
+Gate de Ambiente (PDF §18, fase 1): APROVADO para o escopo testado; itens NOT_RUN acima seguem pendentes.
