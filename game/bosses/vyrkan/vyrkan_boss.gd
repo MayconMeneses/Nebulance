@@ -106,12 +106,17 @@ func restore(_state_value: Variant) -> void:
 		_enter_defeated()
 		return
 	phase = Phase.ONE
+	restart_cycle()
+
+
+## Reinicia so o ciclo de ataques da fase atual (padrao 0, faixas ociosas).
+func restart_cycle() -> void:
 	_pattern = 0
 	_active_set = []
 	for lane in lanes:
 		lane.set_state(RootLane.State.IDLE, 0.0)
 	_state = RootLane.State.RECOVER
-	_timer = 1.2
+	_timer = 0.3
 
 
 func _enter(new_state: RootLane.State, time: float) -> void:

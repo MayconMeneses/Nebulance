@@ -8,10 +8,11 @@ const SCRIPTS: Dictionary = {
 	"sylvara_03": "res://game/levels/sylvara/sylvara_03.gd",
 	"sylvara_04": "res://game/levels/sylvara/sylvara_04.gd",
 	"sylvara_05": "res://game/levels/sylvara/sylvara_05.gd",
+	"sylvara_06": "res://game/levels/sylvara/sylvara_06.gd",
 	"sylvara_s01": "res://game/levels/sylvara/sylvara_s01.gd",
 }
 ## Ordem de jogo das fases PRINCIPAIS por planeta (as secretas so entram por portal).
-const MAIN_ORDER: Dictionary = {"sylvara": ["sylvara_01", "sylvara_02", "sylvara_03", "sylvara_04", "sylvara_05"]}
+const MAIN_ORDER: Dictionary = {"sylvara": ["sylvara_01", "sylvara_02", "sylvara_03", "sylvara_04", "sylvara_05", "sylvara_06"]}
 
 
 static func has(level_id: String) -> bool:

@@ -26,6 +26,7 @@ var settings: SettingsStore
 var settings_menu: SettingsMenu
 var map: GalaxyMap
 var origin_level: LevelScene
+var reaction_plays: int = 0
 
 var _pause_layer: CanvasLayer
 
@@ -120,6 +121,8 @@ func _start_level(level_id: String = "") -> void:
 	level.completed.connect(_on_completed)
 	level.controller.sfx_requested.connect(audio.play_sfx)
 	level.controller.portal_requested.connect(_on_portal)
+	if level.has_signal("seed_destroyed"):
+		level.connect("seed_destroyed", _on_seed_destroyed)
 	hud = Hud.new()
 	add_child(hud)
 	hud.bind(level)
@@ -173,6 +176,14 @@ func _return_from_portal() -> void:
 	level.camera.make_current()
 	hud.bind(level)
 	state = State.LEVEL
+
+
+## A destruicao da semente e salva NA HORA (nao so ao abrir o bau); a reacao de Caeldron toca so na primeira vez.
+func _on_seed_destroyed(first_time: bool) -> void:
+	last_save_error = service.save(profile)
+	if first_time:
+		reaction_plays += 1
+		add_child(CaeldronReaction.new())
 
 
 func _on_intro_finished() -> void:

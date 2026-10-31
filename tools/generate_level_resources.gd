@@ -18,6 +18,8 @@ func _initialize() -> void:
 			["sylvara_04_cp1"], [], [], ["sylvara_04_creature"]))
 	_save(_def("sylvara_05", "A Torre Esquecida", "Suba a torre, cruze o vao e abra o bau", 9,
 			["sylvara_05_cp1"], [], ["memory_tower_hologram_05"]))
+	_save(_def("sylvara_06", "O Guardiao das Raizes", "Liberte Vyrkan e destrua a primeira semente", 6,
+			["sylvara_06_cp1"], [], []))
 	quit(0)
 
 
