@@ -8,7 +8,7 @@ var data: Dictionary = defaults()
 
 
 static func defaults() -> Dictionary:
-	return {"version": 1, "graphics_profile": "medium", "max_fps": 0, "vsync": true}
+	return {"version": 1, "graphics_profile": "medium", "max_fps": 0, "vsync": true, "keys": {}}
 
 
 func _init(settings_path: String) -> void:
@@ -32,6 +32,7 @@ func load_settings() -> bool:
 	var vsync: Variant = parsed.get("vsync")
 	if typeof(vsync) == TYPE_BOOL:
 		data["vsync"] = vsync
+	data["keys"] = KeyBindings.sanitize(parsed.get("keys"))
 	return true
 
 

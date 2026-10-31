@@ -42,6 +42,7 @@ func _ready() -> void:
 	service = SaveService.new(save_path)
 	settings = SettingsStore.new(settings_path)
 	settings.load_settings()
+	KeyBindings.apply(settings.data["keys"])
 	GraphicsApplier.apply(get_viewport(), settings.data, get_tree())
 	audio = AudioDirector.new()
 	add_child(audio)

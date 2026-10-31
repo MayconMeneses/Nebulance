@@ -10,6 +10,9 @@ var _profile: OptionButton
 var _fps: OptionButton
 var _vsync: CheckBox
 var _back: Button
+var _key_buttons: Dictionary = {}
+var _message: Label
+var _capturing: StringName = &""
 
 
 func setup(store: SettingsStore) -> void:
@@ -18,7 +21,7 @@ func setup(store: SettingsStore) -> void:
 
 func _ready() -> void:
 	var box := VBoxContainer.new()
-	box.position = Vector2(440.0, 180.0)
+	box.position = Vector2(440.0, 40.0)
 	box.custom_minimum_size = Vector2(400.0, 0.0)
 	add_child(box)
 	var title := Label.new()
@@ -30,6 +33,18 @@ func _ready() -> void:
 	_vsync = CheckBox.new()
 	_vsync.text = "Sincronia vertical (vsync)"
 	box.add_child(_vsync)
+	var keys_title := Label.new()
+	keys_title.text = "TECLAS"
+	keys_title.add_theme_font_size_override(&"font_size", 22)
+	box.add_child(keys_title)
+	for action in KeyBindings.ACTIONS:
+		_key_row(box, action)
+	_message = Label.new()
+	box.add_child(_message)
+	var reset := Button.new()
+	reset.text = "Restaurar teclas padrao"
+	reset.pressed.connect(_reset_keys)
+	box.add_child(reset)
 	_back = Button.new()
 	_back.text = "Voltar"
 	_back.pressed.connect(func() -> void: back_pressed.emit())
@@ -61,3 +76,57 @@ func _option(parent: Control, label: String, items: PackedStringArray) -> Option
 	row.add_child(ob)
 	parent.add_child(row)
 	return ob
+
+
+func _key_row(parent: Control, action: StringName) -> void:
+	var row := HBoxContainer.new()
+	var l := Label.new()
+	l.text = KeyBindings.LABELS[action]
+	l.custom_minimum_size = Vector2(240.0, 0.0)
+	row.add_child(l)
+	var b := Button.new()
+	b.custom_minimum_size = Vector2(160.0, 0.0)
+	b.text = KeyBindings.key_name(action)
+	b.pressed.connect(func() -> void: _begin_capture(action))
+	row.add_child(b)
+	parent.add_child(row)
+	_key_buttons[action] = b
+
+
+func _begin_capture(action: StringName) -> void:
+	_capturing = action
+	_message.text = "Pressione a nova tecla (Esc cancela)."
+	(_key_buttons[action] as Button).text = "..."
+
+
+## Captura a proxima tecla fisica enquanto uma acao espera remapeamento; consome o evento para nao acionar o menu.
+func _input(event: InputEvent) -> void:
+	if _capturing == &"" or not (event is InputEventKey) or not event.pressed or event.echo:
+		return
+	get_viewport().set_input_as_handled()
+	var action: StringName = _capturing
+	_capturing = &""
+	var code: int = (event as InputEventKey).physical_keycode
+	if code == KEY_ESCAPE:
+		_message.text = ""
+	else:
+		var error: String = KeyBindings.rebind(_store.data["keys"], action, code)
+		_message.text = error
+		if error.is_empty():
+			_store.save_settings()
+			changed.emit(_store.data)
+	_refresh_keys()
+
+
+func _reset_keys() -> void:
+	_store.data["keys"] = {}
+	InputMap.load_from_project_settings()
+	_store.save_settings()
+	_message.text = "Teclas restauradas."
+	_refresh_keys()
+
+
+func _refresh_keys() -> void:
+	for action in _key_buttons:
+		(_key_buttons[action] as Button).text = KeyBindings.key_name(action)
+

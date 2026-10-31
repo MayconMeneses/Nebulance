@@ -35,7 +35,7 @@ func _process(_delta: float) -> void:
 	if _level == null or _level.rig == null:
 		return
 	var rig: TrioRig = _level.rig
-	_hero_label.text = "Heroi: %s   (Q/R troca)" % rig.body.profile.display_name
+	_hero_label.text = "Heroi: %s   (%s/%s troca)" % [rig.body.profile.display_name, KeyBindings.key_name(&"swap_prev"), KeyBindings.key_name(&"swap_next")]
 	_fill(_lives_box, rig.vitals.lives, rig.difficulty.lives_per_level, Color("F08A3B"))
 	_fill(_hearts_box, rig.vitals.hearts, rig.difficulty.hearts_per_attempt, Color("DE5145"))
 	_coins_label.text = "Moedas: %d / %d" % [_level.controller.session.coin_ids.size(), _level.definition.coin_ids.size()]
