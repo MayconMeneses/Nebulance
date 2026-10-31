@@ -11,6 +11,8 @@ signal activated(mechanism: Mechanism)
 @export var tint: Color = Color("23CFF5")
 ## Se > 0, o mecanismo volta a desativar depois desse tempo (a nao ser que o portao o trave): mecanismos SINCRONIZADOS.
 @export var hold_time: float = 0.0
+## Alavanca de polaridade: cada E alterna ligado/desligado (em vez de ativar uma unica vez).
+@export var toggle: bool = false
 
 ## Desabilitado ate algo liberar (ex.: a fase do chefe).
 var enabled: bool = true
@@ -43,7 +45,7 @@ func _ready() -> void:
 
 
 func can_interact() -> bool:
-	return enabled and not is_active
+	return enabled and (toggle or not is_active)
 
 
 func prompt() -> String:
@@ -51,6 +53,11 @@ func prompt() -> String:
 
 
 func interact() -> void:
+	if toggle and is_active:
+		is_active = false
+		_paint()
+		activated.emit(self)
+		return
 	activate()
 
 

@@ -17,6 +17,7 @@ const SCRIPTS: Dictionary = {
 	"cristalia_11": "res://game/levels/cristalia/cristalia_11.gd",
 	"cristalia_12": "res://game/levels/cristalia/cristalia_12.gd",
 	"cristalia_s02": "res://game/levels/cristalia/cristalia_s02.gd",
+	"mecatron_13": "res://game/levels/mecatron/mecatron_13.gd",
 }
 ## Ordem de jogo das fases PRINCIPAIS por planeta (as secretas so entram por portal).
 const MAIN_ORDER: Dictionary = {"sylvara": ["sylvara_01", "sylvara_02", "sylvara_03", "sylvara_04", "sylvara_05", "sylvara_06"],
