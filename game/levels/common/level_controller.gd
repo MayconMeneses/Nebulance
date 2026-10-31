@@ -47,11 +47,15 @@ func _physics_process(_delta: float) -> void:
 			_register_pickup(node as Pickup)
 	var prompt: String = ""
 	for node in rig.body.overlaps(PhysicsLayers.INTERACTABLE):
-		if node is Chest and not (node as Chest).is_open:
-			prompt = "Pressione E para abrir"
-			if rig.body.current_intent.interact_pressed and (node as Chest).open():
+		if not node.has_method(&"can_interact") or not node.call(&"can_interact"):
+			continue
+		prompt = node.call(&"prompt")
+		if rig.body.current_intent.interact_pressed:
+			node.call(&"interact")
+			sfx_requested.emit(&"item" if not node is Chest else &"coin")
+			if node is Chest:
 				_complete()
-				prompt = ""
+			prompt = ""
 	if prompt != _prompt:
 		_prompt = prompt
 		prompt_changed.emit(prompt)

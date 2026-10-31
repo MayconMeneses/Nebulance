@@ -3,13 +3,14 @@ extends RefCounted
 ## Bot deterministico por scripts de entrada: percorre a fase usando SOMENTE intents (sem teleporte).
 
 var tree: SceneTree
-var level: SylvaraLevel01
+var level: LevelScene
 var body: ActorController
 var input: ScriptedInput = ScriptedInput.new()
 var stage: String = "inicio"
+var trace: bool = false
 
 
-func _init(scene_tree: SceneTree, target_level: SylvaraLevel01) -> void:
+func _init(scene_tree: SceneTree, target_level: LevelScene) -> void:
 	tree = scene_tree
 	level = target_level
 	body = level.rig.body
@@ -29,6 +30,8 @@ func run_to(target_x: float, cap: int = 900) -> bool:
 	input.move_axis = 1.0
 	for i in cap:
 		await tree.physics_frame
+		if trace and i % 20 == 0:
+			print("   TRACE %s run_to(%.1f) x=%.2f y=%.2f vy=%.2f floor=%s hero=%s" % [stage, target_x, x(), body.global_position.y, body.velocity.y, body.is_on_floor(), level.rig.body.profile.hero_id])
 		if x() >= target_x:
 			return true
 	return false

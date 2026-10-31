@@ -29,6 +29,18 @@ func _ready() -> void:
 	add_child(mesh)
 
 
+func can_interact() -> bool:
+	return not is_open
+
+
+func prompt() -> String:
+	return "Pressione E para abrir"
+
+
+func interact() -> void:
+	open()
+
+
 func open() -> bool:
 	if is_open:
 		return false
