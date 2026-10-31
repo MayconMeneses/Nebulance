@@ -68,10 +68,19 @@ func load_save() -> Dictionary:
 
 ## Move o save principal invalido para um nome de quarentena (nunca apaga).
 func quarantine() -> String:
+	return _move_aside("corrupt")
+
+
+## Guarda o save atual como ".old-N" (usado por "Nova Aventura"; nunca apaga).
+func archive_existing() -> String:
+	return _move_aside("old")
+
+
+func _move_aside(suffix: String) -> String:
 	var n: int = 1
-	while FileAccess.file_exists("%s.corrupt-%d" % [path, n]):
+	while FileAccess.file_exists("%s.%s-%d" % [path, suffix, n]):
 		n += 1
-	var target: String = "%s.corrupt-%d" % [path, n]
+	var target: String = "%s.%s-%d" % [path, suffix, n]
 	if FileAccess.file_exists(path):
 		DirAccess.rename_absolute(path, target)
 	return target

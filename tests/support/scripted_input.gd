@@ -9,6 +9,7 @@ var special_held: bool = false
 var _jump_pressed: bool = false
 var _special_pressed: bool = false
 var _swap_dir: int = 0
+var _interact_pressed: bool = false
 
 
 func press_jump() -> void:
@@ -19,6 +20,10 @@ func press_jump() -> void:
 func press_special() -> void:
 	_special_pressed = true
 	special_held = true
+
+
+func press_interact() -> void:
+	_interact_pressed = true
 
 
 func swap(dir: int) -> void:
@@ -39,6 +44,8 @@ func read() -> HeroIntent:
 	intent.special_pressed = _special_pressed
 	intent.special_held = special_held
 	intent.swap_dir = _swap_dir
+	intent.interact_pressed = _interact_pressed
+	_interact_pressed = false
 	_jump_pressed = false
 	_special_pressed = false
 	_swap_dir = 0

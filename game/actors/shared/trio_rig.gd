@@ -4,6 +4,7 @@ extends Node3D
 
 signal hero_changed(profile: HeroProfile)
 signal level_restart_requested
+signal checkpoint_reached(zone_id: StringName)
 
 @export var profiles: Array[HeroProfile] = []
 @export var difficulty: DifficultyProfile
@@ -13,6 +14,7 @@ var body: ActorController
 var vitals: TrioVitals
 var checkpoint_position: Vector3 = Vector3.ZERO
 var active_index: int = 0
+var last_checkpoint_id: StringName = &""
 
 var _swapper: HeroSwapper = HeroSwapper.new()
 var _reader: InputReader
@@ -44,6 +46,10 @@ func _physics_process(_delta: float) -> void:
 	for zone in body.overlaps(PhysicsLayers.CHECKPOINT):
 		if zone is Node3D:
 			checkpoint_position = (zone as Node3D).global_position
+			var zone_id: StringName = zone.get("zone_id") if zone.get("zone_id") != null else &""
+			if zone_id != last_checkpoint_id:
+				last_checkpoint_id = zone_id
+				checkpoint_reached.emit(zone_id)
 
 
 func request_swap(index: int) -> HeroSwapper.Result:

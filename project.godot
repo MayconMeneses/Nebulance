@@ -8,7 +8,7 @@ config_version=5
 config/name="NEBULANCE: As Sementes do Colapso"
 config/use_custom_user_dir=true
 config/custom_user_dir_name="Nebulance"
-run/main_scene="res://tests/scenes/playground.tscn"
+run/main_scene="res://game/core/main.tscn"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 
 [audio]

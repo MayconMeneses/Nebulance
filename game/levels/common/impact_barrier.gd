@@ -9,6 +9,7 @@ var is_broken: bool = false
 
 func _ready() -> void:
 	add_to_group(&"impact_target")
+	add_to_group(&"snapshotable")
 	collision_layer = PhysicsLayers.WORLD | PhysicsLayers.IMPACT_TARGET
 
 
@@ -19,3 +20,13 @@ func on_impacted() -> void:
 	set_deferred(&"collision_layer", 0)
 	visible = false
 	broken.emit()
+
+
+func capture() -> Variant:
+	return is_broken
+
+
+func restore(state: Variant) -> void:
+	is_broken = bool(state)
+	visible = not is_broken
+	collision_layer = 0 if is_broken else PhysicsLayers.WORLD | PhysicsLayers.IMPACT_TARGET
