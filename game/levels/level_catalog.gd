@@ -15,11 +15,12 @@ const SCRIPTS: Dictionary = {
 	"cristalia_09": "res://game/levels/cristalia/cristalia_09.gd",
 	"cristalia_10": "res://game/levels/cristalia/cristalia_10.gd",
 	"cristalia_11": "res://game/levels/cristalia/cristalia_11.gd",
+	"cristalia_12": "res://game/levels/cristalia/cristalia_12.gd",
 	"cristalia_s02": "res://game/levels/cristalia/cristalia_s02.gd",
 }
 ## Ordem de jogo das fases PRINCIPAIS por planeta (as secretas so entram por portal).
 const MAIN_ORDER: Dictionary = {"sylvara": ["sylvara_01", "sylvara_02", "sylvara_03", "sylvara_04", "sylvara_05", "sylvara_06"],
-		"cristalia": ["cristalia_07", "cristalia_08", "cristalia_09", "cristalia_10", "cristalia_11"]}
+		"cristalia": ["cristalia_07", "cristalia_08", "cristalia_09", "cristalia_10", "cristalia_11", "cristalia_12"]}
 
 
 static func has(level_id: String) -> bool:

@@ -33,6 +33,8 @@ func _initialize() -> void:
 	_save(d10)
 	_save(_def("cristalia_11", "A Catedral Prismatica", "Resolva a catedral e alcance o arquivo", 9,
 			["cristalia_11_cp1"], [], ["memory_astralis_expedition_11"]))
+	_save(_def("cristalia_12", "Zythra, a Orquidea de Cristal", "Liberte Zythra e destrua a segunda semente", 6,
+			["cristalia_12_cp1"], [], []))
 	quit(0)
 
 

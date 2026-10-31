@@ -71,7 +71,7 @@ func _show_map() -> void:
 	map = GalaxyMap.new()
 	add_child(map)
 	map.show_state(profile)
-	map.travel_requested.connect(func(_planet_id: StringName) -> void: _start_level())
+	map.travel_requested.connect(func(planet_id: StringName) -> void: _start_level(LevelCatalog.next_for(profile, String(planet_id))))
 	map.back_pressed.connect(_back_to_menu)
 
 
@@ -183,7 +183,11 @@ func _on_seed_destroyed(first_time: bool) -> void:
 	last_save_error = service.save(profile)
 	if first_time:
 		reaction_plays += 1
-		add_child(CaeldronReaction.new())
+		var reaction := CaeldronReaction.new()
+		var custom: Variant = level.get("reaction_message")
+		if custom is String and custom != "":
+			reaction.message = custom
+		add_child(reaction)
 
 
 func _on_intro_finished() -> void:

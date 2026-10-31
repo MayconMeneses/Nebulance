@@ -3,12 +3,12 @@ extends LevelBot
 ## Bot do chefe Vyrkan: so entra numa faixa de raizes quando ela e segura; cumpre as 3 etapas e o Golpe Triade com 3 herois.
 
 var boss: VyrkanBoss
-var arena: SylvaraLevel06
+var arena: Node
 
 
 func _init(scene_tree: SceneTree, target_level: LevelScene) -> void:
 	super._init(scene_tree, target_level)
-	arena = target_level as SylvaraLevel06
+	arena = target_level
 	boss = arena.boss
 
 

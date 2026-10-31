@@ -17,6 +17,8 @@ const PATTERNS: Dictionary = {1: [[1, 3], [0, 2]], 2: [[0, 2, 4], [1, 3]], 3: [[
 const TIMING: Dictionary = {1: Vector3(1.0, 0.5, 1.2), 2: Vector3(0.85, 0.5, 1.0), 3: Vector3(0.7, 0.5, 0.9)}
 const MIN_TELEGRAPH: float = 0.6
 
+## Chave do mecanismo esperado em cada fase (outros chefes sobrescrevem).
+var stage_keys: Dictionary = {1: &"rocco", 2: &"zuri", 3: &"pipa"}
 var phase: int = Phase.ONE
 var lanes: Array[RootLane] = []
 ## Ligados pela fase de arena.
@@ -46,7 +48,7 @@ func is_defeated() -> bool:
 
 ## Avanca a fase quando o mecanismo CERTO e ativado (ordem rocco -> zuri -> pipa); mecanismos fora de hora nao fazem nada.
 func mechanism_done(which: StringName) -> bool:
-	var expected: StringName = {1: &"rocco", 2: &"zuri", 3: &"pipa"}.get(phase, &"")
+	var expected: StringName = stage_keys.get(phase, &"")
 	if which != expected:
 		return false
 	phase += 1
