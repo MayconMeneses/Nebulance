@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="LevelDefinition" format=3]
+
+[ext_resource type="Script" path="res://game/progression/level_definition.gd" id="1_bx6to"]
+
+[resource]
+script = ExtResource("1_bx6to")
+level_id = &"aquarys_20"
+display_name = "Os Canais Suspensos"
+planet_id = &"aquarys"
+goal_text = "Escolha o nivel da agua e abra a rota ate o bau"
+chest_id = &"aquarys_20_chest"
+coin_ids = PackedStringArray("aquarys_20_coin_01", "aquarys_20_coin_02", "aquarys_20_coin_03", "aquarys_20_coin_04", "aquarys_20_coin_05", "aquarys_20_coin_06", "aquarys_20_coin_07", "aquarys_20_coin_08", "aquarys_20_coin_09")
+checkpoint_ids = PackedStringArray("aquarys_20_cp1")
+secret_item_ids = PackedStringArray("aquarys_20_gate_collectible")
+secret_memory_ids = PackedStringArray()
+rescue_ids = PackedStringArray()
