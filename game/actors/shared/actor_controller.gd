@@ -97,6 +97,8 @@ func _physics_process(delta: float) -> void:
 		_apply_gravity(delta, tuning, on_floor)
 		if _hurt <= 0.0:
 			_apply_horizontal(intent, delta, tuning, on_floor)
+			if not on_floor:
+				velocity.x += ZoneEffects.wind_push(self).x * delta
 		_apply_jump(intent, tuning, on_floor)
 	_ability.physics_update(self, intent, delta)
 	move_and_slide()
@@ -121,10 +123,14 @@ func _update_timers(on_floor: bool, delta: float, tuning: MovementTuning) -> voi
 
 
 func _apply_gravity(delta: float, tuning: MovementTuning, on_floor: bool) -> void:
-	if on_floor:
+	var scale: float = ZoneEffects.gravity_scale(self)
+	if on_floor and scale >= 0.0:
 		velocity.y = maxf(velocity.y, 0.0)
 	else:
-		velocity.y = maxf(velocity.y - tuning.gravity * ZoneEffects.gravity_scale(self) * delta, -tuning.max_fall_speed)
+		velocity.y = maxf(velocity.y - tuning.gravity * scale * delta, -tuning.max_fall_speed)
+		if scale < 0.0:
+			# Zona de gravidade invertida: sobe ate o teto (velocidade limitada) e fica encostado nele.
+			velocity.y = minf(velocity.y, tuning.max_fall_speed * 0.5)
 
 
 func _apply_horizontal(intent: HeroIntent, delta: float, tuning: MovementTuning, on_floor: bool) -> void:
