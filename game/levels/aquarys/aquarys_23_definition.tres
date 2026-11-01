@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="LevelDefinition" format=3]
+
+[ext_resource type="Script" path="res://game/progression/level_definition.gd" id="1_bx6to"]
+
+[resource]
+script = ExtResource("1_bx6to")
+level_id = &"aquarys_23"
+display_name = "O Templo das Mares"
+planet_id = &"aquarys"
+goal_text = "Combine os niveis das duas comportas, acenda o fluxo e abra o caminho para Thalassa"
+chest_id = &"aquarys_23_chest"
+coin_ids = PackedStringArray("aquarys_23_coin_01", "aquarys_23_coin_02", "aquarys_23_coin_03", "aquarys_23_coin_04", "aquarys_23_coin_05", "aquarys_23_coin_06", "aquarys_23_coin_07", "aquarys_23_coin_08", "aquarys_23_coin_09")
+checkpoint_ids = PackedStringArray("aquarys_23_cp1")
+secret_item_ids = PackedStringArray()
+secret_memory_ids = PackedStringArray("memory_ancient_roots_23")
+rescue_ids = PackedStringArray()
