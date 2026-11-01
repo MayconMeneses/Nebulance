@@ -9,7 +9,11 @@ extends LevelBot19
 func swap_to(index: int) -> bool:
 	if level.rig.active_index == index:
 		return true
-	return await super.swap_to(index)
+	for attempt in 4:
+		if await super.swap_to(index):
+			return true
+		await frames(8)
+	return level.rig.active_index == index
 
 
 func slow_hop() -> bool:

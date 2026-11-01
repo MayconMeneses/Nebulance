@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="LevelDefinition" format=3]
+
+[ext_resource type="Script" path="res://game/progression/level_definition.gd" id="1_bx6to"]
+
+[resource]
+script = ExtResource("1_bx6to")
+level_id = &"umbraxis_36"
+display_name = "Necryon e a Ultima Semente"
+planet_id = &"umbraxis"
+goal_text = "Liberte Necryon e destrua a sexta semente"
+chest_id = &"umbraxis_36_chest"
+coin_ids = PackedStringArray("umbraxis_36_coin_01", "umbraxis_36_coin_02", "umbraxis_36_coin_03", "umbraxis_36_coin_04", "umbraxis_36_coin_05", "umbraxis_36_coin_06")
+checkpoint_ids = PackedStringArray("umbraxis_36_cp1")
+secret_item_ids = PackedStringArray()
+secret_memory_ids = PackedStringArray()
+rescue_ids = PackedStringArray()
