@@ -21,3 +21,4 @@ godot_mcp_config.json
 # Referencia pesada do dono (PDF/artes originais ficam fora do repo)
 *.pdf
 docs/reference/
+installer/Output/
