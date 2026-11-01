@@ -118,9 +118,9 @@ func _flow_and_map(tree: SceneTree, out: Array) -> void:
 	TestWorld.rec(out, "TC-049 Thalassa: recarregar apos a vitoria abre a arena restaurada e o chefe nao ressuscita (nem apos morte)",
 			again.boss.is_defeated() and not again.chest.locked and flow.reaction_plays == 1)
 	var p: Dictionary = flow.profile
-	TestWorld.rec(out, "TC-049 mapa: Aquarys Salva (raiz removida), Aerion Disponivel mas ainda em producao (nao viajavel)",
+	TestWorld.rec(out, "TC-049 mapa: Aquarys Salva (raiz removida), Aerion Disponivel e viajavel (jogavel)",
 			GalaxyState.status(p, 3) == GalaxyState.Status.SAVED and not GalaxyState.root_visible(p, 3)
-			and GalaxyState.status(p, 4) == GalaxyState.Status.AVAILABLE and not GalaxyState.can_travel(p, 4))
+			and GalaxyState.status(p, 4) == GalaxyState.Status.AVAILABLE and GalaxyState.can_travel(p, 4))
 	TestWorld.rec(out, "mapa: viajar para Aquarys abre a primeira fase principal do planeta (fase 19) e Aquarys e jogavel",
 			LevelCatalog.next_for(SaveData.new_game(), "aquarys") == "aquarys_19" and GalaxyState.planets()[3].playable)
 	tree.paused = false
