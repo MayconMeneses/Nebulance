@@ -72,6 +72,13 @@ func _mechanics(tree: SceneTree, out: Array) -> void:
 	TestWorld.rec(out, "TC-053 fase 28: item de pista de gravidade, bau e 9 moedas com ids estaveis",
 			level.definition.secret_item_ids == PackedStringArray(["aerion_28_gravity_clue"]) and level.definition.coin_ids.size() == 9
 			and level.definition.chest_id == &"aerion_28_chest")
+	TestWorld.rec(out, "TC-057 fase 28: o portal da S05 comeca fechado e o painel de gravidade o abre; destino aerion_s05",
+			not level.portal.can_interact() and level.portal.destination_level_id == &"aerion_s05" and LevelCatalog.has("aerion_s05"))
+	level.secret_panel.interact()
+	TestWorld.rec(out, "TC-057 fase 28: ligar o painel abre o portal", level.portal.can_interact())
+	level.controller._on_life_lost(&"test")
+	await _settle(tree, 3)
+	TestWorld.rec(out, "TC-057 fase 28: reaparecer devolve painel e portal ao estado do checkpoint (fechados)", not level.secret_panel.is_active and not level.portal.can_interact())
 	level.queue_free()
 	await _settle(tree, 3)
 

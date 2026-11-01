@@ -36,6 +36,7 @@ const SCRIPTS: Dictionary = {
 	"aerion_28": "res://game/levels/aerion/aerion_28.gd",
 	"aerion_29": "res://game/levels/aerion/aerion_29.gd",
 	"aerion_30": "res://game/levels/aerion/aerion_30.gd",
+	"aerion_s05": "res://game/levels/aerion/aerion_s05.gd",
 	"mecatron_s03": "res://game/levels/mecatron/mecatron_s03.gd",
 }
 ## Ordem de jogo das fases PRINCIPAIS por planeta (as secretas so entram por portal).
