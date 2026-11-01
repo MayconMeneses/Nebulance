@@ -30,13 +30,21 @@ const SCRIPTS: Dictionary = {
 	"aquarys_s04": "res://game/levels/aquarys/aquarys_s04.gd",
 	"aquarys_23": "res://game/levels/aquarys/aquarys_23.gd",
 	"aquarys_24": "res://game/levels/aquarys/aquarys_24.gd",
+	"umbraxis_31": "res://game/levels/umbraxis/umbraxis_31.gd",
+	"umbraxis_32": "res://game/levels/umbraxis/umbraxis_32.gd",
+	"umbraxis_33": "res://game/levels/umbraxis/umbraxis_33.gd",
+	"umbraxis_34": "res://game/levels/umbraxis/umbraxis_34.gd",
+	"umbraxis_35": "res://game/levels/umbraxis/umbraxis_35.gd",
+	"umbraxis_36": "res://game/levels/umbraxis/umbraxis_36.gd",
+	"umbraxis_s06": "res://game/levels/umbraxis/umbraxis_s06.gd",
 	"mecatron_s03": "res://game/levels/mecatron/mecatron_s03.gd",
 }
 ## Ordem de jogo das fases PRINCIPAIS por planeta (as secretas so entram por portal).
 const MAIN_ORDER: Dictionary = {"sylvara": ["sylvara_01", "sylvara_02", "sylvara_03", "sylvara_04", "sylvara_05", "sylvara_06"],
 		"cristalia": ["cristalia_07", "cristalia_08", "cristalia_09", "cristalia_10", "cristalia_11", "cristalia_12"],
 		"mecatron": ["mecatron_13", "mecatron_14", "mecatron_15", "mecatron_16", "mecatron_17", "mecatron_18"],
-		"aquarys": ["aquarys_19", "aquarys_20", "aquarys_21", "aquarys_22", "aquarys_23", "aquarys_24"]}
+		"aquarys": ["aquarys_19", "aquarys_20", "aquarys_21", "aquarys_22", "aquarys_23", "aquarys_24"],
+		"umbraxis": ["umbraxis_31", "umbraxis_32", "umbraxis_33", "umbraxis_34", "umbraxis_35", "umbraxis_36"]}
 
 
 static func has(level_id: String) -> bool:
