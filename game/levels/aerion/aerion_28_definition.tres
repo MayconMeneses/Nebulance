@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="LevelDefinition" format=3]
+
+[ext_resource type="Script" path="res://game/progression/level_definition.gd" id="1_bx6to"]
+
+[resource]
+script = ExtResource("1_bx6to")
+level_id = &"aerion_28"
+display_name = "O Ceu de Cabeca para Baixo"
+planet_id = &"aerion"
+goal_text = "Use o teto como caminho nas zonas de gravidade invertida"
+chest_id = &"aerion_28_chest"
+coin_ids = PackedStringArray("aerion_28_coin_01", "aerion_28_coin_02", "aerion_28_coin_03", "aerion_28_coin_04", "aerion_28_coin_05", "aerion_28_coin_06", "aerion_28_coin_07", "aerion_28_coin_08", "aerion_28_coin_09")
+checkpoint_ids = PackedStringArray("aerion_28_cp1")
+secret_item_ids = PackedStringArray("aerion_28_gravity_clue")
+secret_memory_ids = PackedStringArray()
+rescue_ids = PackedStringArray()
