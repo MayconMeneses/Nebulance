@@ -151,3 +151,11 @@ Pecas novas: `EchoStone` (pedra-eco: uma real e ilusoes distinguiveis por EVIDEN
 | 36 Necryon e a Ultima Semente | chefe `NecryonBoss`: 1) combinacao (fechadura de 4 cristais), 2) pedra-eco real por evidencia (erro = -1 coracao + reinicia o ciclo), 3) ruptura (estabilizador, travessia, escalada, selar o nucleo); Golpe Triade (3 herois); `seed_umbraxis`, guardiao `necryon`, `relic_umbraxis`, `astralis_memory_umbraxis`; so a mensagem de reacao de Caeldron (SEM final/cutscene) |
 | S06 Camara da Primeira Expedicao | secreta: 1 conjunto de pedras-eco leves + fechadura de sequencia final; `umbraxis_s06_expedition_suit` e `memory_first_expedition_final_s06` |
 Nao implementado: arte final, Umbraxis jogavel no mapa, final/cutscene/Caeldron, atalho dimensional (32), seletor de cosmeticos (34), calibracao por playtest humano. Os modulos da fase 32/35 ficam todos na mesma cena (nao ha descarregamento real de mundos).
+
+## FINAL E POS-JOGO (graybox)
+- **Campanha concluida** = as seis sementes destruidas (`GalaxyState.campaign_complete`, derivado do save; `caeldron_alive` e o inverso). Nenhuma flag nova no save.
+- **Morte de Caeldron** (`CaeldronDeath`): cutscene curta de TEXTO (4 telas de 3 s, sem arte, sem batalha extra), pulavel (E/Espaco depois de 0,5 s), e depois a tela de creditos simples (`CreditsScreen`, 12 s, pulavel). O jogo fica pausado durante a sequencia e o botao de pausa e ignorado.
+- **Uma vez so**: `ProgressLedger.claim_campaign_end` (transacao `ending:caeldron_death` em `claimed_transaction_ids`) grava a mensagem final `astralis_final_message` e o trofeu `trophy_campaign_complete`; recarregar, morrer na arena ou re-emitir a semente nao repete nada. A sequencia encadeia depois da reacao de Caeldron da sexta semente.
+- **Pos-jogo**: planetas salvos continuam visitaveis (viagem pela flag `playable`), raizes todas removidas, mapa mostra "Campanha concluida" e o botao Creditos (rever nao conta como fim).
+- **Umbraxis jogavel**: ainda NAO; `playable` continua falso porque a Aerion tambem nao esta jogavel (TODO em `tools/generate_planet_resources.gd`). O encadeamento Sylvara>Cristalia>Mecatron>Aquarys>Aerion>Umbraxis e testado (`suite_ending`).
+- Nao implementado: arte/animacao/audio proprios do final, galeria, compartimento selado da Astralis visivel (so a memoria gravada), lista real de creditos.

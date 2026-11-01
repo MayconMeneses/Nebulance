@@ -10,6 +10,7 @@ const DATA: Array = [
 	["mecatron", "Mecatron", "Maquinaria e magnetismo", "Maquinas, esteiras e polaridade", "Ferrorraiz", "seed_mecatron", true, "F08A3B", []],
 	["aquarys", "Aquarys", "Mares e tecnologia aquatica", "Comportas, mares e plataformas flutuantes", "Thalassa", "seed_aquarys", true, "23CFF5", []],
 	["aerion", "Aerion", "Vento e gravidade", "Vento e gravidade localizada", "Zefrion", "seed_aerion", false, "EDB85E", []],
+	# TODO: tornar Umbraxis jogavel (true aqui e em game/astralis/data/umbraxis.tres) quando a Aerion estiver jogavel (fases 25-30 + chefe).
 	["umbraxis", "Umbraxis", "Coracao do Colapso", "Combinacao e ruptura dimensional", "Necryon", "seed_umbraxis", false, "C03CA8", []],
 ]
 
