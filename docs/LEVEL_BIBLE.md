@@ -109,3 +109,14 @@ a velocidade fixa; progresso capturavel), `HydraulicPress` (ciclo fixo IDLE 2,0 
 | S03 Oficina Zero | elevador + trilho de polaridade em espaco compacto; `mecatron_s03_tech_accessory` e `memory_astralis_maintenance_s03` |
 Nao implementado em Mecatron: arte final (tudo graybox), restauracao visual do planeta, cutscene de libertacao, bracos/espinhos/campo magnetico do chefe alem das faixas de erupcao,
 magnetismo como forca (so polaridade de plataformas), segredo do acessorio no vagao elevado (fase 15), calibracao por playtest humano.
+
+## AQUARYS
+
+### Fases 23-24 (graybox, com bots)
+Pecas novas: `TideFlux` (fluxo luminoso: acende quando todos os `WaterBody` exigidos estao nos niveis certos; opcionalmente e uma porta; estado derivado, nada a capturar), `SluiceControl.enabled` (comporta liberada por fase do chefe). Sem fisica de fluidos: cada reservatorio e um inteiro discreto (0..2).
+| Fase | Implementacao (resumo) |
+|---|---|
+| 23 O Templo das Mares | comporta Oeste alta leva ao templo (checkpoint na entrada, antes do puzzle); no templo, dois reservatorios independentes (Oeste e Leste) com comportas para cada nivel; combinacao correta Oeste=1 + Leste=2 acende o fluxo e abre a porta; combinacoes erradas (2+2, 1+1) nao abrem; depois da porta: memoria antiga `memory_ancient_roots_23` (explica as raizes ligadas as sementes), bau especial `aquarys_23_chest` e o arco luminoso da entrada para Thalassa (a conclusao do bau leva a fase 24) |
+| 24 Thalassa, a Vitoria-Regia | chefe: 1) comportas Oeste=2 + Leste=1 estabilizam o fluxo (ha uma comporta-isca do Leste que leva ao nivel errado), 2) a onda (reservatorio com degraus de 2 m) ergue a folha flutuante com o heroi ate o patamar, 3) desativar a protecao no alto; depois Golpe Triade com 3 herois; semente `seed_aquarys`, guardiao `thalassa`, `relic_aquarys`, `astralis_memory_aquarys`; Caeldron sente MEDO apos a quarta perda; os reservatorios reiniciam no checkpoint (snapshotable) |
+Aquarys passa a ser jogavel no mapa (`playable = true`); Aerion (indice 4) passa a ser o planeta ainda em producao.
+Nao implementado em Aquarys 23-24: arte final (tudo graybox), agua com fisica/visual de fluido, cutscene de libertacao, ataques do chefe alem das faixas de erupcao, portal real para Thalassa (a "entrada" e um arco decorativo; a ligacao e a ordem de fases), calibracao por playtest humano. As fases 21, 22 e a secreta S04 sao de outro trabalho.

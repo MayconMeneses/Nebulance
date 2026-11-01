@@ -10,5 +10,6 @@ theme = "Mares e tecnologia aquatica"
 mechanic = "Comportas, mares e plataformas flutuantes"
 guardian_name = "Thalassa"
 seed_id = &"seed_aquarys"
+playable = true
 tint = Color(0.13725491, 0.8117647, 0.9607843, 1)
 secret_ids = PackedStringArray()
