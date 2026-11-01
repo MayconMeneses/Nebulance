@@ -161,6 +161,8 @@ func do_moving(info: Dictionary, ox: float) -> bool:
 	var mp: MovingPlatform = info["mp"]
 	if mp == null:
 		return await run_to(ox + 33.0)
+	if not await run_to(ox + 11.0):
+		return false
 	if not await walk_to(ox + 13.3):
 		return false
 	await wait_platform(mp, ox + 17.0)

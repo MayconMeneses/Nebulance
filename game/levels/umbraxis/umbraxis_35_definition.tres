@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="LevelDefinition" format=3]
+
+[ext_resource type="Script" path="res://game/progression/level_definition.gd" id="1_bx6to"]
+
+[resource]
+script = ExtResource("1_bx6to")
+level_id = &"umbraxis_35"
+display_name = "A Ultima Mensagem"
+planet_id = &"umbraxis"
+goal_text = "Combine as cinco mecanicas ate o terminal dos exploradores"
+chest_id = &"umbraxis_35_chest"
+coin_ids = PackedStringArray("umbraxis_35_coin_01", "umbraxis_35_coin_02", "umbraxis_35_coin_03", "umbraxis_35_coin_04", "umbraxis_35_coin_05", "umbraxis_35_coin_06", "umbraxis_35_coin_07", "umbraxis_35_coin_08", "umbraxis_35_coin_09")
+checkpoint_ids = PackedStringArray("umbraxis_35_cp1", "umbraxis_35_cp2", "umbraxis_35_cp3", "umbraxis_35_cp4", "umbraxis_35_cp5")
+secret_item_ids = PackedStringArray()
+secret_memory_ids = PackedStringArray("memory_last_message_35")
+rescue_ids = PackedStringArray()
