@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="LevelDefinition" format=3]
+
+[ext_resource type="Script" path="res://game/progression/level_definition.gd" id="1_bx6to"]
+
+[resource]
+script = ExtResource("1_bx6to")
+level_id = &"aquarys_s04"
+display_name = "Oceano Esquecido"
+planet_id = &"aquarys"
+goal_text = "Ligue a comporta e alcance a sala do bau"
+chest_id = &"aquarys_s04_chest"
+coin_ids = PackedStringArray("aquarys_s04_coin_01", "aquarys_s04_coin_02", "aquarys_s04_coin_03", "aquarys_s04_coin_04", "aquarys_s04_coin_05", "aquarys_s04_coin_06", "aquarys_s04_coin_07", "aquarys_s04_coin_08", "aquarys_s04_coin_09")
+checkpoint_ids = PackedStringArray()
+secret_item_ids = PackedStringArray("aquarys_s04_expedition_badge")
+secret_memory_ids = PackedStringArray("memory_old_expedition_recording_s04")
+rescue_ids = PackedStringArray()

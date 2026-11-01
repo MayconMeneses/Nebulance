@@ -110,7 +110,6 @@ a velocidade fixa; progresso capturavel), `HydraulicPress` (ciclo fixo IDLE 2,0 
 Nao implementado em Mecatron: arte final (tudo graybox), restauracao visual do planeta, cutscene de libertacao, bracos/espinhos/campo magnetico do chefe alem das faixas de erupcao,
 magnetismo como forca (so polaridade de plataformas), segredo do acessorio no vagao elevado (fase 15), calibracao por playtest humano.
 
-## AQUARYS
 
 ### Fases 23-24 (graybox, com bots)
 Pecas novas: `TideFlux` (fluxo luminoso: acende quando todos os `WaterBody` exigidos estao nos niveis certos; opcionalmente e uma porta; estado derivado, nada a capturar), `SluiceControl.enabled` (comporta liberada por fase do chefe). Sem fisica de fluidos: cada reservatorio e um inteiro discreto (0..2).
@@ -121,6 +120,14 @@ Pecas novas: `TideFlux` (fluxo luminoso: acende quando todos os `WaterBody` exig
 Aquarys passa a ser jogavel no mapa (`playable = true`); Aerion (indice 4) passa a ser o planeta ainda em producao.
 Nao implementado em Aquarys 23-24: arte final (tudo graybox), agua com fisica/visual de fluido, cutscene de libertacao, ataques do chefe alem das faixas de erupcao, portal real para Thalassa (a "entrada" e um arco decorativo; a ligacao e a ordem de fases), calibracao por playtest humano. As fases 21, 22 e a secreta S04 sao de outro trabalho.
 
+### Fases 21-22 + S04
+| Fase | Implementacao (resumo) |
+|---|---|
+| 21 Os Recifes Esquecidos | duas correntes (`ConveyorBelt`: uma a favor, outra contra, 3 m/s < Rocco); checkpoint `aquarys_21_cp1` ao alcancar o recife; 6 plataformas transparentes (`RupturePlatform`) em 2 grupos, estabilizadas por 2 `Mechanism` (`link_id` reef_a / reef_b); inscricao no alto (Zuri escala) abre o portal `aquarys_21_portal` para a S04; arquivo `memory_first_explorer_21` |
+| 22 A Onda Colossal | fuga: `ChaseWave` (7 m/s, comeca atras da largada em x=-8, gatilho x=44, depois do checkpoint x=34); Rocco quebra a barreira marcada, Zuri sobe o muro, Pipa planeia com vento ate a passarela alta; resgate opcional `aquarys_22_survivor`; laje elevada com moedas |
+| S04 Oceano Esquecido | secreta (fora de `MAIN_ORDER`): comporta + 3 plataformas flutuantes + degraus de metal; 9 moedas, `aquarys_s04_expedition_badge` e `memory_old_expedition_recording_s04` |
+Nao implementado: arte final (tudo graybox); a "plataforma transparente" da fase 21 reusa `RupturePlatform` (nao ha API de estabilizacao no `TideWalkway`); a onda da fase 22 e uma unica `ChaseWave` (nao ha agua visual invadindo o cenario); calibracao por playtest humano.
+
 ## AERION (fases 25-28; 29, 30 e o chefe Zefrion pendentes) — mecanica: vento e gravidade localizada (graybox, todas com bot)
 Pecas novas: `WindVent` (corrente de vento na camada WIND; permanente ou dependente de um painel `control` ativo e de uma barreira `blocker` rompida; estado derivado), `ControlledPlatform` (ilha oculta: so existe com o painel ligado), vento HORIZONTAL no ar (`ActorController` soma `wind_push.x` a quem esta no ar; com `wind_push.x` > taxa de controle aereo o vento realmente carrega; ver fase 25) e gravidade invertida (escala de gravidade NEGATIVA em zona WIND: o heroi sobe ate o teto e segue encostado nele; velocidade de subida limitada; comportamento com escala >= 0 inalterado).
 | Fase | Implementacao (resumo) |
@@ -130,3 +137,4 @@ Pecas novas: `WindVent` (corrente de vento na camada WIND; permanente ou depende
 | 27 Corredores do Vento | travessia 1 com corrente permanente (Pipa); Zuri liga o painel no alto; Rocco rompe a barreira que cobre a base da 2a corrente; so painel + base livre fazem a corrente soprar (Pipa planeia); o painel revela a ilha oculta com a memoria `memory_secret_portal_clue_27` (pista do portal da S05). DESVIO: a "corrente invertida" e simplificada: a ilha aparece quando o painel liga (o painel ja e obrigatorio) |
 | 28 O Ceu de Cabeca para Baixo | 3 zonas de gravidade invertida (poco, pilar de 3,5 m que so passa pelo teto, poco longo) com teto solido; simbolos no chao na entrada; templos espelhados (decoracao) em plano duplo; checkpoint antes da inversao do pilar; item `aerion_28_gravity_clue` sobre o pilar. DESVIO: nao ha andar no teto como piso (pular/virar o personagem); o heroi e levado ate o teto e desliza por ele ate sair da zona, sem inverter controles nem camera |
 Nao implementado em Aerion: fases 29-30, chefe Zefrion, S05, semente `seed_aerion` (Aerion segue com `playable = false`), arte final, calibracao por playtest humano, vento visivel (particulas), rota opcional nas nuvens da fase 26.
+>>>>>>> main
