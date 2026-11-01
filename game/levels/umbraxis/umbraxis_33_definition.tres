@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="LevelDefinition" format=3]
+
+[ext_resource type="Script" path="res://game/progression/level_definition.gd" id="1_bx6to"]
+
+[resource]
+script = ExtResource("1_bx6to")
+level_id = &"umbraxis_33"
+display_name = "O Jardim dos Ecos"
+planet_id = &"umbraxis"
+goal_text = "Distinga o eco verdadeiro das ilusoes e siga ate o bau"
+chest_id = &"umbraxis_33_chest"
+coin_ids = PackedStringArray("umbraxis_33_coin_01", "umbraxis_33_coin_02", "umbraxis_33_coin_03", "umbraxis_33_coin_04", "umbraxis_33_coin_05", "umbraxis_33_coin_06", "umbraxis_33_coin_07", "umbraxis_33_coin_08", "umbraxis_33_coin_09")
+checkpoint_ids = PackedStringArray("umbraxis_33_cp1", "umbraxis_33_cp2")
+secret_item_ids = PackedStringArray("umbraxis_33_crew_suit")
+secret_memory_ids = PackedStringArray("memory_expedition_projection_33")
+rescue_ids = PackedStringArray()

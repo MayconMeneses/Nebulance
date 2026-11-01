@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="LevelDefinition" format=3]
+
+[ext_resource type="Script" path="res://game/progression/level_definition.gd" id="1_bx6to"]
+
+[resource]
+script = ExtResource("1_bx6to")
+level_id = &"umbraxis_31"
+display_name = "O Limiar das Raizes"
+planet_id = &"umbraxis"
+goal_text = "Cruze as plataformas dimensionais ate o bau"
+chest_id = &"umbraxis_31_chest"
+coin_ids = PackedStringArray("umbraxis_31_coin_01", "umbraxis_31_coin_02", "umbraxis_31_coin_03", "umbraxis_31_coin_04", "umbraxis_31_coin_05", "umbraxis_31_coin_06", "umbraxis_31_coin_07", "umbraxis_31_coin_08", "umbraxis_31_coin_09")
+checkpoint_ids = PackedStringArray("umbraxis_31_cp1")
+secret_item_ids = PackedStringArray("umbraxis_31_legacy_fragment")
+secret_memory_ids = PackedStringArray()
+rescue_ids = PackedStringArray()

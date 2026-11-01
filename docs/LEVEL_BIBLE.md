@@ -111,6 +111,8 @@ Nao implementado em Mecatron: arte final (tudo graybox), restauracao visual do p
 magnetismo como forca (so polaridade de plataformas), segredo do acessorio no vagao elevado (fase 15), calibracao por playtest humano.
 
 
+## AQUARYS
+
 ### Fases 23-24 (graybox, com bots)
 Pecas novas: `TideFlux` (fluxo luminoso: acende quando todos os `WaterBody` exigidos estao nos niveis certos; opcionalmente e uma porta; estado derivado, nada a capturar), `SluiceControl.enabled` (comporta liberada por fase do chefe). Sem fisica de fluidos: cada reservatorio e um inteiro discreto (0..2).
 | Fase | Implementacao (resumo) |
@@ -119,6 +121,7 @@ Pecas novas: `TideFlux` (fluxo luminoso: acende quando todos os `WaterBody` exig
 | 24 Thalassa, a Vitoria-Regia | chefe: 1) comportas Oeste=2 + Leste=1 estabilizam o fluxo (ha uma comporta-isca do Leste que leva ao nivel errado), 2) a onda (reservatorio com degraus de 2 m) ergue a folha flutuante com o heroi ate o patamar, 3) desativar a protecao no alto; depois Golpe Triade com 3 herois; semente `seed_aquarys`, guardiao `thalassa`, `relic_aquarys`, `astralis_memory_aquarys`; Caeldron sente MEDO apos a quarta perda; os reservatorios reiniciam no checkpoint (snapshotable) |
 Aquarys passa a ser jogavel no mapa (`playable = true`); Aerion (indice 4) passa a ser o planeta ainda em producao.
 Nao implementado em Aquarys 23-24: arte final (tudo graybox), agua com fisica/visual de fluido, cutscene de libertacao, ataques do chefe alem das faixas de erupcao, portal real para Thalassa (a "entrada" e um arco decorativo; a ligacao e a ordem de fases), calibracao por playtest humano. As fases 21, 22 e a secreta S04 sao de outro trabalho.
+
 
 ## AQUARYS (fases 19-24 + S04) — mecanica: mares e comportas (graybox, todas com bot)
 ### Fases 21-22 + S04
@@ -138,3 +141,16 @@ Pecas novas: `WindVent` (corrente de vento na camada WIND; permanente ou depende
 | 27 Corredores do Vento | travessia 1 com corrente permanente (Pipa); Zuri liga o painel no alto; Rocco rompe a barreira que cobre a base da 2a corrente; so painel + base livre fazem a corrente soprar (Pipa planeia); o painel revela a ilha oculta com a memoria `memory_secret_portal_clue_27` (pista do portal da S05). DESVIO: a "corrente invertida" e simplificada: a ilha aparece quando o painel liga (o painel ja e obrigatorio) |
 | 28 O Ceu de Cabeca para Baixo | 3 zonas de gravidade invertida (poco, pilar de 3,5 m que so passa pelo teto, poco longo) com teto solido; simbolos no chao na entrada; templos espelhados (decoracao) em plano duplo; checkpoint antes da inversao do pilar; item `aerion_28_gravity_clue` sobre o pilar. DESVIO: nao ha andar no teto como piso (pular/virar o personagem); o heroi e levado ate o teto e desliza por ele ate sair da zona, sem inverter controles nem camera |
 Nao implementado em Aerion: fases 29-30, chefe Zefrion, S05, semente `seed_aerion` (Aerion segue com `playable = false`), arte final, calibracao por playtest humano, vento visivel (particulas), rota opcional nas nuvens da fase 26.
+
+## UMBRAXIS (fases 31-36 + S06) — mecanica: combinacao e ruptura dimensional (graybox, todas com bot; planeta ainda NAO jogavel)
+Pecas novas: `EchoStone` (pedra-eco: uma real e ilusoes distinguiveis por EVIDENCIA — pisca ou forma —; tocar a real estabiliza plataformas de ruptura do mesmo `link_id`; tocar ilusao tira um coracao), `UmbraxisModules` (modulos reutilizaveis de Sylvara/Cristalia/Mecatron/Aquarys/Aerion), `NecryonBoss`.
+| Fase | Implementacao (resumo) |
+|---|---|
+| 31 O Limiar das Raizes | 3 plataformas dimensionais instaveis (aviso) ate a ilha; checkpoint DEPOIS do pouso e do primeiro risco; `umbraxis_31_legacy_fragment` (1o fragmento do Legado Celestial) na plataforma alta (Zuri); raizes e olho de Caeldron so como decoracao |
+| 32 As Fases Quebradas | 5 modulos em fila (barreira de Rocco, plataforma movel, esteira + elevadores, mare, muro + planeio) com 4 checkpoints entre eles; `memory_hidden_record_32`; o "atalho dimensional" NAO foi implementado |
+| 33 O Jardim dos Ecos | 2 conjuntos de pedras-eco (1: ilusoes piscam; 2: ilusoes finas) que estabilizam a travessia; projecoes da tripulacao (decoracao); inscricao no alto (Zuri) abre o portal `umbraxis_33_portal` para a S06; `umbraxis_33_crew_suit`, `memory_expedition_projection_33`; checkpoints antes das ilusoes e perto do portal |
+| 34 A Estrada para o Coracao | prensa-raiz sinalizada, barreira de Caeldron (Rocco), checkpoint antes do trecho dificil, 2 escaladas (Zuri), plataformas temporarias, resgate opcional `umbraxis_34_survivor`; o espelho de cosmeticos e so decoracao |
+| 35 A Ultima Mensagem | sintese das 5 mecanicas em ordem; terminal destranca o bau; `memory_last_message_35`; checkpoint depois da mensagem; "reduzir movimento" troca a plataforma movel por ponte fixa |
+| 36 Necryon e a Ultima Semente | chefe `NecryonBoss`: 1) combinacao (fechadura de 4 cristais), 2) pedra-eco real por evidencia (erro = -1 coracao + reinicia o ciclo), 3) ruptura (estabilizador, travessia, escalada, selar o nucleo); Golpe Triade (3 herois); `seed_umbraxis`, guardiao `necryon`, `relic_umbraxis`, `astralis_memory_umbraxis`; so a mensagem de reacao de Caeldron (SEM final/cutscene) |
+| S06 Camara da Primeira Expedicao | secreta: 1 conjunto de pedras-eco leves + fechadura de sequencia final; `umbraxis_s06_expedition_suit` e `memory_first_expedition_final_s06` |
+Nao implementado: arte final, Umbraxis jogavel no mapa, final/cutscene/Caeldron, atalho dimensional (32), seletor de cosmeticos (34), calibracao por playtest humano. Os modulos da fase 32/35 ficam todos na mesma cena (nao ha descarregamento real de mundos).
