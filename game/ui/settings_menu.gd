@@ -15,6 +15,10 @@ var _message: Label
 var _motion: CheckBox
 var _flashing: CheckBox
 var _updates: CheckBox
+var _touch_mode: OptionButton
+var _touch_size: OptionButton
+var _touch_opacity: OptionButton
+var _touch_mirror: CheckBox
 var _capturing: StringName = &""
 
 
@@ -24,9 +28,16 @@ func setup(store: SettingsStore) -> void:
 
 func _ready() -> void:
 	var box := VBoxContainer.new()
-	box.position = Vector2(440.0, 16.0)
 	box.custom_minimum_size = Vector2(400.0, 0.0)
-	add_child(box)
+	var scroll := ScrollContainer.new()
+	scroll.size = Vector2(1280.0, 720.0)
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	add_child(scroll)
+	var pad := MarginContainer.new()
+	pad.add_theme_constant_override(&"margin_left", 440)
+	pad.add_theme_constant_override(&"margin_top", 16)
+	pad.add_child(box)
+	scroll.add_child(pad)
 	var title := Label.new()
 	title.text = "CONFIGURACOES GRAFICAS"
 	title.add_theme_font_size_override(&"font_size", 30)
@@ -39,6 +50,14 @@ func _ready() -> void:
 	_motion = _flag(box, "Reduzir movimento (menos particulas, sem pulsos)", "reduce_motion")
 	_flashing = _flag(box, "Reduzir flashes (sem cores alternando)", "reduce_flashing")
 	_updates = _flag(box, "Avisar de atualizacoes ao abrir (usa a internet)", "check_updates")
+	var touch_title := Label.new()
+	touch_title.text = "CONTROLES DE TOQUE"
+	touch_title.add_theme_font_size_override(&"font_size", 22)
+	box.add_child(touch_title)
+	_touch_mode = _touch_option(box, "Mostrar", PackedStringArray(["Automatico", "Sempre", "Nunca"]), "touch_mode", TouchLayout.MODES)
+	_touch_size = _touch_option(box, "Tamanho", PackedStringArray(["Pequeno", "Medio", "Grande"]), "touch_size", [0, 1, 2])
+	_touch_opacity = _touch_option(box, "Opacidade", PackedStringArray(["Baixa", "Media", "Alta"]), "touch_opacity", [0, 1, 2])
+	_touch_mirror = _flag(box, "Inverter lados (modo canhoto)", "touch_mirror")
 	var keys_title := Label.new()
 	keys_title.text = "TECLAS"
 	keys_title.add_theme_font_size_override(&"font_size", 22)
@@ -144,3 +163,10 @@ func _flag(parent: Control, text: String, key: String) -> CheckBox:
 	c.toggled.connect(func(on: bool) -> void: _commit(key, on))
 	parent.add_child(c)
 	return c
+
+
+func _touch_option(parent: Control, label: String, items: PackedStringArray, key: String, values: Array) -> OptionButton:
+	var ob: OptionButton = _option(parent, label, items)
+	ob.select(maxi(values.find(_store.data[key]), 0))
+	ob.item_selected.connect(func(i: int) -> void: _commit(key, values[i]))
+	return ob

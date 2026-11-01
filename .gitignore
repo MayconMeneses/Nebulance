@@ -22,3 +22,4 @@ godot_mcp_config.json
 *.pdf
 docs/reference/
 installer/Output/
+.claude/worktrees/

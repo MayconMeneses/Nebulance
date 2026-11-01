@@ -8,7 +8,7 @@ var data: Dictionary = defaults()
 
 
 static func defaults() -> Dictionary:
-	return {"version": 1, "graphics_profile": "medium", "max_fps": 0, "vsync": true, "keys": {}, "reduce_motion": false, "reduce_flashing": false, "check_updates": true}
+	return {"version": 1, "graphics_profile": "medium", "max_fps": 0, "vsync": true, "keys": {}, "reduce_motion": false, "reduce_flashing": false, "check_updates": true, "touch_mode": "auto", "touch_size": 1, "touch_opacity": 1, "touch_mirror": false}
 
 
 func _init(settings_path: String) -> void:
@@ -32,7 +32,15 @@ func load_settings() -> bool:
 	var vsync: Variant = parsed.get("vsync")
 	if typeof(vsync) == TYPE_BOOL:
 		data["vsync"] = vsync
-	for flag in ["reduce_motion", "reduce_flashing", "check_updates"]:
+	if typeof(parsed.get("touch_mode")) == TYPE_STRING and parsed["touch_mode"] in TouchLayout.MODES:
+		data["touch_mode"] = parsed["touch_mode"]
+	var size_i: Variant = parsed.get("touch_size")
+	if typeof(size_i) in [TYPE_INT, TYPE_FLOAT] and int(size_i) >= 0 and int(size_i) < TouchLayout.SIZE_SCALES.size():
+		data["touch_size"] = int(size_i)
+	var opacity_i: Variant = parsed.get("touch_opacity")
+	if typeof(opacity_i) in [TYPE_INT, TYPE_FLOAT] and int(opacity_i) >= 0 and int(opacity_i) < TouchLayout.OPACITIES.size():
+		data["touch_opacity"] = int(opacity_i)
+	for flag in ["reduce_motion", "reduce_flashing", "check_updates", "touch_mirror"]:
 		if typeof(parsed.get(flag)) == TYPE_BOOL:
 			data[flag] = parsed[flag]
 	data["keys"] = KeyBindings.sanitize(parsed.get("keys"))

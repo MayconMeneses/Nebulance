@@ -145,6 +145,11 @@ func _start_level(level_id: String = "") -> void:
 	hud = Hud.new()
 	add_child(hud)
 	hud.bind(level)
+	if TouchLayout.should_show(settings.data["touch_mode"], DisplayServer.is_touchscreen_available()):
+		var touch := TouchControls.new()
+		touch.configure(settings.data)
+		level.add_child(touch)
+		touch.process_mode = Node.PROCESS_MODE_ALWAYS
 	audio.play_music("res://assets/audio/music_sylvara.wav")
 	if warmup_frames > 0:
 		level.rig.body.set_locked_state(MovementState.State.CUTSCENE)

@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="LevelDefinition" format=3]
+
+[ext_resource type="Script" path="res://game/progression/level_definition.gd" id="1_bx6to"]
+
+[resource]
+script = ExtResource("1_bx6to")
+level_id = &"aquarys_24"
+display_name = "Thalassa, a Vitoria-Regia"
+planet_id = &"aquarys"
+goal_text = "Liberte Thalassa e destrua a quarta semente"
+chest_id = &"aquarys_24_chest"
+coin_ids = PackedStringArray("aquarys_24_coin_01", "aquarys_24_coin_02", "aquarys_24_coin_03", "aquarys_24_coin_04", "aquarys_24_coin_05", "aquarys_24_coin_06")
+checkpoint_ids = PackedStringArray("aquarys_24_cp1")
+secret_item_ids = PackedStringArray()
+secret_memory_ids = PackedStringArray()
+rescue_ids = PackedStringArray()

@@ -4,6 +4,8 @@ extends Area3D
 
 @export var target_level: int = 0
 @export var prompt_text: String = "Pressione E para operar a comporta"
+## Desabilitada ate algo liberar (ex.: a etapa do chefe); o padrao e sempre disponivel.
+var enabled: bool = true
 var water: WaterBody
 
 var _mat: StandardMaterial3D
@@ -35,7 +37,7 @@ func can_interact() -> bool:
 
 
 func enabled_for_use() -> bool:
-	return water.level != target_level
+	return enabled and water.level != target_level
 
 
 func prompt() -> String:
