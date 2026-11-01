@@ -110,7 +110,6 @@ a velocidade fixa; progresso capturavel), `HydraulicPress` (ciclo fixo IDLE 2,0 
 Nao implementado em Mecatron: arte final (tudo graybox), restauracao visual do planeta, cutscene de libertacao, bracos/espinhos/campo magnetico do chefe alem das faixas de erupcao,
 magnetismo como forca (so polaridade de plataformas), segredo do acessorio no vagao elevado (fase 15), calibracao por playtest humano.
 
-## AQUARYS
 
 ### Fases 23-24 (graybox, com bots)
 Pecas novas: `TideFlux` (fluxo luminoso: acende quando todos os `WaterBody` exigidos estao nos niveis certos; opcionalmente e uma porta; estado derivado, nada a capturar), `SluiceControl.enabled` (comporta liberada por fase do chefe). Sem fisica de fluidos: cada reservatorio e um inteiro discreto (0..2).
@@ -120,3 +119,12 @@ Pecas novas: `TideFlux` (fluxo luminoso: acende quando todos os `WaterBody` exig
 | 24 Thalassa, a Vitoria-Regia | chefe: 1) comportas Oeste=2 + Leste=1 estabilizam o fluxo (ha uma comporta-isca do Leste que leva ao nivel errado), 2) a onda (reservatorio com degraus de 2 m) ergue a folha flutuante com o heroi ate o patamar, 3) desativar a protecao no alto; depois Golpe Triade com 3 herois; semente `seed_aquarys`, guardiao `thalassa`, `relic_aquarys`, `astralis_memory_aquarys`; Caeldron sente MEDO apos a quarta perda; os reservatorios reiniciam no checkpoint (snapshotable) |
 Aquarys passa a ser jogavel no mapa (`playable = true`); Aerion (indice 4) passa a ser o planeta ainda em producao.
 Nao implementado em Aquarys 23-24: arte final (tudo graybox), agua com fisica/visual de fluido, cutscene de libertacao, ataques do chefe alem das faixas de erupcao, portal real para Thalassa (a "entrada" e um arco decorativo; a ligacao e a ordem de fases), calibracao por playtest humano. As fases 21, 22 e a secreta S04 sao de outro trabalho.
+
+## AQUARYS (fases 19-24 + S04) — mecanica: mares e comportas (graybox, todas com bot)
+### Fases 21-22 + S04
+| Fase | Implementacao (resumo) |
+|---|---|
+| 21 Os Recifes Esquecidos | duas correntes (`ConveyorBelt`: uma a favor, outra contra, 3 m/s < Rocco); checkpoint `aquarys_21_cp1` ao alcancar o recife; 6 plataformas transparentes (`RupturePlatform`) em 2 grupos, estabilizadas por 2 `Mechanism` (`link_id` reef_a / reef_b); inscricao no alto (Zuri escala) abre o portal `aquarys_21_portal` para a S04; arquivo `memory_first_explorer_21` |
+| 22 A Onda Colossal | fuga: `ChaseWave` (7 m/s, comeca atras da largada em x=-8, gatilho x=44, depois do checkpoint x=34); Rocco quebra a barreira marcada, Zuri sobe o muro, Pipa planeia com vento ate a passarela alta; resgate opcional `aquarys_22_survivor`; laje elevada com moedas |
+| S04 Oceano Esquecido | secreta (fora de `MAIN_ORDER`): comporta + 3 plataformas flutuantes + degraus de metal; 9 moedas, `aquarys_s04_expedition_badge` e `memory_old_expedition_recording_s04` |
+Nao implementado: arte final (tudo graybox); a "plataforma transparente" da fase 21 reusa `RupturePlatform` (nao ha API de estabilizacao no `TideWalkway`); a onda da fase 22 e uma unica `ChaseWave` (nao ha agua visual invadindo o cenario); calibracao por playtest humano.
