@@ -109,3 +109,12 @@ a velocidade fixa; progresso capturavel), `HydraulicPress` (ciclo fixo IDLE 2,0 
 | S03 Oficina Zero | elevador + trilho de polaridade em espaco compacto; `mecatron_s03_tech_accessory` e `memory_astralis_maintenance_s03` |
 Nao implementado em Mecatron: arte final (tudo graybox), restauracao visual do planeta, cutscene de libertacao, bracos/espinhos/campo magnetico do chefe alem das faixas de erupcao,
 magnetismo como forca (so polaridade de plataformas), segredo do acessorio no vagao elevado (fase 15), calibracao por playtest humano.
+
+## AQUARYS (fases 19-24 + S04) — mecanica: mares e comportas (graybox, todas com bot)
+### Fases 21-22 + S04
+| Fase | Implementacao (resumo) |
+|---|---|
+| 21 Os Recifes Esquecidos | duas correntes (`ConveyorBelt`: uma a favor, outra contra, 3 m/s < Rocco); checkpoint `aquarys_21_cp1` ao alcancar o recife; 6 plataformas transparentes (`RupturePlatform`) em 2 grupos, estabilizadas por 2 `Mechanism` (`link_id` reef_a / reef_b); inscricao no alto (Zuri escala) abre o portal `aquarys_21_portal` para a S04; arquivo `memory_first_explorer_21` |
+| 22 A Onda Colossal | fuga: `ChaseWave` (7 m/s, comeca atras da largada em x=-8, gatilho x=44, depois do checkpoint x=34); Rocco quebra a barreira marcada, Zuri sobe o muro, Pipa planeia com vento ate a passarela alta; resgate opcional `aquarys_22_survivor`; laje elevada com moedas |
+| S04 Oceano Esquecido | secreta (fora de `MAIN_ORDER`): comporta + 3 plataformas flutuantes + degraus de metal; 9 moedas, `aquarys_s04_expedition_badge` e `memory_old_expedition_recording_s04` |
+Nao implementado: arte final (tudo graybox); a "plataforma transparente" da fase 21 reusa `RupturePlatform` (nao ha API de estabilizacao no `TideWalkway`); a onda da fase 22 e uma unica `ChaseWave` (nao ha agua visual invadindo o cenario); calibracao por playtest humano.
