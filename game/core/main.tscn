@@ -5,3 +5,4 @@
 [node name="Main" type="Node"]
 script = ExtResource("1_flow")
 warmup_frames = 24
+check_updates = true

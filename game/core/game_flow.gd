@@ -29,6 +29,9 @@ var settings_menu: SettingsMenu
 var map: GalaxyMap
 var origin_level: LevelScene
 var reaction_plays: int = 0
+## Consulta de atualizacao ao abrir (so o jogo real liga; testes e benchmark nao usam a rede).
+@export var check_updates: bool = false
+var latest_update: Dictionary = {}
 
 var _pause_layer: CanvasLayer
 
@@ -47,6 +50,11 @@ func _ready() -> void:
 	audio = AudioDirector.new()
 	add_child(audio)
 	_show_menu()
+	if check_updates and settings.data["check_updates"]:
+		var checker := UpdateChecker.new()
+		add_child(checker)
+		checker.update_available.connect(_on_update_available)
+		checker.check()
 
 
 ## skip_map: usado pelos testes para ir direto a fase (o fluxo normal passa pelo Mapa Galactico).
@@ -104,6 +112,14 @@ func _show_menu() -> void:
 	menu.quit_pressed.connect(func() -> void: get_tree().quit())
 	var has_data: bool = not loaded["data"].is_empty()
 	menu.refresh(has_data, loaded["message"], status != SaveService.Status.FUTURE_VERSION)
+	if not latest_update.is_empty():
+		menu.show_update(latest_update["version"], latest_update["url"])
+
+
+func _on_update_available(version: String, url: String) -> void:
+	latest_update = {"version": version, "url": url}
+	if menu != null:
+		menu.show_update(version, url)
 
 
 func _start_level(level_id: String = "") -> void:

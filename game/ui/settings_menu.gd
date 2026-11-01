@@ -14,6 +14,7 @@ var _key_buttons: Dictionary = {}
 var _message: Label
 var _motion: CheckBox
 var _flashing: CheckBox
+var _updates: CheckBox
 var _capturing: StringName = &""
 
 
@@ -37,6 +38,7 @@ func _ready() -> void:
 	box.add_child(_vsync)
 	_motion = _flag(box, "Reduzir movimento (menos particulas, sem pulsos)", "reduce_motion")
 	_flashing = _flag(box, "Reduzir flashes (sem cores alternando)", "reduce_flashing")
+	_updates = _flag(box, "Avisar de atualizacoes ao abrir (usa a internet)", "check_updates")
 	var keys_title := Label.new()
 	keys_title.text = "TECLAS"
 	keys_title.add_theme_font_size_override(&"font_size", 22)

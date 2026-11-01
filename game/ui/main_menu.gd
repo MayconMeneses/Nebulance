@@ -12,6 +12,8 @@ var _new_game: Button
 var _message: Label
 var _has_save: bool = false
 var _confirming: bool = false
+var _update_box: VBoxContainer
+var _update_url: String = ""
 
 
 func _ready() -> void:
@@ -45,6 +47,31 @@ func refresh(has_save: bool, message: String, allow_new_game: bool = true) -> vo
 
 
 ## Itens desativados nao recebem foco (a navegacao pula direto para o proximo item ativo).
+## Faixa de aviso de nova versao. "Baixar" abre a pagina da versao no navegador (nada e baixado pelo jogo); "Depois" dispensa.
+func show_update(version: String, url: String) -> void:
+	if not url.begins_with(UpdateChecker.TRUSTED_PREFIX):
+		return
+	_update_url = url
+	if _update_box != null:
+		_update_box.queue_free()
+	_update_box = VBoxContainer.new()
+	_update_box.position = Vector2(400.0, 40.0)
+	add_child(_update_box)
+	var label := Label.new()
+	label.text = "Nova versao disponivel: %s (voce tem %s)" % [version, GameVersion.CURRENT]
+	_update_box.add_child(label)
+	var row := HBoxContainer.new()
+	_update_box.add_child(row)
+	_button(row, "Baixar atualizacao", open_update_page)
+	_button(row, "Depois", func() -> void: _update_box.queue_free())
+	_update_focus_modes()
+
+
+func open_update_page() -> void:
+	if _update_url.begins_with(UpdateChecker.TRUSTED_PREFIX):
+		OS.shell_open(_update_url)
+
+
 func _update_focus_modes() -> void:
 	for b in find_children("*", "Button", true, false):
 		(b as Button).focus_mode = Control.FOCUS_NONE if (b as Button).disabled else Control.FOCUS_ALL
