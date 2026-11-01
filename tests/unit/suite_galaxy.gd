@@ -54,9 +54,9 @@ func _state(out: Array) -> void:
 			and GalaxyState.status(save0, 1) == S.LOCKED and GalaxyState.status(save0, 5) == S.LOCKED)
 	save0["world"]["completed_levels"].append("sylvara_01")
 	TestWorld.rec(out, "mapa: com progresso e semente viva = em perigo", GalaxyState.status(save0, 0) == S.IN_DANGER)
-	TestWorld.rec(out, "mapa: viajavel = jogavel E nao bloqueado (Cristalia abre depois de Sylvara; Mecatron ainda em producao)",
+	TestWorld.rec(out, "mapa: viajavel = jogavel E nao bloqueado (Cristalia abre depois de Sylvara; Mecatron abre depois de Cristalia; Aquarys ainda em producao)",
 			GalaxyState.can_travel(save0, 0) and not GalaxyState.can_travel(save0, 1) and GalaxyState.can_travel(GalaxyState.qa_save(1), 1)
-			and not GalaxyState.can_travel(GalaxyState.qa_save(2), 2))
+			and GalaxyState.can_travel(GalaxyState.qa_save(2), 2) and not GalaxyState.can_travel(GalaxyState.qa_save(3), 3))
 	TestWorld.rec(out, "mapa: destruir a semente remove so a raiz daquele planeta", GalaxyState.root_visible(save0, 0)
 			and not GalaxyState.root_visible(GalaxyState.qa_save(1), 0) and GalaxyState.root_visible(GalaxyState.qa_save(1), 1))
 	TestWorld.rec(out, "mapa: estado e funcao pura (nao altera o save lido)", GalaxyState.status(save0, 0) == GalaxyState.status(save0, 0))

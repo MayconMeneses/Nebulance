@@ -102,9 +102,9 @@ func _flow_and_map(tree: SceneTree, out: Array) -> void:
 	TestWorld.rec(out, "TC-028 Zythra: recarregar apos a vitoria abre a arena restaurada e o chefe nao ressuscita (nem apos morte)",
 			again.boss.is_defeated() and not again.chest.locked and flow.reaction_plays == 1)
 	var p: Dictionary = flow.profile
-	TestWorld.rec(out, "TC-028 mapa: Cristalia Salva (raiz removida) e Mecatron Disponivel (ainda em producao)",
+	TestWorld.rec(out, "TC-028 mapa: Cristalia Salva (raiz removida) e Mecatron Disponivel e viajavel",
 			GalaxyState.status(p, 1) == GalaxyState.Status.SAVED and not GalaxyState.root_visible(p, 1)
-			and GalaxyState.status(p, 2) == GalaxyState.Status.AVAILABLE and not GalaxyState.can_travel(p, 2))
+			and GalaxyState.status(p, 2) == GalaxyState.Status.AVAILABLE and GalaxyState.can_travel(p, 2))
 	TestWorld.rec(out, "mapa: viajar para Cristalia abre a proxima fase principal do planeta (nao a de Sylvara)",
 			LevelCatalog.next_for(SaveData.new_game(), "cristalia") == "cristalia_07")
 	tree.paused = false

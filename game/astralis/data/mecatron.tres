@@ -10,5 +10,6 @@ theme = "Maquinaria e magnetismo"
 mechanic = "Maquinas, esteiras e polaridade"
 guardian_name = "Ferrorraiz"
 seed_id = &"seed_mecatron"
+playable = true
 tint = Color(0.9411765, 0.5411765, 0.23137255, 1)
 secret_ids = PackedStringArray()

@@ -94,3 +94,18 @@ Nao implementado: restauracao visual do planeta, cutscene de libertacao, compart
 | 12 Zythra, a Orquidea de Cristal | chefe: 3 etapas (prisma ao nucleo; flor real x ilusoes; planeio de Pipa) + Golpe Triade com 3 herois; semente `seed_cristalia`, guardiao `zythra`, `relic_cristalia`, `astralis_memory_cristalia`; reacao de Caeldron (Cristalia): "Reconhece a Astralis; fissura forte" |
 | S02 Camara das Frequencias Perdidas | sequencia de 4 cristais musicais (ordem fixa, dica que pisca); itens Lente do Primeiro Explorador e item Prisma Cosmico |
 Nao implementado em Cristalia: restauracao visual do planeta, cutscene de libertacao, ilusoes visuais mais ricas do chefe (so a flor real x falsas), pétalas/projeteis do chefe alem das faixas de erupcao, texto/imagem do arquivo.
+
+## MECATRON (fases 13-18 + S03) — mecanica: esteiras, prensas e polaridade (graybox, todas com bot)
+Pecas novas: `ConveyorBelt` (corpo estatico com velocidade constante, sentido por alavanca), `PolarityPlatform` (elevador/trilho que vai ao outro polo
+a velocidade fixa; progresso capturavel), `HydraulicPress` (ciclo fixo IDLE 2,0 / aviso 0,8 / DOWN 0,6 / sobe 0,6; so fere em DOWN), `Mechanism.toggle` (alavanca que alterna), `GearDecor`.
+| Fase | Implementacao (resumo) |
+|---|---|
+| 13 O Porto das Engrenagens | esteira a favor, esteira contraria (correr contra), elevador por alavanca sobre a plataforma; checkpoint apos a esteira simples; item `mecatron_13_techgear_part` (1o componente TecnoGear) |
+| 14 As Esteiras de Titanio | barreira marcada (Rocco), esteira, 3 prensas em fases diferentes (aviso amarelo), rota alternativa de Zuri (escalada) ate `mecatron_14_industrial_decor`; checkpoint antes da sala |
+| 15 O Trem do Eclipse | MESMA geometria da fase 10 (vagoes moveis, resgate, onda de raizes, buraco) com tema industrial; DESVIO: o acessorio NAO esta num vagao elevado (fica ao lado do resgate) |
+| 16 O Labirinto Magnetico | 3 plataformas de polaridade (sobe, trilho sobre o vao, desce) + esteira rapida contraria (6 m/s > Rocco) que so cede com a alavanca do chao; beco com a pista `memory_workshop_clue_16` (a Oficina Zero nao tem portal aqui) |
+| 17 A Forja Autonoma | esteira + 2 prensas + 2 elevadores + esteira invertida; painel escondido no alto (Zuri) abre o portal `mecatron_17_portal` para a S03; arquivo `memory_failed_expedition_17`; item `mecatron_17_forge_core` |
+| 18 Ferrorraiz, o Cacto Mecanico | chefe: 1) dois interruptores ligados ao mesmo tempo (cada um dura 8 s), 2) ancora magnetica = elevador de polaridade que sobe com o heroi, 3) protecao no patamar alto; depois Golpe Triade com 3 herois; semente `seed_mecatron`, guardiao `ferrorraiz`, `relic_mecatron`, `astralis_memory_mecatron` |
+| S03 Oficina Zero | elevador + trilho de polaridade em espaco compacto; `mecatron_s03_tech_accessory` e `memory_astralis_maintenance_s03` |
+Nao implementado em Mecatron: arte final (tudo graybox), restauracao visual do planeta, cutscene de libertacao, bracos/espinhos/campo magnetico do chefe alem das faixas de erupcao,
+magnetismo como forca (so polaridade de plataformas), segredo do acessorio no vagao elevado (fase 15), calibracao por playtest humano.
