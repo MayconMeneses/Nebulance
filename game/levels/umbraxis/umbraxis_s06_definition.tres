@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="LevelDefinition" format=3]
+
+[ext_resource type="Script" path="res://game/progression/level_definition.gd" id="1_bx6to"]
+
+[resource]
+script = ExtResource("1_bx6to")
+level_id = &"umbraxis_s06"
+display_name = "Camara da Primeira Expedicao"
+planet_id = &"umbraxis"
+goal_text = "Resolva o puzzle final da expedicao e abra o bau"
+chest_id = &"umbraxis_s06_chest"
+coin_ids = PackedStringArray("umbraxis_s06_coin_01", "umbraxis_s06_coin_02", "umbraxis_s06_coin_03", "umbraxis_s06_coin_04", "umbraxis_s06_coin_05", "umbraxis_s06_coin_06", "umbraxis_s06_coin_07", "umbraxis_s06_coin_08", "umbraxis_s06_coin_09")
+checkpoint_ids = PackedStringArray()
+secret_item_ids = PackedStringArray("umbraxis_s06_expedition_suit")
+secret_memory_ids = PackedStringArray("memory_first_expedition_final_s06")
+rescue_ids = PackedStringArray()
