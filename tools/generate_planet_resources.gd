@@ -8,7 +8,7 @@ const DATA: Array = [
 			["sylvara_01_glow_scarf", "archive_symbol_sylvara_01"]],
 	["cristalia", "Cristalia", "Cristais e ressonancia", "Prismas, feixes e reflexos", "Zythra", "seed_cristalia", true, "A78BFA", ["cristalia_07_prism_symbol"]],
 	["mecatron", "Mecatron", "Maquinaria e magnetismo", "Maquinas, esteiras e polaridade", "Ferrorraiz", "seed_mecatron", true, "F08A3B", []],
-	["aquarys", "Aquarys", "Mares e tecnologia aquatica", "Comportas, mares e plataformas flutuantes", "Thalassa", "seed_aquarys", false, "23CFF5", []],
+	["aquarys", "Aquarys", "Mares e tecnologia aquatica", "Comportas, mares e plataformas flutuantes", "Thalassa", "seed_aquarys", true, "23CFF5", []],
 	["aerion", "Aerion", "Vento e gravidade", "Vento e gravidade localizada", "Zefrion", "seed_aerion", false, "EDB85E", []],
 	["umbraxis", "Umbraxis", "Coracao do Colapso", "Combinacao e ruptura dimensional", "Necryon", "seed_umbraxis", false, "C03CA8", []],
 ]
