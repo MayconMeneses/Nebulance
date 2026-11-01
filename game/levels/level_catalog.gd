@@ -25,13 +25,15 @@ const SCRIPTS: Dictionary = {
 	"mecatron_18": "res://game/levels/mecatron/mecatron_18.gd",
 	"aquarys_19": "res://game/levels/aquarys/aquarys_19.gd",
 	"aquarys_20": "res://game/levels/aquarys/aquarys_20.gd",
+	"aquarys_21": "res://game/levels/aquarys/aquarys_21.gd",
+	"aquarys_s04": "res://game/levels/aquarys/aquarys_s04.gd",
 	"mecatron_s03": "res://game/levels/mecatron/mecatron_s03.gd",
 }
 ## Ordem de jogo das fases PRINCIPAIS por planeta (as secretas so entram por portal).
 const MAIN_ORDER: Dictionary = {"sylvara": ["sylvara_01", "sylvara_02", "sylvara_03", "sylvara_04", "sylvara_05", "sylvara_06"],
 		"cristalia": ["cristalia_07", "cristalia_08", "cristalia_09", "cristalia_10", "cristalia_11", "cristalia_12"],
 		"mecatron": ["mecatron_13", "mecatron_14", "mecatron_15", "mecatron_16", "mecatron_17", "mecatron_18"],
-		"aquarys": ["aquarys_19", "aquarys_20"]}
+		"aquarys": ["aquarys_19", "aquarys_20", "aquarys_21"]}
 
 
 static func has(level_id: String) -> bool:
