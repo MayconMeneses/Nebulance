@@ -6,6 +6,7 @@ func run(tree: SceneTree) -> Array:
 	var out: Array = []
 	await _mechanics(tree, out)
 	await _bot(tree, out)
+	await _main_route_only(tree, out)
 	return out
 
 
@@ -92,3 +93,16 @@ func _bot(tree: SceneTree, out: Array) -> void:
 				and level.save["economy"]["best_grade_by_level"].get("aerion_25") == RewardLedger.Grade.GOLD,
 				"(moedas=%d faltam=%s vidas perdidas=%d)" % [c.session.coin_ids.size(), ",".join(missing), c.session.lives_lost])
 	level.queue_free()
+
+
+## O item Horizonte e segredo de verdade: a rota principal inteira (sem a escalada de Zuri) termina a fase sem ele.
+func _main_route_only(tree: SceneTree, out: Array) -> void:
+	var level: AerionLevel25 = _level(tree)
+	await tree.physics_frame
+	var bot := LevelBot25.new(tree, level)
+	bot.take_secret = false
+	var finished: bool = await bot.play()
+	TestWorld.rec(out, "TC-050 fase 25: a rota principal completa a fase SEM pegar o item Horizonte (e segredo, exige a escalada de Zuri)",
+			finished and level.controller.session.item_ids.is_empty(), "(itens=%s)" % [level.controller.session.item_ids])
+	level.queue_free()
+	await _settle(tree, 3)

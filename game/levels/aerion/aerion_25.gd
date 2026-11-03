@@ -2,7 +2,7 @@ class_name AerionLevel25
 extends LevelScene
 ## FASE 25 — O Porto das Nuvens (Aerion). Visual PROVISORIO. Chegada ao arquipelago suspenso: introducao a vento direcional (um vao
 ## com vento de popa empurra quem esta no ar), plataformas suspensas em degraus e altitude ate o antigo observatorio.
-## Checkpoint logo depois da primeira corrente. Item tematico: Horizonte.
+## Checkpoint logo depois da primeira corrente. Item tematico: Horizonte, em ilhota alta fora da rota (Zuri escala a face marcada).
 
 const DEFINITION: String = "res://game/levels/aerion/aerion_25_definition.tres"
 
@@ -31,7 +31,10 @@ func _build_geometry(b: SegmentBuilder) -> void:
 	b.solid(Vector3(51.5, 3.1, 0.0), Vector3(21.0, 1.0, 4.0), cloud)
 	b.zone(PhysicsLayers.ABYSS, "sky_25", Vector3(30.0, -9.0, 0.0), Vector3(120.0, 3.0, 4.0), Color(0.1, 0.1, 0.3, 0.2))
 	chest = b.chest("aerion_25_chest", Vector3(58.0, 4.2, 0.0))
-	b.pickup("aerion_25_horizon_item", Pickup.Kind.ITEM, Vector3(37.5, 3.2, 0.0))
+	# Segredo: ilhota alta so alcancavel por Zuri, pela face marcada ao lado dela; fora da rota principal (da ilhota cai-se de volta na nuvem).
+	b.zone(PhysicsLayers.CLIMBABLE, "climb_25", Vector3(45.4, 5.9, 0.0), Vector3(1.2, 4.6, 3.0), Color(0.3, 0.9, 0.4, 0.3))
+	b.solid(Vector3(49.5, 7.5, 0.0), Vector3(7.0, 0.5, 4.0), Color("EDB85E"))
+	b.pickup("aerion_25_horizon_item", Pickup.Kind.ITEM, Vector3(49.5, 8.6, 0.0))
 	# Observatorio nas nuvens (decoracao) e ilhas ao longe.
 	b.decor(Vector3(50.0, 6.6, -3.0), Vector3(6.0, 5.0, 2.0), Color("D9E4F2"), true)
 	b.decor(Vector3(50.0, 9.6, -3.0), Vector3(3.0, 1.2, 2.0), Color("EDB85E"), true)
