@@ -49,7 +49,7 @@ Regressao completa informada nos commits de merge: **792 checagens, 0 falhas** (
 | 31 | O Limiar das Raizes | suite_umbraxis_31 | LevelBot31 | 9 | 1/0/0 | raizes e olho de Caeldron so decoracao |
 | 32 | As Fases Quebradas | suite_umbraxis_32 | LevelBot32 | 9 | 0/1/0 | **sem atalho dimensional**; 5 modulos na mesma cena (sem descarregar mundos) |
 | 33 | O Jardim dos Ecos | suite_umbraxis_33 | LevelBot33 | 9 | 1/1/0 | projecoes da tripulacao so decoracao; portal para S06 |
-| 34 | A Estrada para o Coracao | suite_umbraxis_34 | LevelBot34 | 9 | 0/0/1 | espelho de cosmeticos e so decoracao (sem seletor) |
+| 34 | A Estrada para o Coracao | suite_umbraxis_34 | LevelBot34 | 9 | 0/0/1 | espelho de cosmeticos interativo (seletor por heroi; so a cor) |
 | 35 | A Ultima Mensagem | suite_umbraxis_35 | LevelBot35 | 9 | 0/1/0 | sintese das 5 mecanicas; "reduzir movimento" troca plataforma movel por ponte fixa |
 | 36 | Necryon e a Ultima Semente (chefe) | suite_umbraxis_36 | LevelBot36 | 6 | 0/0/0 | **sem final**: so a semente e a mensagem de reacao de Caeldron |
 | S06 | Camara da Primeira Expedicao | suite_umbraxis_s06 | LevelBotS06 | 9 | 1/1/0 | pedras-eco leves + fechadura final |
@@ -71,7 +71,7 @@ Desvios em relacao ao PDF, do mais ao menos visivel (todos documentados em `docs
 8. ~~S05: portal na ultima ilha~~ **corrigido**: o portal `aerion_28_portal` fica numa ilhota entre as duas ilhas de teto (inversoes 2 e 3), em gravidade normal; so o salto duplo de Zuri a alcanca (teste).
 9. **Fases 21 e 22**: plataforma transparente = `RupturePlatform`; onda = `ChaseWave` sem agua visual. **Fase 23**: a "entrada de Thalassa" e um arco decorativo.
 10. ~~Fase 30: gravidade leve~~ **reforcado**: ar rarefeito em volta do nucleo com escala 0,35 (antes 0,6) e zona maior; segue positivo para o planeio de Pipa (Pipa nao planeia com gravidade invertida).
-11. **Fase 32** (ABERTA): sem atalho dimensional; todos os modulos ficam na mesma cena (a regra de nao manter todos os mundos na memoria nao foi atendida de fato). **Fase 34**: sem seletor de cosmeticos.
+11. **Fase 32** (ABERTA): sem atalho dimensional; todos os modulos ficam na mesma cena (a regra de nao manter todos os mundos na memoria nao foi atendida de fato). ~~**Fase 34**: sem seletor de cosmeticos~~ **corrigido**: espelho interativo com seletor por heroi (`suite_cosmetics`).
 12. **Chefes**: so faixas de erupcao como ataque; sem mordidas, espinhos, petalas/projeteis, campo magnetico; sem cutscene de libertacao; sem compartimento selado da Astralis (6 simbolos); sem restauracao visual do planeta.
 13. **Ilusoes de Necryon** testadas por regra (evidencia pisca/forma); legibilidade para uma pessoa nao verificada.
 14. **Sinalizacao de vento**: agora tem faixas de particulas (somem com a corrente desligada, respeitam perfil grafico e "reduzir movimento"; suite_wind_streaks). **Gravidade** invertida/baixa segue so por zona translucida colorida. Aparencia nao avaliada por pessoa.

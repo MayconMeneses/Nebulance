@@ -33,7 +33,7 @@ BLOCKED e NOT_RUN **nao** sao aprovacao.
 | 016 | Bau repetido nao duplica | PASS | `suite_economy`, `suite_flow` |
 | 017 | Bronze -> Ouro credita a diferenca | PASS | `suite_economy` |
 | 018 | Loja recusa saldo insuficiente | NOT_RUN | loja nao existe no jogo |
-| 019 | Cosmetico nao altera atributos | NOT_RUN | cosmeticos existem so como itens unicos no save; nao ha equipar |
+| 019 | Cosmetico nao altera atributos | PASS | `suite_cosmetics`: vestir muda so a cor (velocidade, pulo e capsula iguais), por heroi, persiste no save e o espelho da fase 34 o seleciona; aparencia nao avaliada por pessoa |
 | 020 | Salvar, fechar, reabrir | PASS | `suite_save`, `suite_flow` (inclui segundo processo que reabre o save) |
 | 021 | Save invalido preserva backup | PASS | `suite_save`, `suite_flow`. Disco cheio/permissao: NOT_RUN |
 | 022 | Trocar dificuldade sem perder campanha | NOT_RUN | sem selecao de dificuldade na interface |

@@ -3,7 +3,7 @@ extends LevelScene
 ## FASE 34 — A Estrada para o Coracao (Umbraxis). Visual PROVISORIO. Ascensao em dois lances rumo ao nucleo: uma prensa-raiz com aviso
 ## (ataque sinalizado), a barreira que Caeldron enfraquecido tenta usar para bloquear a estrada (so cede ao impacto de Rocco), o checkpoint
 ## ANTES do trecho dificil, a escalada de Zuri, plataformas temporarias (de ruptura, com aviso) e a segunda escalada ate o bau.
-## Resgate opcional no meio da subida. O espelho de cosmeticos e so decoracao (a escolha de cosmeticos nao existe ainda).
+## Resgate opcional no meio da subida. O espelho de cosmeticos (interativo) troca o visual do heroi ativo entre o original e os cosmeticos possuidos (so a cor).
 
 const DEFINITION: String = "res://game/levels/umbraxis/umbraxis_34_definition.tres"
 
@@ -11,6 +11,7 @@ var press: HydraulicPress
 var barrier: ImpactBarrier
 var platforms: Array[RupturePlatform] = []
 var survivor: Rescue
+var mirror: CosmeticMirror
 
 
 func _definition_path() -> String:
@@ -48,11 +49,17 @@ func _build_geometry(b: SegmentBuilder) -> void:
 	b.zone(PhysicsLayers.CLIMBABLE, "climb_34b", Vector3(68.0, 7.75, 0.0), Vector3(1.2, 5.5, 3.0), Color(0.3, 0.9, 0.4, 0.3))
 	b.solid(Vector3(71.6, 9.75, 0.0), Vector3(6.0, 0.5, 4.0), Color("8C6BC4"))
 	b.chest("umbraxis_34_chest", Vector3(73.2, 10.6, 0.0))
-	# Espelho de cosmeticos (decoracao) e raizes colossais ao fundo.
-	b.decor(Vector3(70.6, 11.4, -2.4), Vector3(1.4, 2.0, 0.2), Color("23CFF5"), true)
+	# Espelho de cosmeticos (interativo, no patamar final) e raizes colossais ao fundo.
+	mirror = CosmeticMirror.new()
+	mirror.position = Vector3(70.0, 11.1, 0.0)
+	add_child(mirror)
 	for x in range(-2, 80, 9):
 		b.decor(Vector3(float(x), 6.0, -5.5), Vector3(2.0, 12.0 + float(x % 3) * 2.0, 2.0), Color("5B1F4F"), true)
 	var coins: Array[Vector3] = [Vector3(6, 1, 0), Vector3(10, 1, 0), Vector3(22, 1, 0), Vector3(38, 1, 0), Vector3(43.6, 6.0, 0),
 			Vector3(54.5, 6.0, 0), Vector3(66, 6.0, 0), Vector3(70.2, 11.0, 0), Vector3(72.0, 11.0, 0)]
 	for i in coins.size():
 		b.pickup("umbraxis_34_coin_%02d" % (i + 1), Pickup.Kind.COIN, coins[i])
+
+
+func _after_setup() -> void:
+	mirror.bind(save, rig, visual)

@@ -25,6 +25,9 @@ var current_clip: StringName = &""
 var model: Node3D
 var player: AnimationPlayer
 var uses_fallback: bool = false
+## Visual vestido (cosmetico): devolve o id do item do heroi pedido ("" = original). So colore; nao muda fisica nem habilidades.
+var outfit_provider: Callable = Callable()
+var outfit_id: String = ""
 
 var _body: ActorController
 var _profile: HeroProfile
@@ -52,6 +55,25 @@ func show_hero(profile: HeroProfile) -> void:
 	player = model.find_child("AnimationPlayer", true, false) as AnimationPlayer
 	current_clip = &""
 	_play(&"idle")
+	refresh_outfit()
+
+
+## Reaplica o cosmetico do heroi ativo no modelo atual (brilho translucido sobre todas as malhas).
+func refresh_outfit() -> void:
+	outfit_id = String(outfit_provider.call(hero_id)) if outfit_provider.is_valid() else ""
+	if model == null:
+		return
+	var overlay: StandardMaterial3D = null
+	if outfit_id != "":
+		var color: Color = CosmeticCatalog.tint_of(outfit_id)
+		overlay = StandardMaterial3D.new()
+		overlay.albedo_color = Color(color.r, color.g, color.b, 0.45)
+		overlay.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+		overlay.emission_enabled = true
+		overlay.emission = color
+		overlay.emission_energy_multiplier = 0.6
+	for n in model.find_children("*", "GeometryInstance3D", true, false):
+		(n as GeometryInstance3D).material_overlay = overlay
 
 
 func set_state(state: int) -> void:
