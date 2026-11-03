@@ -23,7 +23,7 @@ func is_active() -> bool:
 
 
 func physics_update(body: ActorController, intent: HeroIntent, delta: float) -> void:
-	_gliding = intent.special_held and not body.is_on_floor() and body.velocity.y <= 0.0 and _time_left > 0.0
+	_gliding = intent.special_held and body.gravity_dir > 0.0 and not body.is_on_floor() and body.velocity.y <= 0.0 and _time_left > 0.0
 	if not _gliding:
 		return
 	_time_left -= delta

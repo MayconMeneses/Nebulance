@@ -63,7 +63,7 @@ Sylvara: plataformas de ruptura/moveis, mecanismos e portao, onda de raizes, res
 Desvios em relacao ao PDF, do mais ao menos visivel (todos documentados em `docs/LEVEL_BIBLE.md`):
 1. **Sem final**: Necryon e a sexta semente existem, mas nao ha morte de Caeldron, cutscene de final nem pos-jogo (TC-035/036 NOT_RUN em `main` 89e5d90).
 2. **Umbraxis nao jogavel no mapa** (`playable = false`), embora as 7 fases existam e passem nos testes.
-3. **Fase 28**: o teto e um deslizamento sob gravidade invertida; o heroi nao anda no teto como piso, nao ha inversao de controles nem de camera.
+3. ~~Fase 28: teto so como deslizamento~~ **corrigido**: o teto vira piso (anda, pula, troca de heroi, modelo de cabeca para baixo). Controles e camera ficam sem inversao de proposito (o PDF pede clareza). Pipa nao plana dentro da zona invertida. Aparencia/conforto nao avaliados por pessoa.
 4. **Fase 27**: a "corrente invertida" que revela a ilha oculta foi simplificada; a ilha aparece quando o painel liga (e o painel e obrigatorio), entao a revelacao e fraca.
 5. **Fase 26**: nao ha a rota opcional nas nuvens; so o item sob a estrutura flutuante.
 6. ~~Fase 25: item Horizonte na rota principal~~ **corrigido**: agora numa ilhota alta, so por Zuri (a rota principal termina a fase sem ele; teste).

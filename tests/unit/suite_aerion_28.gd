@@ -44,9 +44,11 @@ func _mechanics(tree: SceneTree, out: Array) -> void:
 		i.move_axis = 1.0
 		return i
 	await _settle(tree, 30)
-	TestWorld.rec(out, "TC-053 fase 28: dentro da zona o heroi sobe ate o teto (y alto, encostado) e continua andando por ele",
-			ceiling_y > 4.5 and body.is_on_ceiling() and not body.is_on_floor() and body.global_position.x > x0 + 1.0 and body.global_position.y > 4.5,
+	TestWorld.rec(out, "TC-053 fase 28: dentro da zona o heroi sobe ate o teto e ele vira o piso (up_direction para baixo, is_on_floor) e anda por ele",
+			ceiling_y > 4.5 and body.gravity_dir < 0.0 and body.up_direction == Vector3.DOWN and body.is_on_floor()
+			and body.global_position.x > x0 + 1.0 and body.global_position.y > 4.5,
 			"(y=%.2f x0=%.1f x=%.1f)" % [ceiling_y, x0, body.global_position.x])
+	await _ceiling_actions(level, tree, out)
 	level.rig.body.intent_provider = Callable()
 	# Gravidade normal depois de sair da zona (sem teto: pula do chao e cai).
 	body.global_position = Vector3(2.0, 3.0, 0.0)
@@ -81,6 +83,45 @@ func _mechanics(tree: SceneTree, out: Array) -> void:
 	TestWorld.rec(out, "TC-057 fase 28: reaparecer devolve painel e portal ao estado do checkpoint (fechados)", not level.secret_panel.is_active and not level.portal.can_interact())
 	level.queue_free()
 	await _settle(tree, 3)
+
+
+## Teto como piso: pular, trocar de heroi, visual e voltar ao normal ao sair da zona.
+func _ceiling_actions(level: AerionLevel28, tree: SceneTree, out: Array) -> void:
+	var body: ActorController = level.rig.body
+	var press: Array[bool] = [true]
+	body.intent_provider = func() -> HeroIntent:
+		var i := HeroIntent.new()
+		i.jump_pressed = press[0]
+		i.jump_held = true
+		press[0] = false
+		return i
+	var ceiling_y: float = body.global_position.y
+	var lowest: float = ceiling_y
+	for i in 40:
+		await tree.physics_frame
+		lowest = minf(lowest, body.global_position.y)
+	body.intent_provider = Callable()
+	await _settle(tree, 40)
+	TestWorld.rec(out, "TC-053 fase 28: pular do teto vai PARA BAIXO (afasta do teto) e a gravidade invertida traz de volta ao teto",
+			ceiling_y - lowest > 0.8 and body.is_on_floor() and absf(body.global_position.y - ceiling_y) < 0.1,
+			"(teto y=%.2f ponto mais baixo=%.2f agora y=%.2f)" % [ceiling_y, lowest, body.global_position.y])
+	var result: HeroSwapper.Result = level.rig.request_swap(1)
+	await _settle(tree, 20)
+	TestWorld.rec(out, "TC-053 fase 28: trocar de heroi no teto nao enterra a capsula no teto (pes continuam no teto)",
+			result == HeroSwapper.Result.OK and body.is_on_floor() and body.gravity_dir < 0.0, "(troca=%d y=%.2f)" % [result, body.global_position.y])
+	level.rig.request_swap(0)
+	for i in 20:
+		await tree.process_frame
+	TestWorld.rec(out, "TC-053 fase 28: o modelo do heroi fica de cabeca para baixo no teto e normal no chao",
+			absf(level.visual.rotation.x) > 2.5 and level.visual.position.y > 0.0, "(rot.x=%.2f)" % level.visual.rotation.x)
+	body.global_position = Vector3(2.0, 3.0, 0.0)
+	body.velocity = Vector3.ZERO
+	await _settle(tree, 60)
+	for i in 30:
+		await tree.process_frame
+	TestWorld.rec(out, "TC-053 fase 28: ao sair da zona a gravidade e o modelo voltam ao normal (cai e pousa no chao)",
+			body.gravity_dir > 0.0 and body.up_direction == Vector3.UP and body.is_on_floor() and level.visual.rotation.x < 0.3
+			and level.visual.position.y < 0.0)
 
 
 func _bot(tree: SceneTree, out: Array) -> void:

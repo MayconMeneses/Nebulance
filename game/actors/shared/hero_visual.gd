@@ -71,6 +71,11 @@ func _process(delta: float) -> void:
 			player.speed_scale = 1.0
 	var target_y: float = 0.0 if facing_target >= 0.0 else PI
 	rotation.y = lerp_angle(rotation.y, target_y, clampf(18.0 * delta, 0.0, 1.0))
+	if _body != null and _profile != null:
+		# Teto como piso (gravidade invertida): o modelo vira de cabeca para baixo e os pes ficam no alto da capsula.
+		var upside_down: bool = _body.gravity_dir < 0.0
+		rotation.x = lerp_angle(rotation.x, PI if upside_down else 0.0, clampf(18.0 * delta, 0.0, 1.0))
+		position.y = -_profile.capsule_height * 0.5 * _body.gravity_dir
 
 
 func _play(clip: StringName) -> void:

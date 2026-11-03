@@ -32,5 +32,5 @@ func physics_update(body: ActorController, intent: HeroIntent, _delta: float) ->
 		body.velocity = Vector3(0.0, climb_speed, 0.0)
 		return
 	if not body.is_on_floor() and intent.jump_pressed and not body.consumed_jump and not _air_jump_used:
-		body.velocity.y = body.profile.tuning.jump_velocity * air_jump_factor
+		body.velocity.y = body.profile.tuning.jump_velocity * air_jump_factor * body.gravity_dir
 		_air_jump_used = true

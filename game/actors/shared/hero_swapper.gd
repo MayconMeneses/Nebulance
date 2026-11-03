@@ -31,9 +31,10 @@ func _fits(body: ActorController, target: HeroProfile) -> bool:
 	var candidate := CapsuleShape3D.new()
 	candidate.radius = target.capsule_radius
 	candidate.height = target.capsule_height
-	var feet_y: float = body.global_position.y - current.height * 0.5
+	var g: float = body.gravity_dir
+	var feet_y: float = body.global_position.y - current.height * 0.5 * g
 	var xform: Transform3D = body.collision_shape.global_transform
-	xform.origin.y = feet_y + target.capsule_height * 0.5 + FEET_EPSILON
+	xform.origin.y = feet_y + (target.capsule_height * 0.5 + FEET_EPSILON) * g
 	var hits: Array[Object] = ShapeProbe.overlapping(body.get_world_3d(), candidate, xform,
 			PhysicsLayers.WORLD, [body.get_rid()] as Array[RID], false, true)
 	return hits.is_empty()

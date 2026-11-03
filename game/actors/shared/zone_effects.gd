@@ -20,3 +20,13 @@ static func gravity_scale(body: ActorController) -> float:
 		if value is float:
 			scale = minf(scale, value)
 	return scale
+
+
+## Abismo custa uma vida; perigo causa dano (so com vitais ligados).
+static func check_hazards(body: ActorController) -> void:
+	if body.vitals == null:
+		return
+	if not body.overlaps(PhysicsLayers.ABYSS).is_empty():
+		body.vitals.fall()
+	elif not body.overlaps(PhysicsLayers.HAZARD).is_empty():
+		body.take_hit()

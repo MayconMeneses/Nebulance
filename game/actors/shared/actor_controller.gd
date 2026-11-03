@@ -14,6 +14,8 @@ var state: int = MovementState.State.IDLE
 var facing: float = 1.0
 var consumed_jump: bool = false
 var airborne_time: float = 0.0
+## Referencial de gravidade (ver GravityFrame): +1 normal, -1 em zona invertida (o teto vira piso).
+var gravity_dir: float = 1.0
 var collision_shape: CollisionShape3D
 
 var _ability: HeroAbility = HeroAbility.new()
@@ -40,7 +42,7 @@ func apply_profile(new_profile: HeroProfile, keep_feet: bool = true) -> void:
 		_ready()
 	var capsule := collision_shape.shape as CapsuleShape3D
 	if keep_feet:
-		position.y += (new_profile.capsule_height - capsule.height) * 0.5
+		position.y += (new_profile.capsule_height - capsule.height) * 0.5 * gravity_dir
 	capsule.radius = new_profile.capsule_radius
 	capsule.height = new_profile.capsule_height
 	profile = new_profile
@@ -84,13 +86,14 @@ func _physics_process(delta: float) -> void:
 	if profile == null:
 		return
 	var tuning: MovementTuning = profile.tuning
+	var flipped: bool = _sync_gravity_dir()
 	var blocked: bool = _hurt > 0.0 or MovementState.blocks_input(state)
 	var intent: HeroIntent = HeroIntent.new() if blocked else _fetch_intent()
 	current_intent = intent
 	if vitals != null:
 		vitals.tick(delta)
 	_hurt = maxf(_hurt - delta, 0.0)
-	var on_floor: bool = is_on_floor()
+	var on_floor: bool = is_on_floor() and not flipped
 	_update_timers(on_floor, delta, tuning)
 	consumed_jump = false
 	if not _ability.controls_motion():
@@ -123,14 +126,21 @@ func _update_timers(on_floor: bool, delta: float, tuning: MovementTuning) -> voi
 
 
 func _apply_gravity(delta: float, tuning: MovementTuning, on_floor: bool) -> void:
-	var scale: float = ZoneEffects.gravity_scale(self)
-	if on_floor and scale >= 0.0:
-		velocity.y = maxf(velocity.y, 0.0)
-	else:
-		velocity.y = maxf(velocity.y - tuning.gravity * scale * delta, -tuning.max_fall_speed)
-		if scale < 0.0:
-			# Zona de gravidade invertida: sobe ate o teto (velocidade limitada) e fica encostado nele.
-			velocity.y = minf(velocity.y, tuning.max_fall_speed * 0.5)
+	velocity.y = GravityFrame.step(velocity.y, gravity_dir, ZoneEffects.gravity_scale(self), on_floor, tuning.gravity, tuning.max_fall_speed, delta)
+
+
+## Acompanha a zona de gravidade: ao virar, o "para cima" do corpo vira (o teto passa a ser piso) e nada da gravidade antiga sobra.
+func _sync_gravity_dir() -> bool:
+	var g: float = GravityFrame.dir_of(ZoneEffects.gravity_scale(self))
+	if g == gravity_dir:
+		return false
+	gravity_dir = g
+	up_direction = Vector3(0.0, g, 0.0)
+	velocity.y = 0.0
+	_coyote = 0.0
+	_buffer = 0.0
+	_jumping = false
+	return true
 
 
 func _apply_horizontal(intent: HeroIntent, delta: float, tuning: MovementTuning, on_floor: bool) -> void:
@@ -148,12 +158,12 @@ func _apply_jump(intent: HeroIntent, tuning: MovementTuning, on_floor: bool) -> 
 	if intent.jump_pressed:
 		_buffer = tuning.jump_buffer
 	if _buffer > 0.0 and (on_floor or _coyote > 0.0):
-		velocity.y = tuning.jump_velocity
+		velocity.y = tuning.jump_velocity * gravity_dir
 		_buffer = 0.0
 		_coyote = 0.0
 		_jumping = true
 		consumed_jump = true
-	elif _jumping and not intent.jump_held and velocity.y > 0.0:
+	elif _jumping and not intent.jump_held and velocity.y * gravity_dir > 0.0:
 		velocity.y *= tuning.jump_cut
 		_jumping = false
 
@@ -164,17 +174,8 @@ func _after_move() -> void:
 		_ability.on_landed()
 		landed.emit()
 	_was_on_floor = on_floor
-	_check_zones()
+	ZoneEffects.check_hazards(self)
 	_update_state(on_floor)
-
-
-func _check_zones() -> void:
-	if vitals == null:
-		return
-	if not overlaps(PhysicsLayers.ABYSS).is_empty():
-		vitals.fall()
-	elif not overlaps(PhysicsLayers.HAZARD).is_empty():
-		take_hit()
 
 
 func _update_state(on_floor: bool) -> void:
@@ -187,7 +188,7 @@ func _update_state(on_floor: bool) -> void:
 	elif consumed_jump:
 		_set_state(MovementState.State.TAKEOFF)
 	elif not on_floor:
-		_set_state(MovementState.State.AIRBORNE if velocity.y > 0.0 else MovementState.State.FALL)
+		_set_state(MovementState.State.AIRBORNE if velocity.y * gravity_dir > 0.0 else MovementState.State.FALL)
 	else:
 		_set_state(MovementState.State.RUN if absf(velocity.x) > 0.1 else MovementState.State.IDLE)
 

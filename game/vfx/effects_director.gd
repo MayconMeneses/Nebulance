@@ -22,7 +22,7 @@ var _body: ActorController
 func bind(controller: LevelController, body: ActorController) -> void:
 	_body = body
 	controller.sfx_requested.connect(_on_sfx)
-	body.landed.connect(func() -> void: burst(&"land", body.global_position + Vector3(0.0, -body.collision_shape.shape.get("height") * 0.5, 0.0)))
+	body.landed.connect(func() -> void: burst(&"land", body.global_position + Vector3(0.0, -body.collision_shape.shape.get("height") * 0.5 * body.gravity_dir, 0.0)))
 
 
 func burst(kind: StringName, at: Vector3) -> CPUParticles3D:

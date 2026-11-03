@@ -1,8 +1,9 @@
 class_name AerionLevel28
 extends LevelScene
 ## FASE 28 — O Ceu de Cabeca para Baixo (Aerion). Visual PROVISORIO. Gravidade local INVERTIDA em areas definidas (zonas violeta com
-## simbolos no chao): quem entra sobe ate o teto da zona e segue encostado nele (o teto vira trajeto) ate sair, quando volta a cair.
-## Tres inversoes: um poco, um pilar alto e um poco longo. Nada de controles ou camera invertidos. Paisagem em plano duplo com
+## simbolos no chao): quem entra sobe ate o teto da zona e o teto vira o PISO (up_direction invertida: anda, pula para baixo e volta ao teto,
+## com o modelo de cabeca para baixo) ate sair da zona, quando volta a cair. Tres inversoes: um poco, um pilar alto e um poco longo.
+## Controles e camera NAO sao invertidos (o PDF pede que "preservem clareza": esquerda continua esquerda). Paisagem em plano duplo com
 ## templos espelhados. Checkpoint antes da primeira inversao complexa (a do pilar).
 
 const DEFINITION: String = "res://game/levels/aerion/aerion_28_definition.tres"
