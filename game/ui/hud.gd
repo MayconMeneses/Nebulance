@@ -9,11 +9,14 @@ var _hero_label: Label
 var _coins_label: Label
 var _goal_label: Label
 var _prompt_label: Label
+## Verdadeiro quando os controles de toque estao na tela (as dicas citam botoes em vez de teclas).
+var touch: bool = false
 
 
 func bind(level: LevelScene) -> void:
 	_level = level
-	level.controller.prompt_changed.connect(func(text: String) -> void: _prompt_label.text = text)
+	level.controller.prompt_changed.connect(func(text: String) -> void:
+		_prompt_label.text = PromptText.localize(text, KeyBindings.key_name(&"interact"), touch))
 
 
 func _ready() -> void:
@@ -35,7 +38,8 @@ func _process(_delta: float) -> void:
 	if _level == null or _level.rig == null:
 		return
 	var rig: TrioRig = _level.rig
-	_hero_label.text = "Heroi: %s   (%s/%s troca)" % [rig.body.profile.display_name, KeyBindings.key_name(&"swap_prev"), KeyBindings.key_name(&"swap_next")]
+	_hero_label.text = "Heroi: %s   (%s)" % [rig.body.profile.display_name,
+			PromptText.swap_hint(KeyBindings.key_name(&"swap_prev"), KeyBindings.key_name(&"swap_next"), touch)]
 	_fill(_lives_box, rig.vitals.lives, rig.difficulty.lives_per_level, Color("F08A3B"))
 	_fill(_hearts_box, rig.vitals.hearts, rig.difficulty.hearts_per_attempt, Color("DE5145"))
 	_coins_label.text = "Moedas: %d / %d" % [_level.controller.session.coin_ids.size(), _level.definition.coin_ids.size()]

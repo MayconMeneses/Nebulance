@@ -25,8 +25,10 @@ static func start(flow: GameFlow, level_id: String) -> void:
 		flow.level.connect("seed_destroyed", flow._on_seed_destroyed)
 	flow.hud = Hud.new()
 	flow.add_child(flow.hud)
+	var show_touch: bool = TouchLayout.should_show(flow.settings.data["touch_mode"], DisplayServer.is_touchscreen_available())
+	flow.hud.touch = show_touch
 	flow.hud.bind(flow.level)
-	if TouchLayout.should_show(flow.settings.data["touch_mode"], DisplayServer.is_touchscreen_available()):
+	if show_touch:
 		var touch := TouchControls.new()
 		touch.configure(flow.settings.data)
 		flow.level.add_child(touch)
