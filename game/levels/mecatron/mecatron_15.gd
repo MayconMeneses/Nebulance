@@ -2,6 +2,7 @@ class_name MecatronLevel15
 extends LevelScene
 ## FASE 15 — O Trem do Eclipse (Mecatron). Visual PROVISORIO. Vagoes maglev em movimento sobre os tuneis da fabrica, resgate de uma criatura
 ## e raizes que ameacam os trilhos (perseguicao) depois do checkpoint, com um buraco para pular. Queda = 1 vida.
+## O colecionavel fica num vagao elevado antes da perseguicao (opcional: exige o salto duplo de Zuri).
 
 const DEFINITION: String = "res://game/levels/mecatron/mecatron_15_definition.tres"
 
@@ -36,9 +37,10 @@ func _build_geometry(b: SegmentBuilder) -> void:
 	add_child(_wave)
 	for x in range(-6, 120, 7):
 		b.decor(Vector3(float(x), 2.0, -4.0), Vector3(1.4, 4.0 + float(x % 3), 1.4), Color("8A5A2B"), true)
-	# Colecionavel em trilho lateral: item no trilho (decoracao ao fundo) da ilha do resgate.
-	b.decor(Vector3(30.0, 0.4, -3.0), Vector3(8.0, 0.2, 0.4), Color("F08A3B"), true)
-	b.pickup("mecatron_15_rail_collectible", Pickup.Kind.ITEM, Vector3(30.5, 1.0, 0.0))
+	# Colecionavel num vagao elevado (parado, no trilho lateral) depois da segunda plataforma, antes da perseguicao: topo a 2,4 m (vao livre de 2,2 m por baixo), so o salto duplo de Zuri o alcanca.
+	b.decor(Vector3(48.5, 1.1, -3.0), Vector3(8.0, 0.2, 0.4), Color("F08A3B"), true)
+	b.solid(Vector3(48.5, 2.3, 0.0), Vector3(3.0, 0.2, 3.0), Color("F08A3B"))
+	b.pickup("mecatron_15_rail_collectible", Pickup.Kind.ITEM, Vector3(48.5, 3.4, 0.0))
 	var coins: Array[Vector3] = [Vector3(6, 1, 0), Vector3(12, 1, 0), Vector3(26, 1, 0), Vector3(46, 1, 0), Vector3(52, 1, 0),
 			Vector3(62, 1, 0), Vector3(72, 1, 0), Vector3(88, 1, 0), Vector3(100, 1, 0)]
 	for i in coins.size():

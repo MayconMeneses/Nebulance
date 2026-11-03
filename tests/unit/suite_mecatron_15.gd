@@ -5,6 +5,7 @@ extends RefCounted
 func run(tree: SceneTree) -> Array:
 	var out: Array = []
 	await _mechanics(tree, out)
+	await _wagon(tree, out)
 	await _bot(tree, out)
 	return out
 
@@ -75,3 +76,40 @@ func _bot(tree: SceneTree, out: Array) -> void:
 				c.session.lives_lost == 0 and level.save["economy"]["best_grade_by_level"].get("mecatron_15") >= RewardLedger.Grade.SILVER
 				and level.save["story"]["rescued_creatures"] == ["mecatron_15_creature"], "(vidas perdidas=%d)" % c.session.lives_lost)
 	level.queue_free()
+
+
+## O colecionavel do trilho esta num vagao elevado (topo a 2,4 m): Rocco, com um salto so, nao o alcanca; Zuri, com o salto duplo, sim.
+func _wagon(tree: SceneTree, out: Array) -> void:
+	var level: MecatronLevel15 = _level(tree)
+	await tree.physics_frame
+	var rocco: Dictionary = await _jump_at_wagon(level, tree, 0, 1)
+	var zuri: Dictionary = await _jump_at_wagon(level, tree, 1, 2)
+	TestWorld.rec(out, "fase 15: o colecionavel fica num vagao elevado; Rocco (um salto) nao o pega e Zuri (salto duplo) pega e pousa nele",
+			not rocco["item"] and zuri["item"] and zuri["foot"] > 2.2 and rocco["foot"] < 1.0,
+			"(Rocco item=%s y=%.2f; Zuri item=%s y=%.2f)" % [rocco["item"], rocco["foot"], zuri["item"], zuri["foot"]])
+	level.queue_free()
+	await tree.physics_frame
+
+
+func _jump_at_wagon(level: MecatronLevel15, tree: SceneTree, hero: int, presses: int) -> Dictionary:
+	var body: ActorController = level.rig.body
+	level.rig.request_swap(hero)
+	for i in 10:
+		await tree.physics_frame
+	body.global_position = Vector3(46.0, 0.9, 0.0)
+	body.velocity = Vector3.ZERO
+	for i in 20:
+		await tree.physics_frame
+	var counter: Array[int] = [0]
+	body.intent_provider = func() -> HeroIntent:
+		var i := HeroIntent.new()
+		var n: int = counter[0]
+		counter[0] += 1
+		i.jump_pressed = (n == 0) or (presses > 1 and n == 21)
+		i.jump_held = n < 30
+		i.move_axis = 0.35
+		return i
+	for i in 100:
+		await tree.physics_frame
+	body.intent_provider = Callable()
+	return {"item": "mecatron_15_rail_collectible" in level.controller.session.item_ids, "foot": body.global_position.y - 0.75}

@@ -67,7 +67,7 @@ Desvios em relacao ao PDF, do mais ao menos visivel (todos documentados em `docs
 4. ~~Fase 27: corrente invertida fraca~~ **corrigido**: uma valvula opcional no fim do corredor INVERTE uma terceira corrente (para baixo) e so entao a ilha oculta com a pista do portal aparece; o painel sozinho nao revela (a rota principal termina a fase sem a pista; teste).
 5. ~~Fase 26: sem rota opcional nas nuvens~~ **corrigido**: segunda escalada de Zuri ate uma ilha de nuvem (item `aerion_26_cloud_seed`) e planeio de Pipa dela ate a ilha do bau; a rota principal nao passa por ela (teste).
 6. ~~Fase 25: item Horizonte na rota principal~~ **corrigido**: agora numa ilhota alta, so por Zuri (a rota principal termina a fase sem ele; teste).
-7. **Fase 15**: acessorio nao esta num vagao elevado; geometria reaproveitada da fase 10.
+7. ~~Fase 15: acessorio fora de vagao elevado~~ **corrigido**: o colecionavel esta num vagao elevado (so Zuri, com o salto duplo; teste). A geometria base ainda e a da fase 10.
 8. ~~S05: portal na ultima ilha~~ **corrigido**: o portal `aerion_28_portal` fica numa ilhota entre as duas ilhas de teto (inversoes 2 e 3), em gravidade normal; so o salto duplo de Zuri a alcanca (teste).
 9. **Fases 21 e 22**: plataforma transparente = `RupturePlatform`; onda = `ChaseWave` sem agua visual. **Fase 23**: a "entrada de Thalassa" e um arco decorativo.
 10. ~~Fase 30: gravidade leve~~ **reforcado**: ar rarefeito em volta do nucleo com escala 0,35 (antes 0,6) e zona maior; segue positivo para o planeio de Pipa (Pipa nao planeia com gravidade invertida).
