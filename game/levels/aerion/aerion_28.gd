@@ -39,7 +39,9 @@ func _build_geometry(b: SegmentBuilder) -> void:
 	b.zone(PhysicsLayers.ABYSS, "sky_28", Vector3(45.0, -9.0, 0.0), Vector3(130.0, 3.0, 4.0), Color(0.1, 0.1, 0.3, 0.2))
 	chest = b.chest("aerion_28_chest", Vector3(86.0, 0.6, 0.0))
 	b.pickup("aerion_28_gravity_clue", Pickup.Kind.ITEM, Vector3(50.0, 4.8, 0.0))
-	# Painel escondido (pista na fase 27) que abre o portal da S05 (Jardim Sem Gravidade) na ilha final.
+	# Ilhota do portal entre as duas ilhas de teto (inversoes 2 e 3), em gravidade normal: so o salto duplo de Zuri a alcanca (topo 2,3 m).
+	b.solid(Vector3(57.0, 2.05, 0.0), Vector3(2.4, 0.5, 3.0), Color("EDB85E"))
+	# Painel escondido (pista na fase 27) que abre o portal da S05 (Jardim Sem Gravidade) sobre a ilhota.
 	secret_panel = Mechanism.new()
 	secret_panel.mechanism_id = &"aerion_28_secret_panel"
 	secret_panel.prompt_text = "Pressione E para ligar o painel de gravidade"
@@ -49,7 +51,7 @@ func _build_geometry(b: SegmentBuilder) -> void:
 	portal.portal_id = &"aerion_28_portal"
 	portal.destination_level_id = &"aerion_s05"
 	portal.requires_open = true
-	portal.position = Vector3(90.5, 1.2, 0.0)
+	portal.position = Vector3(57.0, 3.5, 0.0)
 	add_child(portal)
 	# Simbolos de inversao no chao, na entrada de cada zona (seta para cima).
 	for sx in [15.0, 41.0, 59.0]:

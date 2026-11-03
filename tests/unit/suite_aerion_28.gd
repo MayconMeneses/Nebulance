@@ -5,6 +5,7 @@ extends RefCounted
 func run(tree: SceneTree) -> Array:
 	var out: Array = []
 	await _mechanics(tree, out)
+	await _portal_islet(tree, out)
 	await _bot(tree, out)
 	return out
 
@@ -143,3 +144,39 @@ func _bot(tree: SceneTree, out: Array) -> void:
 				and level.save["economy"]["best_grade_by_level"].get("aerion_28") == RewardLedger.Grade.GOLD,
 				"(moedas=%d faltam=%s vidas perdidas=%d)" % [c.session.coin_ids.size(), ",".join(missing), c.session.lives_lost])
 	level.queue_free()
+
+
+## O portal fica numa ilhota entre as duas ilhas de teto: Zuri a alcanca com o salto duplo; Rocco, com um salto so, nao.
+func _portal_islet(tree: SceneTree, out: Array) -> void:
+	var level: AerionLevel28 = _level(tree)
+	await _settle(tree, 3)
+	var body: ActorController = level.rig.body
+	var rocco_top: float = await _jump_up(level, tree, 0, 1)
+	var zuri_top: float = await _jump_up(level, tree, 1, 2)
+	TestWorld.rec(out, "S05 portal: o portal fica sobre uma ilhota entre as duas ilhas de teto, fora da gravidade invertida; so o salto duplo de Zuri a alcanca",
+			absf(level.portal.position.x - 57.0) < 0.1 and level.portal.position.y > 3.0 and ZoneEffects.gravity_scale(body) == 1.0 and rocco_top < 1.0
+			and zuri_top > 1.9, "(Rocco y=%.2f Zuri y=%.2f)" % [rocco_top, zuri_top])
+	level.queue_free()
+	await _settle(tree, 3)
+
+
+## Troca para o heroi, pula `presses` vezes ao lado da ilhota (x=54,9) e devolve a altura dos pes ao fim (ilhota: pes em ~2,2).
+func _jump_up(level: AerionLevel28, tree: SceneTree, hero: int, presses: int) -> float:
+	var body: ActorController = level.rig.body
+	level.rig.request_swap(hero)
+	await _settle(tree, 10)
+	body.global_position = Vector3(54.9, 0.9, 0.0)
+	body.velocity = Vector3.ZERO
+	await _settle(tree, 20)
+	var counter: Array[int] = [0]
+	body.intent_provider = func() -> HeroIntent:
+		var i := HeroIntent.new()
+		var n: int = counter[0]
+		counter[0] += 1
+		i.jump_pressed = (n == 0) or (presses > 1 and n == 21)
+		i.jump_held = n < 30
+		i.move_axis = 0.35
+		return i
+	await _settle(tree, 100)
+	body.intent_provider = Callable()
+	return body.global_position.y - 0.75
