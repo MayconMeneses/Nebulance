@@ -79,46 +79,15 @@ func continue_game(skip_map: bool = false, level_id: String = "") -> void:
 
 
 func _show_map() -> void:
-	if menu != null:
-		menu.queue_free()
-		menu = null
-	state = State.MAP
-	map = GalaxyMap.new()
-	add_child(map)
-	map.show_state(profile)
-	map.travel_requested.connect(func(planet_id: StringName) -> void: _start_level(LevelCatalog.next_for(profile, String(planet_id))))
-	map.back_pressed.connect(_back_to_menu)
-	map.credits_requested.connect(func() -> void: _show_credits(false))
+	FlowMenus.show_map(self)
 
 
 func show_settings() -> void:
-	if menu != null:
-		menu.queue_free()
-		menu = null
-	settings_menu = SettingsMenu.new()
-	settings_menu.setup(settings)
-	add_child(settings_menu)
-	settings_menu.changed.connect(func(data: Dictionary) -> void: GraphicsApplier.apply(get_viewport(), data, get_tree()))
-	settings_menu.back_pressed.connect(func() -> void:
-		settings_menu.queue_free()
-		settings_menu = null
-		_show_menu())
+	FlowMenus.show_settings(self)
 
 
 func _show_menu() -> void:
-	state = State.MAIN_MENU
-	var loaded: Dictionary = service.load_save()
-	var status: int = loaded["status"]
-	menu = MainMenu.new()
-	add_child(menu)
-	menu.continue_pressed.connect(continue_game)
-	menu.new_game_pressed.connect(start_new_game)
-	menu.settings_pressed.connect(show_settings)
-	menu.quit_pressed.connect(func() -> void: get_tree().quit())
-	var has_data: bool = not loaded["data"].is_empty()
-	menu.refresh(has_data, loaded["message"], status != SaveService.Status.FUTURE_VERSION)
-	if not latest_update.is_empty():
-		menu.show_update(latest_update["version"], latest_update["url"])
+	FlowMenus.show_menu(self)
 
 
 func _on_update_available(version: String, url: String) -> void:
@@ -128,139 +97,36 @@ func _on_update_available(version: String, url: String) -> void:
 
 
 func _start_level(level_id: String = "") -> void:
-	if menu != null:
-		menu.queue_free()
-		menu = null
-	if map != null:
-		map.queue_free()
-		map = null
-	state = State.LEVEL
-	var id: String = level_id if level_id != "" else LevelCatalog.next_for(profile, "sylvara")
-	level = LevelCatalog.make(id)
-	level.save = profile
-	# O fluxo roda em ALWAYS (menu/pausa); a fase precisa ser pausavel explicitamente.
-	level.process_mode = Node.PROCESS_MODE_PAUSABLE
-	add_child(level)
-	GraphicsApplier.apply(get_viewport(), settings.data, get_tree())
-	level.completed.connect(_on_completed)
-	level.controller.sfx_requested.connect(audio.play_sfx)
-	level.controller.portal_requested.connect(_on_portal)
-	if level.has_signal("seed_destroyed"):
-		level.connect("seed_destroyed", _on_seed_destroyed)
-	hud = Hud.new()
-	add_child(hud)
-	hud.bind(level)
-	if TouchLayout.should_show(settings.data["touch_mode"], DisplayServer.is_touchscreen_available()):
-		var touch := TouchControls.new()
-		touch.configure(settings.data)
-		level.add_child(touch)
-		touch.process_mode = Node.PROCESS_MODE_ALWAYS
-	audio.play_music("res://assets/audio/music_sylvara.wav")
-	if warmup_frames > 0:
-		level.rig.body.set_locked_state(MovementState.State.CUTSCENE)
-		var warm := ShaderWarmup.new()
-		add_child(warm)
-		warm.finished.connect(_after_warmup)
-		warm.run(level, warmup_frames)
-	else:
-		_after_warmup()
+	FlowLevelStart.start(self, level_id)
 
 
 func _after_warmup() -> void:
-	if level == null or not is_instance_valid(level):
-		return
-	if warmup_frames > 0 and not play_intro:
-		level.rig.body.set_locked_state(-1)
-	if play_intro:
-		level.rig.body.set_locked_state(MovementState.State.CUTSCENE)
-		if level.astralis != null:
-			level.astralis.arrive(ArrivalIntro.DURATION - 0.5)
-		intro = ArrivalIntro.new()
-		add_child(intro)
-		intro.finished.connect(_on_intro_finished)
+	FlowLevelStart.after_warmup(self)
 
 
 ## Portal: a fase de origem fica viva (pausada e oculta); a secreta roda por cima e o retorno preserva tudo.
 func _on_portal(portal_id: StringName, destination: StringName) -> void:
-	if origin_level != null or not LevelCatalog.has(String(destination)):
-		return
-	if not String(portal_id) in profile["world"]["portal_ids"]:
-		profile["world"]["portal_ids"].append(String(portal_id))
-	origin_level = level
-	origin_level.process_mode = Node.PROCESS_MODE_DISABLED
-	origin_level.visible = false
-	level = LevelCatalog.make(String(destination))
-	level.save = profile
-	level.process_mode = Node.PROCESS_MODE_PAUSABLE
-	add_child(level)
-	level.camera.make_current()
-	level.completed.connect(_on_secret_completed)
-	level.controller.sfx_requested.connect(audio.play_sfx)
-	hud.bind(level)
-	GraphicsApplier.apply(get_viewport(), settings.data, get_tree())
+	FlowPortal.enter(self, portal_id, destination)
 
 
 func _on_secret_completed(receipt: Dictionary) -> void:
-	state = State.RESULTS
-	last_save_error = service.save(profile)
-	results = ResultsScreen.new()
-	add_child(results)
-	results.show_receipt(level.definition.display_name, receipt, profile["economy"]["coin_balance"], last_save_error == OK)
-	results.continue_pressed.connect(_return_from_portal)
+	_show_results(receipt, _return_from_portal)
 
 
 func _return_from_portal() -> void:
-	if results != null:
-		results.queue_free()
-		results = null
-	level.queue_free()
-	level = origin_level
-	origin_level = null
-	level.visible = true
-	level.process_mode = Node.PROCESS_MODE_PAUSABLE
-	level.camera.make_current()
-	hud.bind(level)
-	state = State.LEVEL
+	FlowPortal.return_to_origin(self)
 
 
-## A destruicao da semente e salva NA HORA (nao so ao abrir o bau); a reacao de Caeldron toca so na primeira vez.
 func _on_seed_destroyed(first_time: bool) -> void:
-	last_save_error = service.save(profile)
-	var reaction: CaeldronReaction = null
-	if first_time:
-		reaction_plays += 1
-		reaction = CaeldronReaction.new()
-		var custom: Variant = level.get("reaction_message")
-		if custom is String and custom != "":
-			reaction.message = custom
-		add_child(reaction)
-	# Sexta semente: Caeldron morre. A sequencia final e uma transacao unica (nao repete ao recarregar nem ao revisitar).
-	if ProgressLedger.new().claim_campaign_end(profile)["first_time"]:
-		last_save_error = service.save(profile)
-		_ending_active = true
-		if reaction != null:
-			reaction.finished.connect(_play_ending)
-		else:
-			_play_ending()
+	FlowEnding.seed_destroyed(self, first_time)
 
 
-## Morte de Caeldron (pulavel) -> creditos (pulaveis). O jogo fica pausado enquanto dura; nada do save muda aqui.
 func _play_ending() -> void:
-	ending_plays += 1
-	get_tree().paused = true
-	var death := CaeldronDeath.new()
-	add_child(death)
-	death.finished.connect(func() -> void: _show_credits(true))
+	FlowEnding.play_ending(self)
 
 
 func _show_credits(from_ending: bool) -> void:
-	credits_plays += 1
-	var credits := CreditsScreen.new()
-	add_child(credits)
-	credits.finished.connect(func() -> void:
-		if from_ending:
-			_ending_active = false
-			get_tree().paused = false)
+	FlowEnding.show_credits(self, from_ending)
 
 
 func _on_intro_finished() -> void:
@@ -272,12 +138,16 @@ func _on_intro_finished() -> void:
 
 
 func _on_completed(receipt: Dictionary) -> void:
+	_show_results(receipt, _after_results)
+
+
+func _show_results(receipt: Dictionary, on_continue: Callable) -> void:
 	state = State.RESULTS
 	last_save_error = service.save(profile)
 	results = ResultsScreen.new()
 	add_child(results)
 	results.show_receipt(level.definition.display_name, receipt, profile["economy"]["coin_balance"], last_save_error == OK)
-	results.continue_pressed.connect(_after_results)
+	results.continue_pressed.connect(on_continue)
 
 
 func _after_results() -> void:
@@ -301,16 +171,8 @@ func _back_to_menu() -> void:
 	if map != null:
 		map.queue_free()
 		map = null
-	for node in [results, hud, level, intro, _pause_layer]:
-		if node != null and is_instance_valid(node):
-			node.queue_free()
-	results = null
-	hud = null
-	level = null
-	_pause_layer = null
 	_ending_active = false
-	get_tree().paused = false
-	audio.stop_music()
+	_cleanup_level()
 	_show_menu()
 
 
@@ -319,33 +181,7 @@ func is_paused() -> bool:
 
 
 func toggle_pause() -> void:
-	if state != State.LEVEL or _ending_active:
-		return
-	if _pause_layer != null:
-		_pause_layer.queue_free()
-		_pause_layer = null
-		get_tree().paused = false
-		return
-	get_tree().paused = true
-	_pause_layer = CanvasLayer.new()
-	_pause_layer.process_mode = Node.PROCESS_MODE_ALWAYS
-	var box := VBoxContainer.new()
-	box.position = Vector2(500.0, 240.0)
-	_pause_layer.add_child(box)
-	var title := Label.new()
-	title.text = "PAUSADO"
-	title.add_theme_font_size_override(&"font_size", 34)
-	box.add_child(title)
-	var resume := Button.new()
-	resume.text = "Continuar"
-	resume.pressed.connect(toggle_pause)
-	box.add_child(resume)
-	var quit := Button.new()
-	quit.text = "Voltar ao menu (o progresso da fase em curso nao e salvo)"
-	quit.pressed.connect(_back_to_menu)
-	box.add_child(quit)
-	add_child(_pause_layer)
-	resume.grab_focus()
+	FlowPause.toggle(self)
 
 
 func _process(_delta: float) -> void:
