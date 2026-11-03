@@ -10,5 +10,6 @@ theme = "Vento e gravidade"
 mechanic = "Vento e gravidade localizada"
 guardian_name = "Zefrion"
 seed_id = &"seed_aerion"
+playable = true
 tint = Color(0.92941177, 0.72156864, 0.36862746, 1)
 secret_ids = PackedStringArray()
