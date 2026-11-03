@@ -6,6 +6,7 @@ func run(tree: SceneTree) -> Array:
 	var out: Array = []
 	_versions(out)
 	_parse(out)
+	_network_inventory(out)
 	await _menu_and_flow(tree, out)
 	return out
 
@@ -73,3 +74,22 @@ func _saved(dir: String) -> Dictionary:
 	var s := SettingsStore.new(dir + "/settings.json")
 	s.load_settings()
 	return s.data
+
+
+## Decisao do dono: a rede so pode ser usada pela consulta de atualizacao. Qualquer outro uso de rede no codigo do jogo quebra este teste.
+func _network_inventory(out: Array) -> void:
+	var needles: Array[String] = ["HTTPRequest", "HTTPClient", "WebSocketPeer", "StreamPeerTCP", "TCPServer", "PacketPeerUDP", "ENetMultiplayerPeer", "ENetConnection", "UDPServer", "WebRTC"]
+	var offenders: PackedStringArray = []
+	var stack: Array[String] = ["res://game"]
+	while not stack.is_empty():
+		var dir: String = stack.pop_back()
+		for sub in DirAccess.get_directories_at(dir):
+			stack.append(dir + "/" + sub)
+		for f in DirAccess.get_files_at(dir):
+			if f.ends_with(".gd") and not (dir.ends_with("/core") and f == "update_checker.gd"):
+				var text: String = FileAccess.get_file_as_string(dir + "/" + f)
+				for n in needles:
+					if text.contains(n):
+						offenders.append("%s/%s (%s)" % [dir, f, n])
+	TestWorld.rec(out, "rede: so a consulta de atualizacao usa rede (nenhum outro HTTP/socket/multiplayer no codigo do jogo)", offenders.is_empty(), "(%s)" % ", ".join(offenders))
+	TestWorld.rec(out, "rede: a consulta usa so o endereco do projeto no GitHub e HTTPS", UpdateChecker.API_URL.begins_with("https://api.github.com/repos/MayconMeneses/Nebulance/"))

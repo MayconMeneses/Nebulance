@@ -11,7 +11,7 @@ Plataforma 2.5D offline para Windows (Godot 4.7.2, GDScript tipado). Especifica�
 - Umbraxis (planeta 6) ainda não é jogável no mapa, embora suas fases existam e passem nos testes;
 - **60 FPS em hardware-alvo NÃO foi validado** (medidas antigas, só da fase 01, em Intel UHD 620, ficaram abaixo de 60 estáveis em Médio/Alto com vsync);
 - gamepad físico, controles de toque em aparelho real/Android, build e instalador da versão atual em máquina limpa: não testados;
-- ao abrir, o jogo consulta o GitHub Releases em busca de atualização (ligado por padrão; desligável em Configurações; falha silenciosa; é o único uso de rede).
+- ao abrir, o jogo consulta o GitHub Releases em busca de atualização (ligado por padrão; desligável em Configurações; falha silenciosa; é o único uso de rede, por decisão do dono; um teste automatizado barra qualquer outro uso de rede no código do jogo).
 
 Detalhes por requisito e por teste: `docs/REQUIREMENTS_MATRIX.md`, `docs/QA_PLAN.md`. Tabela das 42 fases e lista de desvios do design: `docs/REPORTS/phase-07-campanha.md` e `docs/LEVEL_BIBLE.md`.
 
