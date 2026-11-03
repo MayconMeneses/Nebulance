@@ -1,11 +1,12 @@
 extends RefCounted
-## Fase 26 (Os Jardins Suspensos): correntes ascendentes, barreira de Rocco, estrutura que flutua (Zuri), item das nuvens, reinicio e bot.
+## Fase 26 (Os Jardins Suspensos): correntes ascendentes, barreira de Rocco, estrutura que flutua (Zuri), rota opcional nas nuvens (item), reinicio e bot.
 
 
 func run(tree: SceneTree) -> Array:
 	var out: Array = []
 	await _mechanics(tree, out)
 	await _bot(tree, out)
+	await _main_route_only(tree, out)
 	return out
 
 
@@ -48,7 +49,7 @@ func _mechanics(tree: SceneTree, out: Array) -> void:
 	TestWorld.rec(out, "TC-051 fase 26: cair numa lacuna reaparece no checkpoint, com a barreira no estado capturado nele (rompida antes de tocar o checkpoint)",
 			body.global_position.x >= 11.0 and body.global_position.x <= 14.0 and level.barrier.is_broken == true,
 			"(x=%.1f)" % body.global_position.x)
-	TestWorld.rec(out, "TC-051 fase 26: item das nuvens fica sob a estrutura flutuante, fora do caminho principal; 9 moedas; ids estaveis",
+	TestWorld.rec(out, "TC-051 fase 26: item das nuvens (rota opcional, ilha alta); 9 moedas; ids estaveis",
 			level.definition.secret_item_ids == PackedStringArray(["aerion_26_cloud_seed"]) and level.definition.coin_ids.size() == 9
 			and level.definition.chest_id == &"aerion_26_chest")
 	level.queue_free()
@@ -62,7 +63,7 @@ func _bot(tree: SceneTree, out: Array) -> void:
 	bot.trace = OS.get_cmdline_user_args().has("--trace")
 	var finished: bool = await bot.play()
 	var c: LevelController = level.controller
-	TestWorld.rec(out, "bot: completa a fase 26 (Pipa planeia, Rocco rompe, Zuri escala, Pipa planeia, bau) sem teleporte", finished,
+	TestWorld.rec(out, "bot: completa a fase 26 pela rota das nuvens (Pipa planeia, Rocco rompe, Zuri escala duas vezes, Pipa planeia, bau) sem teleporte", finished,
 			"(etapa=%s x=%.1f y=%.1f heroi=%s)" % [bot.stage, bot.x(), bot.body.global_position.y, level.rig.body.profile.hero_id])
 	if finished:
 		var missing: PackedStringArray = []
@@ -74,3 +75,17 @@ func _bot(tree: SceneTree, out: Array) -> void:
 				and level.save["economy"]["best_grade_by_level"].get("aerion_26") == RewardLedger.Grade.GOLD,
 				"(moedas=%d faltam=%s vidas perdidas=%d)" % [c.session.coin_ids.size(), ",".join(missing), c.session.lives_lost])
 	level.queue_free()
+
+
+## A rota nas nuvens e opcional: a rota principal completa a fase sem o item (ele exige a 2a escalada de Zuri e a ilha alta).
+func _main_route_only(tree: SceneTree, out: Array) -> void:
+	var level: AerionLevel26 = _level(tree)
+	await tree.physics_frame
+	var bot := LevelBot26.new(tree, level)
+	bot.take_cloud = false
+	var finished: bool = await bot.play()
+	TestWorld.rec(out, "TC-051 fase 26: a rota principal completa a fase SEM o item das nuvens (a rota opcional exige a 2a escalada de Zuri)",
+			finished and level.controller.session.item_ids.is_empty(),
+			"(etapa=%s x=%.1f y=%.1f itens=%s)" % [bot.stage, bot.x(), bot.body.global_position.y, level.controller.session.item_ids])
+	level.queue_free()
+	await _settle(tree, 3)

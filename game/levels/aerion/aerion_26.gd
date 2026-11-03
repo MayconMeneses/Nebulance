@@ -2,8 +2,9 @@ class_name AerionLevel26
 extends LevelScene
 ## FASE 26 — Os Jardins Suspensos (Aerion). Visual PROVISORIO. Plataformas aereas, correntes de sustentacao e saltos: Pipa planeia
 ## o primeiro vao (corrente ascendente), Rocco rompe a barreira marcada que ancora a passagem, Zuri escala a estrutura que flutua
-## sem tocar o chao e Pipa planeia o segundo vao ate a ilha do bau. Checkpoint antes das lacunas longas. Rota opcional: o item das
-## nuvens fica sob a estrutura flutuante (fora do caminho principal).
+## sem tocar o chao e Pipa planeia o segundo vao ate a ilha do bau. Checkpoint antes das lacunas longas. Rota opcional nas nuvens:
+## do alto da estrutura Zuri escala uma segunda face ate uma ilha de nuvem (com o item `aerion_26_cloud_seed`) e dela Pipa planeia
+## na mesma corrente ate a ilha do bau; a rota principal nao passa por ela.
 
 const DEFINITION: String = "res://game/levels/aerion/aerion_26_definition.tres"
 
@@ -33,7 +34,10 @@ func _build_geometry(b: SegmentBuilder) -> void:
 	b.solid(Vector3(66.0, 4.5, 0.0), Vector3(22.0, 1.0, 4.0), grass)
 	b.zone(PhysicsLayers.ABYSS, "sky_26", Vector3(35.0, -9.0, 0.0), Vector3(120.0, 3.0, 4.0), Color(0.1, 0.1, 0.3, 0.2))
 	chest = b.chest("aerion_26_chest", Vector3(72.0, 5.6, 0.0))
-	b.pickup("aerion_26_cloud_seed", Pickup.Kind.ITEM, Vector3(44.0, 1.0, 0.0))
+	# Rota opcional nas nuvens: segunda face marcada no alto da estrutura, ilha de nuvem dentro da coluna da 2a corrente e o item.
+	b.zone(PhysicsLayers.CLIMBABLE, "climb_26b", Vector3(45.4, 7.9, 0.0), Vector3(1.2, 5.5, 3.0), Color(0.3, 0.9, 0.4, 0.3))
+	b.solid(Vector3(49.5, 9.5, 0.0), Vector3(7.0, 0.5, 4.0), Color("EDB85E"))
+	b.pickup("aerion_26_cloud_seed", Pickup.Kind.ITEM, Vector3(49.5, 10.6, 0.0))
 	# Jardins decorativos suspensos (arvores de nuvem) e a estrutura flutuante ao fundo.
 	b.decor(Vector3(62.0, 10.0, -4.0), Vector3(9.0, 2.0, 3.0), Color("2FA879"), true)
 	b.decor(Vector3(62.0, 8.5, -4.0), Vector3(1.0, 2.0, 1.0), Color("5B3A29"))
