@@ -2,14 +2,16 @@ class_name AerionLevel27
 extends LevelScene
 ## FASE 27 — Corredores do Vento (Aerion). Visual PROVISORIO. Dominio do planeio e de correntes previsiveis: Pipa guia as travessias,
 ## Zuri escala e liga o painel de vento, Rocco rompe a barreira que cobria a base da corrente; so com o painel LIGADO e a base
-## LIVRE a segunda corrente sopra. O painel tambem revela uma ilha oculta com a pista do portal secreto. Checkpoint depois da
-## primeira travessia (habilidade de controle aereo).
+## LIVRE a segunda corrente sopra. Segredo: uma valvula opcional no fim do corredor INVERTE uma terceira corrente (para baixo, com
+## faixas descendentes) e so entao a ilha oculta com a pista do portal secreto aparece. Checkpoint depois da primeira travessia.
 
 const DEFINITION: String = "res://game/levels/aerion/aerion_27_definition.tres"
 
 var lift_a: WindVent
 var lift_b: WindVent
 var panel: Mechanism
+var valve: Mechanism
+var inverted: WindVent
 var barrier: ImpactBarrier
 var island: ControlledPlatform
 var chest: Chest
@@ -47,13 +49,24 @@ func _build_geometry(b: SegmentBuilder) -> void:
 	lift_b.blocker = barrier
 	add_child(lift_b)
 	b.solid(Vector3(72.5, -0.5, 0.0), Vector3(35.0, 1.0, 4.0), stone)
-	# Ilha oculta (so existe com o painel ligado) com a pista do portal secreto.
+	# Segredo: a valvula (opcional, no fim do corredor) inverte a corrente sobre a ilha; so com ela invertida a ilha oculta existe.
+	valve = Mechanism.new()
+	valve.mechanism_id = &"aerion_27_valve"
+	valve.prompt_text = "Pressione E para inverter a corrente"
+	valve.position = Vector3(57.0, 0.6, 0.0)
+	add_child(valve)
+	inverted = WindVent.new()
+	inverted.size = Vector3(6.0, 8.0, 3.0)
+	inverted.wind_on = Vector3(0.0, -18.0, 0.0)
+	inverted.position = Vector3(63.0, 4.0, 0.0)
+	inverted.control = valve
+	add_child(inverted)
 	island = ControlledPlatform.new()
 	island.size = Vector3(5.0, 0.5, 3.0)
 	island.position = Vector3(63.0, 0.65, 0.0)
-	island.control = panel
+	island.control = valve
 	add_child(island)
-	b.pickup("memory_secret_portal_clue_27", Pickup.Kind.MEMORY, Vector3(63.0, 2.3, 0.0))
+	b.pickup("memory_secret_portal_clue_27", Pickup.Kind.MEMORY, Vector3(63.0, 1.8, 0.0))
 	b.zone(PhysicsLayers.ABYSS, "sky_27", Vector3(40.0, -9.0, 0.0), Vector3(130.0, 3.0, 4.0), Color(0.1, 0.1, 0.3, 0.2))
 	chest = b.chest("aerion_27_chest", Vector3(84.0, 0.6, 0.0))
 	for x in range(0, 90, 9):

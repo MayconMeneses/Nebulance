@@ -6,6 +6,7 @@ func run(tree: SceneTree) -> Array:
 	var out: Array = []
 	await _mechanics(tree, out)
 	await _bot(tree, out)
+	await _main_route_only(tree, out)
 	return out
 
 
@@ -36,7 +37,10 @@ func _mechanics(tree: SceneTree, out: Array) -> void:
 	level.panel.interact()
 	await _settle(tree, 2)
 	TestWorld.rec(out, "TC-052 fase 27: so o painel ligado NAO basta (a base da corrente continua coberta pela barreira)", not level.lift_b.is_blowing())
-	TestWorld.rec(out, "TC-052 fase 27: ligar o painel revela a ilha oculta (solida)", level.island.is_solid() and level.island.collision_layer == PhysicsLayers.WORLD)
+	TestWorld.rec(out, "TC-052 fase 27: ligar o painel NAO revela a ilha oculta (so a valvula que inverte a corrente a revela)", not level.island.is_solid())
+	TestWorld.rec(out, "TC-052 fase 27: a corrente invertida comeca parada; ao acionar a valvula ela sopra PARA BAIXO (y negativo) e a ilha oculta aparece",
+			not level.inverted.is_blowing() and level.inverted.wind_push == Vector3.ZERO and _invert(level, tree) and level.island.is_solid()
+			and level.island.collision_layer == PhysicsLayers.WORLD and level.inverted.wind_push.y < 0.0)
 	level.barrier.on_impacted()
 	await _settle(tree, 2)
 	body.global_position = Vector3(50.5, 3.0, 0.0)
@@ -47,7 +51,8 @@ func _mechanics(tree: SceneTree, out: Array) -> void:
 	level.controller._on_life_lost(&"test")
 	await _settle(tree, 3)
 	TestWorld.rec(out, "TC-052 fase 27: reaparecer no checkpoint devolve painel, barreira, corrente e ilha ao estado do checkpoint (todos desligados/inteiros)",
-			not level.panel.is_active and not level.barrier.is_broken and not level.lift_b.is_blowing() and not level.island.is_solid())
+			not level.panel.is_active and not level.barrier.is_broken and not level.lift_b.is_blowing() and not level.island.is_solid()
+			and not level.valve.is_active and not level.inverted.is_blowing())
 	level.barrier.on_impacted()
 	await _settle(tree, 2)
 	TestWorld.rec(out, "TC-052 fase 27: so a barreira rompida (sem painel) NAO liga a corrente", not level.lift_b.is_blowing())
@@ -68,7 +73,7 @@ func _bot(tree: SceneTree, out: Array) -> void:
 	bot.trace = OS.get_cmdline_user_args().has("--trace")
 	var finished: bool = await bot.play()
 	var c: LevelController = level.controller
-	TestWorld.rec(out, "bot: completa a fase 27 (planeio, painel, barreira, corredor, ilha oculta, bau) sem teleporte", finished,
+	TestWorld.rec(out, "bot: completa a fase 27 (planeio, painel, barreira, corredor, valvula, ilha oculta, bau) sem teleporte", finished,
 			"(etapa=%s x=%.1f y=%.1f heroi=%s)" % [bot.stage, bot.x(), bot.body.global_position.y, level.rig.body.profile.hero_id])
 	if finished:
 		var missing: PackedStringArray = []
@@ -80,3 +85,25 @@ func _bot(tree: SceneTree, out: Array) -> void:
 				and level.save["economy"]["best_grade_by_level"].get("aerion_27") == RewardLedger.Grade.GOLD,
 				"(moedas=%d faltam=%s vidas perdidas=%d)" % [c.session.coin_ids.size(), ",".join(missing), c.session.lives_lost])
 	level.queue_free()
+
+
+## Aciona a valvula e deixa o quadro seguir; devolve verdadeiro se ficou ativa (usado dentro de uma checagem).
+func _invert(level: AerionLevel27, tree: SceneTree) -> bool:
+	level.valve.interact()
+	level.inverted._apply()
+	level.island._apply()
+	return level.valve.is_active
+
+
+## A pista do portal e segredo de verdade: a rota principal inteira (sem a valvula e a ilha) termina a fase sem ela.
+func _main_route_only(tree: SceneTree, out: Array) -> void:
+	var level: AerionLevel27 = _level(tree)
+	await tree.physics_frame
+	var bot := LevelBot27.new(tree, level)
+	bot.take_clue = false
+	var finished: bool = await bot.play()
+	TestWorld.rec(out, "TC-052 fase 27: a rota principal completa a fase SEM a pista do portal (exige a valvula e a ilha oculta)",
+			finished and level.controller.session.memory_ids.is_empty(),
+			"(etapa=%s x=%.1f y=%.1f memorias=%s)" % [bot.stage, bot.x(), bot.body.global_position.y, level.controller.session.memory_ids])
+	level.queue_free()
+	await _settle(tree, 3)

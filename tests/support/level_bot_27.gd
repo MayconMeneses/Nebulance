@@ -1,6 +1,9 @@
 class_name LevelBot27
 extends LevelBotAerion
-## Bot da fase 27: Pipa planeia a 1a travessia, Zuri liga o painel, Rocco libera a base, Pipa planeia o corredor e pega a pista na ilha oculta.
+## Bot da fase 27: Pipa planeia a 1a travessia, Zuri liga o painel, Rocco libera a base, Pipa planeia o corredor.
+## Com `take_clue`, antes do bau aciona a valvula (inverte a corrente) e pega a pista na ilha oculta (segredo).
+
+var take_clue: bool = true
 
 
 func play() -> bool:
@@ -35,12 +38,17 @@ func play() -> bool:
 	stage = "corredor do vento (Pipa planeia)"
 	if not await glide_across(45.7, 54.8, 0.3):
 		return false
-	stage = "ilha oculta e pista do portal"
-	if not await jump_at(59.6):
-		return false
-	if not lv.island.is_solid() or not "memory_secret_portal_clue_27" in level.controller.session.memory_ids:
-		stage += " (x=%.1f y=%.2f)" % [x(), body.global_position.y]
-		return false
+	if take_clue:
+		stage = "valvula e ilha oculta (pista do portal)"
+		if not await walk_to(57.0):
+			return false
+		if not await press_until(func() -> bool: return lv.valve.is_active):
+			return false
+		if not await jump_at(59.6):
+			return false
+		if not lv.island.is_solid() or not "memory_secret_portal_clue_27" in level.controller.session.memory_ids:
+			stage += " (x=%.1f y=%.2f)" % [x(), body.global_position.y]
+			return false
 	stage = "bau"
 	if not await run_to(83.4):
 		return false
