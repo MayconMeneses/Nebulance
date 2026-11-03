@@ -57,6 +57,25 @@ static func can_travel(save: Dictionary, index: int) -> bool:
 	return planets()[index].playable and status(save, index) != Status.LOCKED
 
 
+## Quantas das seis sementes ja foram destruidas (derivado do save).
+static func seeds_destroyed_count(save: Dictionary) -> int:
+	var count: int = 0
+	for planet in planets():
+		if seed_destroyed(save, planet):
+			count += 1
+	return count
+
+
+## Campanha CONCLUIDA = as seis sementes destruidas (estado derivado; nenhuma flag guardada a parte).
+static func campaign_complete(save: Dictionary) -> bool:
+	return seeds_destroyed_count(save) >= PLANET_PATHS.size()
+
+
+## Caeldron morre definitivamente com a sexta semente; depois disso nenhum codigo deve trata-lo como vivo.
+static func caeldron_alive(save: Dictionary) -> bool:
+	return not campaign_complete(save)
+
+
 ## Modo QA: save EM MEMORIA com as primeiras `seeds` sementes destruidas (0..6). Nunca toca o save real.
 static func qa_save(seeds: int) -> Dictionary:
 	var save: Dictionary = SaveData.new_game()

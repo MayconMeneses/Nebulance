@@ -10,7 +10,7 @@ const DATA: Array = [
 	["mecatron", "Mecatron", "Maquinaria e magnetismo", "Maquinas, esteiras e polaridade", "Ferrorraiz", "seed_mecatron", true, "F08A3B", []],
 	["aquarys", "Aquarys", "Mares e tecnologia aquatica", "Comportas, mares e plataformas flutuantes", "Thalassa", "seed_aquarys", true, "23CFF5", []],
 	["aerion", "Aerion", "Vento e gravidade", "Vento e gravidade localizada", "Zefrion", "seed_aerion", true, "EDB85E", []],
-	["umbraxis", "Umbraxis", "Coracao do Colapso", "Combinacao e ruptura dimensional", "Necryon", "seed_umbraxis", false, "C03CA8", []],
+	["umbraxis", "Umbraxis", "Coracao do Colapso", "Combinacao e ruptura dimensional", "Necryon", "seed_umbraxis", true, "C03CA8", []],
 ]
 
 

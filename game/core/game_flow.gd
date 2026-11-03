@@ -29,6 +29,10 @@ var settings_menu: SettingsMenu
 var map: GalaxyMap
 var origin_level: LevelScene
 var reaction_plays: int = 0
+## Sequencia final (morte de Caeldron) e creditos: contadores para os testes; a sequencia so toca na primeira vez (ProgressLedger).
+var ending_plays: int = 0
+var credits_plays: int = 0
+var _ending_active: bool = false
 ## Consulta de atualizacao ao abrir (so o jogo real liga; testes e benchmark nao usam a rede).
 @export var check_updates: bool = false
 var latest_update: Dictionary = {}
@@ -84,6 +88,7 @@ func _show_map() -> void:
 	map.show_state(profile)
 	map.travel_requested.connect(func(planet_id: StringName) -> void: _start_level(LevelCatalog.next_for(profile, String(planet_id))))
 	map.back_pressed.connect(_back_to_menu)
+	map.credits_requested.connect(func() -> void: _show_credits(false))
 
 
 func show_settings() -> void:
@@ -221,13 +226,41 @@ func _return_from_portal() -> void:
 ## A destruicao da semente e salva NA HORA (nao so ao abrir o bau); a reacao de Caeldron toca so na primeira vez.
 func _on_seed_destroyed(first_time: bool) -> void:
 	last_save_error = service.save(profile)
+	var reaction: CaeldronReaction = null
 	if first_time:
 		reaction_plays += 1
-		var reaction := CaeldronReaction.new()
+		reaction = CaeldronReaction.new()
 		var custom: Variant = level.get("reaction_message")
 		if custom is String and custom != "":
 			reaction.message = custom
 		add_child(reaction)
+	# Sexta semente: Caeldron morre. A sequencia final e uma transacao unica (nao repete ao recarregar nem ao revisitar).
+	if ProgressLedger.new().claim_campaign_end(profile)["first_time"]:
+		last_save_error = service.save(profile)
+		_ending_active = true
+		if reaction != null:
+			reaction.finished.connect(_play_ending)
+		else:
+			_play_ending()
+
+
+## Morte de Caeldron (pulavel) -> creditos (pulaveis). O jogo fica pausado enquanto dura; nada do save muda aqui.
+func _play_ending() -> void:
+	ending_plays += 1
+	get_tree().paused = true
+	var death := CaeldronDeath.new()
+	add_child(death)
+	death.finished.connect(func() -> void: _show_credits(true))
+
+
+func _show_credits(from_ending: bool) -> void:
+	credits_plays += 1
+	var credits := CreditsScreen.new()
+	add_child(credits)
+	credits.finished.connect(func() -> void:
+		if from_ending:
+			_ending_active = false
+			get_tree().paused = false)
 
 
 func _on_intro_finished() -> void:
@@ -275,6 +308,7 @@ func _back_to_menu() -> void:
 	hud = null
 	level = null
 	_pause_layer = null
+	_ending_active = false
 	get_tree().paused = false
 	audio.stop_music()
 	_show_menu()
@@ -285,7 +319,7 @@ func is_paused() -> bool:
 
 
 func toggle_pause() -> void:
-	if state != State.LEVEL:
+	if state != State.LEVEL or _ending_active:
 		return
 	if _pause_layer != null:
 		_pause_layer.queue_free()

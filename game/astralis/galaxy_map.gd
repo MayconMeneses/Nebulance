@@ -5,6 +5,7 @@ extends CanvasLayer
 
 signal travel_requested(planet_id: StringName)
 signal back_pressed
+signal credits_requested
 
 const CENTER: Vector2 = Vector2(400.0, 360.0)
 const RADIUS: float = 250.0
@@ -19,6 +20,8 @@ var _buttons: Array[Button] = []
 var _canvas: Control
 var _info: Label
 var _message: Label
+var _banner: Label
+var _credits: Button
 var _travel: Button
 var _selected: int = 0
 var _time: float = 0.0
@@ -74,6 +77,16 @@ func _ready() -> void:
 	back.custom_minimum_size = Vector2(160.0, 44.0)
 	back.pressed.connect(func() -> void: back_pressed.emit())
 	add_child(back)
+	_banner = Label.new()
+	_banner.position = Vector2(24.0, 60.0)
+	_banner.add_theme_font_size_override(&"font_size", 20)
+	add_child(_banner)
+	_credits = Button.new()
+	_credits.text = "Creditos"
+	_credits.position = Vector2(24.0, 640.0)
+	_credits.custom_minimum_size = Vector2(160.0, 40.0)
+	_credits.pressed.connect(func() -> void: credits_requested.emit())
+	add_child(_credits)
 	_message = Label.new()
 	_message.position = Vector2(820.0, 580.0)
 	_message.custom_minimum_size = Vector2(420.0, 0.0)
@@ -99,6 +112,14 @@ func set_qa_progress(seeds: int) -> void:
 	qa_mode = true
 	qa_progress = seeds
 	_refresh()
+
+
+## Faixa de progresso da campanha: sementes destruidas e, com as seis, o fim de Caeldron e o convite a revisitar os planetas.
+func banner_text() -> String:
+	var shown: Dictionary = displayed_save()
+	if GalaxyState.campaign_complete(shown):
+		return "Campanha concluida: Caeldron foi destruido. Os planetas salvos continuam visitaveis."
+	return "Sementes destruidas: %d de %d" % [GalaxyState.seeds_destroyed_count(shown), GalaxyState.PLANET_PATHS.size()]
 
 
 func displayed_save() -> Dictionary:
@@ -127,6 +148,9 @@ func _refresh() -> void:
 			"Guardiao: " + p.guardian_name, "Reliquia: ainda nao descoberta" if status != GalaxyState.Status.SAVED else "Reliquia: conquistada",
 			"Segredos descobertos: %d" % GalaxyState.secrets_found(shown, p)]
 	_info.text = "\n".join(lines)
+	var complete: bool = GalaxyState.campaign_complete(shown)
+	_banner.text = banner_text()
+	_credits.visible = complete and qa_progress < 0
 	_travel.disabled = not GalaxyState.can_travel(shown, _selected) or qa_progress >= 0
 	if status == GalaxyState.Status.LOCKED:
 		_message.text = "Destrua a semente do planeta anterior para abrir esta rota."

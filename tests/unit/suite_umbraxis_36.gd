@@ -121,6 +121,15 @@ func _flow_and_map(tree: SceneTree, out: Array) -> void:
 	TestWorld.rec(out, "TC-053 Necryon: guardiao libertado, reliquia e memoria de Umbraxis no perfil e bau liberado",
 			"necryon" in flow.profile["world"]["boss_freed_ids"] and "relic_umbraxis" in flow.profile["economy"]["owned_items"]
 			and "astralis_memory_umbraxis" in flow.profile["story"]["memories"] and not arena.chest.locked)
+	# A sexta semente tambem dispara a sequencia final (ver suite_ending): reacao -> morte de Caeldron -> creditos, todos pulaveis.
+	flow.get_children().filter(func(n: Node) -> bool: return n is CaeldronReaction)[0].skip()
+	await tree.process_frame
+	flow.get_children().filter(func(n: Node) -> bool: return n is CaeldronDeath)[0].skip()
+	await tree.process_frame
+	flow.get_children().filter(func(n: Node) -> bool: return n is CreditsScreen)[0].skip()
+	await tree.process_frame
+	TestWorld.rec(out, "TC-053 Necryon: a sexta semente toca a sequencia final 1x e o jogo volta a rodar (nao fica pausado)",
+			flow.ending_plays == 1 and flow.credits_plays == 1 and not tree.paused)
 	flow._back_to_menu()
 	await tree.process_frame
 	await tree.process_frame
@@ -131,11 +140,12 @@ func _flow_and_map(tree: SceneTree, out: Array) -> void:
 	for i in 90:
 		await tree.physics_frame
 	TestWorld.rec(out, "TC-053 Necryon: recarregar apos a vitoria abre a arena restaurada e o chefe nao ressuscita (nem apos morte)",
-			again.boss.is_defeated() and not again.chest.locked and flow.reaction_plays == 1)
+			again.boss.is_defeated() and not again.chest.locked and flow.reaction_plays == 1 and flow.ending_plays == 1)
 	var p: Dictionary = flow.profile
-	TestWorld.rec(out, "TC-053 mapa: Umbraxis Salvo (raiz removida) mas o planeta continua NAO jogavel (em producao) e a ordem principal comeca na fase 31",
-			GalaxyState.status(p, 5) == GalaxyState.Status.SAVED and not GalaxyState.root_visible(p, 5) and not GalaxyState.planets()[5].playable
-			and not GalaxyState.can_travel(SaveData.new_game(), 5) and LevelCatalog.next_for(SaveData.new_game(), "umbraxis") == "umbraxis_31")
+	TestWorld.rec(out, "TC-053 mapa: Umbraxis Salvo (raiz removida) o planeta e jogavel, so abre depois de Aerion e a ordem principal comeca na fase 31",
+			GalaxyState.status(p, 5) == GalaxyState.Status.SAVED and not GalaxyState.root_visible(p, 5) and GalaxyState.planets()[5].playable
+			and GalaxyState.can_travel(p, 5) and not GalaxyState.can_travel(SaveData.new_game(), 5)
+			and LevelCatalog.next_for(SaveData.new_game(), "umbraxis") == "umbraxis_31")
 	tree.paused = false
 	flow.queue_free()
 	await tree.process_frame

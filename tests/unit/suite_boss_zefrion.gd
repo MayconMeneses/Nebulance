@@ -119,9 +119,9 @@ func _flow_and_map(tree: SceneTree, out: Array) -> void:
 	TestWorld.rec(out, "TC-056 Zefrion: recarregar apos a vitoria abre a arena restaurada e o chefe nao ressuscita (nem apos morte)",
 			again.boss.is_defeated() and not again.chest.locked and flow.reaction_plays == 1)
 	var p: Dictionary = flow.profile
-	TestWorld.rec(out, "TC-056 mapa: Aerion Salva (raiz removida), Aquarys Salva e Umbraxis Disponivel mas ainda em producao (nao viajavel)",
+	TestWorld.rec(out, "TC-056 mapa: Aerion Salva (raiz removida), Aquarys Salva e Umbraxis Disponivel e viajavel (jogavel)",
 			GalaxyState.status(p, 4) == GalaxyState.Status.SAVED and not GalaxyState.root_visible(p, 4)
-			and GalaxyState.status(p, 5) == GalaxyState.Status.AVAILABLE and not GalaxyState.can_travel(p, 5))
+			and GalaxyState.status(p, 5) == GalaxyState.Status.AVAILABLE and GalaxyState.can_travel(p, 5))
 	TestWorld.rec(out, "mapa: viajar para Aerion abre a primeira fase principal do planeta (fase 25) e Aerion e jogavel",
 			LevelCatalog.next_for(SaveData.new_game(), "aerion") == "aerion_25" and GalaxyState.planets()[4].playable)
 	tree.paused = false

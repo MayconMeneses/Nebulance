@@ -118,7 +118,9 @@ func _swap_and_facing(tree: SceneTree, out: Array) -> void:
 
 ## O giro roda em _process (tempo real), nao em fisica: espera convergir em vez de contar quadros de fisica.
 func _until_turned(tree: SceneTree, visual: Node3D, target_abs_y: float) -> void:
-	for i in 300:
+	# Limite em TEMPO real (3 s), nao em quadros: com a maquina ocupada o quadro de processo fica curto e 300 quadros nao bastam.
+	var start: int = Time.get_ticks_msec()
+	while Time.get_ticks_msec() - start < 3000:
 		await tree.process_frame
 		if absf(absf(visual.rotation.y) - target_abs_y) < 0.01:
 			return
