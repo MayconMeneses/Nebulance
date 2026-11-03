@@ -24,9 +24,9 @@ func _settle(tree: SceneTree, frames: int) -> void:
 func _mechanics(tree: SceneTree, out: Array) -> void:
 	var level: UmbraxisLevel31 = _level(tree)
 	await _settle(tree, 3)
-	TestWorld.rec(out, "fase 31: Umbraxis esta no catalogo, a ordem principal comeca na fase 31 e o planeta ainda NAO e jogavel",
+	TestWorld.rec(out, "fase 31: Umbraxis esta no catalogo, a ordem principal comeca na fase 31 e o planeta e jogavel",
 			LevelCatalog.has("umbraxis_31") and LevelCatalog.next_for(SaveData.new_game(), "umbraxis") == "umbraxis_31"
-			and not GalaxyState.planets()[5].playable)
+			and GalaxyState.planets()[5].playable)
 	var solid_seen: bool = false
 	var gone_seen: bool = false
 	for i in 400:

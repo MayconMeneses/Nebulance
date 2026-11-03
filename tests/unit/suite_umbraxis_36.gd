@@ -142,9 +142,10 @@ func _flow_and_map(tree: SceneTree, out: Array) -> void:
 	TestWorld.rec(out, "TC-053 Necryon: recarregar apos a vitoria abre a arena restaurada e o chefe nao ressuscita (nem apos morte)",
 			again.boss.is_defeated() and not again.chest.locked and flow.reaction_plays == 1 and flow.ending_plays == 1)
 	var p: Dictionary = flow.profile
-	TestWorld.rec(out, "TC-053 mapa: Umbraxis Salvo (raiz removida) mas o planeta continua NAO jogavel (em producao) e a ordem principal comeca na fase 31",
-			GalaxyState.status(p, 5) == GalaxyState.Status.SAVED and not GalaxyState.root_visible(p, 5) and not GalaxyState.planets()[5].playable
-			and not GalaxyState.can_travel(SaveData.new_game(), 5) and LevelCatalog.next_for(SaveData.new_game(), "umbraxis") == "umbraxis_31")
+	TestWorld.rec(out, "TC-053 mapa: Umbraxis Salvo (raiz removida) o planeta e jogavel, so abre depois de Aerion e a ordem principal comeca na fase 31",
+			GalaxyState.status(p, 5) == GalaxyState.Status.SAVED and not GalaxyState.root_visible(p, 5) and GalaxyState.planets()[5].playable
+			and GalaxyState.can_travel(p, 5) and not GalaxyState.can_travel(SaveData.new_game(), 5)
+			and LevelCatalog.next_for(SaveData.new_game(), "umbraxis") == "umbraxis_31")
 	tree.paused = false
 	flow.queue_free()
 	await tree.process_frame

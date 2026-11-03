@@ -10,6 +10,8 @@ const INVERTED: float = -0.7
 
 var zones: Array[LevelZone] = []
 var chest: Chest
+var secret_panel: Mechanism
+var portal: Portal
 
 
 func _definition_path() -> String:
@@ -36,6 +38,18 @@ func _build_geometry(b: SegmentBuilder) -> void:
 	b.zone(PhysicsLayers.ABYSS, "sky_28", Vector3(45.0, -9.0, 0.0), Vector3(130.0, 3.0, 4.0), Color(0.1, 0.1, 0.3, 0.2))
 	chest = b.chest("aerion_28_chest", Vector3(86.0, 0.6, 0.0))
 	b.pickup("aerion_28_gravity_clue", Pickup.Kind.ITEM, Vector3(50.0, 4.8, 0.0))
+	# Painel escondido (pista na fase 27) que abre o portal da S05 (Jardim Sem Gravidade) na ilha final.
+	secret_panel = Mechanism.new()
+	secret_panel.mechanism_id = &"aerion_28_secret_panel"
+	secret_panel.prompt_text = "Pressione E para ligar o painel de gravidade"
+	secret_panel.position = Vector3(78.0, 0.8, 0.0)
+	add_child(secret_panel)
+	portal = Portal.new()
+	portal.portal_id = &"aerion_28_portal"
+	portal.destination_level_id = &"aerion_s05"
+	portal.requires_open = true
+	portal.position = Vector3(90.5, 1.2, 0.0)
+	add_child(portal)
 	# Simbolos de inversao no chao, na entrada de cada zona (seta para cima).
 	for sx in [15.0, 41.0, 59.0]:
 		b.decor(Vector3(sx, 0.08, 1.2), Vector3(0.8, 0.12, 0.8), Color("C03CA8"), true)
@@ -49,3 +63,7 @@ func _build_geometry(b: SegmentBuilder) -> void:
 			Vector3(46, 5.0, 0), Vector3(53, 5.0, 0), Vector3(67, 5.0, 0), Vector3(78, 1, 0)]
 	for i in coins.size():
 		b.pickup("aerion_28_coin_%02d" % (i + 1), Pickup.Kind.COIN, coins[i])
+
+
+func _after_setup() -> void:
+	secret_panel.activated.connect(func(_m: Mechanism) -> void: portal.open())

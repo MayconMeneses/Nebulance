@@ -10,5 +10,6 @@ theme = "Coracao do Colapso"
 mechanic = "Combinacao e ruptura dimensional"
 guardian_name = "Necryon"
 seed_id = &"seed_umbraxis"
+playable = true
 tint = Color(0.7529412, 0.23529412, 0.65882355, 1)
 secret_ids = PackedStringArray()

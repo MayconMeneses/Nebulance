@@ -30,6 +30,10 @@ const SCRIPTS: Dictionary = {
 	"aquarys_s04": "res://game/levels/aquarys/aquarys_s04.gd",
 	"aquarys_23": "res://game/levels/aquarys/aquarys_23.gd",
 	"aquarys_24": "res://game/levels/aquarys/aquarys_24.gd",
+	"aerion_25": "res://game/levels/aerion/aerion_25.gd",
+	"aerion_26": "res://game/levels/aerion/aerion_26.gd",
+	"aerion_27": "res://game/levels/aerion/aerion_27.gd",
+	"aerion_28": "res://game/levels/aerion/aerion_28.gd",
 	"umbraxis_31": "res://game/levels/umbraxis/umbraxis_31.gd",
 	"umbraxis_32": "res://game/levels/umbraxis/umbraxis_32.gd",
 	"umbraxis_33": "res://game/levels/umbraxis/umbraxis_33.gd",
@@ -37,10 +41,9 @@ const SCRIPTS: Dictionary = {
 	"umbraxis_35": "res://game/levels/umbraxis/umbraxis_35.gd",
 	"umbraxis_36": "res://game/levels/umbraxis/umbraxis_36.gd",
 	"umbraxis_s06": "res://game/levels/umbraxis/umbraxis_s06.gd",
-	"aerion_25": "res://game/levels/aerion/aerion_25.gd",
-	"aerion_26": "res://game/levels/aerion/aerion_26.gd",
-	"aerion_27": "res://game/levels/aerion/aerion_27.gd",
-	"aerion_28": "res://game/levels/aerion/aerion_28.gd",
+	"aerion_29": "res://game/levels/aerion/aerion_29.gd",
+	"aerion_30": "res://game/levels/aerion/aerion_30.gd",
+	"aerion_s05": "res://game/levels/aerion/aerion_s05.gd",
 	"mecatron_s03": "res://game/levels/mecatron/mecatron_s03.gd",
 }
 ## Ordem de jogo das fases PRINCIPAIS por planeta (as secretas so entram por portal).
@@ -48,8 +51,8 @@ const MAIN_ORDER: Dictionary = {"sylvara": ["sylvara_01", "sylvara_02", "sylvara
 		"cristalia": ["cristalia_07", "cristalia_08", "cristalia_09", "cristalia_10", "cristalia_11", "cristalia_12"],
 		"mecatron": ["mecatron_13", "mecatron_14", "mecatron_15", "mecatron_16", "mecatron_17", "mecatron_18"],
 		"aquarys": ["aquarys_19", "aquarys_20", "aquarys_21", "aquarys_22", "aquarys_23", "aquarys_24"],
-		"umbraxis": ["umbraxis_31", "umbraxis_32", "umbraxis_33", "umbraxis_34", "umbraxis_35", "umbraxis_36"],
-		"aerion": ["aerion_25", "aerion_26", "aerion_27", "aerion_28"]}
+		"aerion": ["aerion_25", "aerion_26", "aerion_27", "aerion_28", "aerion_29", "aerion_30"],
+		"umbraxis": ["umbraxis_31", "umbraxis_32", "umbraxis_33", "umbraxis_34", "umbraxis_35", "umbraxis_36"]}
 
 
 static func has(level_id: String) -> bool:

@@ -52,8 +52,8 @@ func _unlock_chain(out: Array) -> void:
 	TestWorld.rec(out, "TC-054 encadeamento: Umbraxis so abre depois da semente de Aerion (Sylvara>Cristalia>Mecatron>Aquarys>Aerion>Umbraxis)",
 			GalaxyState.status(four, 5) == GalaxyState.Status.LOCKED and not GalaxyState.can_travel(four, 5)
 			and GalaxyState.status(five, 5) == GalaxyState.Status.AVAILABLE and GalaxyState.status(five, 4) == GalaxyState.Status.SAVED)
-	TestWorld.rec(out, "TC-054 encadeamento: a viagem a Umbraxis segue a flag 'jogavel' do planeta (hoje em producao: ver TODO) e nunca abre sem a Aerion",
-			GalaxyState.can_travel(five, 5) == GalaxyState.planets()[5].playable and not GalaxyState.can_travel(four, 5))
+	TestWorld.rec(out, "TC-054 encadeamento: Umbraxis e jogavel, viajavel com a semente de Aerion e nunca abre sem ela",
+			GalaxyState.planets()[5].playable and GalaxyState.can_travel(five, 5) and not GalaxyState.can_travel(four, 5))
 
 
 func _skippable(tree: SceneTree, out: Array) -> void:
@@ -178,7 +178,7 @@ func _flow(tree: SceneTree, out: Array) -> void:
 	for i in 6:
 		revisit_ok = revisit_ok and GalaxyState.status(p, i) == GalaxyState.Status.SAVED and GalaxyState.can_travel(p, i) == GalaxyState.planets()[i].playable
 	TestWorld.rec(out, "TC-054 pos-jogo: os seis planetas continuam Salvos e visitaveis (viagem segue a flag jogavel; os produzidos viajam)",
-			revisit_ok and GalaxyState.can_travel(p, 0) and GalaxyState.can_travel(p, 3))
+			revisit_ok and GalaxyState.planets().all(func(pl: PlanetDefinition) -> bool: return pl.playable))
 	flow.map.credits_requested.emit()
 	await tree.process_frame
 	TestWorld.rec(out, "TC-054 pos-jogo: rever os creditos pelo mapa nao pausa nem conta como fim", flow.credits_plays == 2 and flow.ending_plays == 1 and not tree.paused

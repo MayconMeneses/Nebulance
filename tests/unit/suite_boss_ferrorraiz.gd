@@ -107,7 +107,7 @@ func _flow_and_map(tree: SceneTree, out: Array) -> void:
 	TestWorld.rec(out, "TC-028 Ferrorraiz: recarregar apos a vitoria abre a arena restaurada e o chefe nao ressuscita (nem apos morte)",
 			again.boss.is_defeated() and not again.chest.locked and flow.reaction_plays == 1)
 	var p: Dictionary = flow.profile
-	TestWorld.rec(out, "TC-028 mapa: Mecatron Salva (raiz removida) e Aquarys Disponivel e viajavel (jogavel); Aerion ainda em producao",
+	TestWorld.rec(out, "TC-028 mapa: Mecatron Salva (raiz removida) e Aquarys Disponivel e viajavel (jogavel); Aerion ainda bloqueado (depende de Aquarys)",
 			GalaxyState.status(p, 2) == GalaxyState.Status.SAVED and not GalaxyState.root_visible(p, 2)
 			and GalaxyState.status(p, 3) == GalaxyState.Status.AVAILABLE and GalaxyState.can_travel(p, 3)
 			and GalaxyState.status(p, 4) == GalaxyState.Status.LOCKED and not GalaxyState.can_travel(p, 4))
