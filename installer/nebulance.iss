@@ -1,7 +1,7 @@
 ; Instalador do NEBULANCE: As Sementes do Colapso (Windows 64 bits). Gera installer/Output/NEBULANCE_Setup.exe.
 ; Compilar:  ISCC.exe installer\nebulance.iss   (precisa de build\NEBULANCE.exe, exportado pelo Godot).
 #define AppName "NEBULANCE"
-#define AppVersion "0.5.1"
+#define AppVersion "0.5.2"
 
 [Setup]
 AppId={{6E2B7C1A-4D5F-4E0B-9A31-7B8C2F9D1E54}
