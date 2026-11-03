@@ -64,14 +64,14 @@ Desvios em relacao ao PDF, do mais ao menos visivel (todos documentados em `docs
 1. **Sem final**: Necryon e a sexta semente existem, mas nao ha morte de Caeldron, cutscene de final nem pos-jogo (TC-035/036 NOT_RUN em `main` 89e5d90).
 2. **Umbraxis nao jogavel no mapa** (`playable = false`), embora as 7 fases existam e passem nos testes.
 3. ~~Fase 28: teto so como deslizamento~~ **corrigido**: o teto vira piso (anda, pula, troca de heroi, modelo de cabeca para baixo). Controles e camera ficam sem inversao de proposito (o PDF pede clareza). Pipa nao plana dentro da zona invertida. Aparencia/conforto nao avaliados por pessoa.
-4. **Fase 27**: a "corrente invertida" que revela a ilha oculta foi simplificada; a ilha aparece quando o painel liga (e o painel e obrigatorio), entao a revelacao e fraca.
-5. **Fase 26**: nao ha a rota opcional nas nuvens; so o item sob a estrutura flutuante.
+4. ~~Fase 27: corrente invertida fraca~~ **corrigido**: uma valvula opcional no fim do corredor INVERTE uma terceira corrente (para baixo) e so entao a ilha oculta com a pista do portal aparece; o painel sozinho nao revela (a rota principal termina a fase sem a pista; teste).
+5. ~~Fase 26: sem rota opcional nas nuvens~~ **corrigido**: segunda escalada de Zuri ate uma ilha de nuvem (item `aerion_26_cloud_seed`) e planeio de Pipa dela ate a ilha do bau; a rota principal nao passa por ela (teste).
 6. ~~Fase 25: item Horizonte na rota principal~~ **corrigido**: agora numa ilhota alta, so por Zuri (a rota principal termina a fase sem ele; teste).
 7. **Fase 15**: acessorio nao esta num vagao elevado; geometria reaproveitada da fase 10.
-8. **S05**: portal na ultima ilha da fase 28, nao "entre duas ilhas".
+8. ~~S05: portal na ultima ilha~~ **corrigido**: o portal `aerion_28_portal` fica numa ilhota entre as duas ilhas de teto (inversoes 2 e 3), em gravidade normal; so o salto duplo de Zuri a alcanca (teste).
 9. **Fases 21 e 22**: plataforma transparente = `RupturePlatform`; onda = `ChaseWave` sem agua visual. **Fase 23**: a "entrada de Thalassa" e um arco decorativo.
-10. **Fase 30**: a gravidade localizada e uma zona de 0,6 em volta do nucleo, de efeito leve.
-11. **Fase 32**: sem atalho dimensional; todos os modulos ficam na mesma cena (a regra de nao manter todos os mundos na memoria nao foi atendida de fato). **Fase 34**: sem seletor de cosmeticos.
+10. ~~Fase 30: gravidade leve~~ **reforcado**: ar rarefeito em volta do nucleo com escala 0,35 (antes 0,6) e zona maior; segue positivo para o planeio de Pipa (Pipa nao planeia com gravidade invertida).
+11. **Fase 32** (ABERTA): sem atalho dimensional; todos os modulos ficam na mesma cena (a regra de nao manter todos os mundos na memoria nao foi atendida de fato). **Fase 34**: sem seletor de cosmeticos.
 12. **Chefes**: so faixas de erupcao como ataque; sem mordidas, espinhos, petalas/projeteis, campo magnetico; sem cutscene de libertacao; sem compartimento selado da Astralis (6 simbolos); sem restauracao visual do planeta.
 13. **Ilusoes de Necryon** testadas por regra (evidencia pisca/forma); legibilidade para uma pessoa nao verificada.
 14. **Sinalizacao de vento**: agora tem faixas de particulas (somem com a corrente desligada, respeitam perfil grafico e "reduzir movimento"; suite_wind_streaks). **Gravidade** invertida/baixa segue so por zona translucida colorida. Aparencia nao avaliada por pessoa.
