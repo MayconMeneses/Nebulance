@@ -9,6 +9,8 @@ extends LevelScene
 signal seed_destroyed(first_time: bool)
 
 const DEFINITION: String = "res://game/levels/aerion/aerion_30_definition.tres"
+## Escala da gravidade em volta do nucleo ("ar rarefeito"): o heroi flutua bem mais alto (0,35 = pouco mais de um terco da gravidade normal).
+const THIN_AIR: float = 0.35
 const RELIC_ID: String = "relic_aerion"
 const MEMORY_ID: String = "astralis_memory_aerion"
 const TRIAD_POSITIONS: Array[Vector3] = [Vector3(6.5, 0.8, 0.0), Vector3(11.5, 0.8, 0.0), Vector3(16.5, 0.8, 0.0)]
@@ -57,7 +59,7 @@ func _build_geometry(b: SegmentBuilder) -> void:
 	updraft.control = beacon
 	add_child(updraft)
 	b.solid(Vector3(43.0, 4.5, 0.0), Vector3(7.0, 1.0, 4.0), Color("EDB85E"))
-	b.zone(PhysicsLayers.WIND, "thin_air_30", Vector3(43.0, 8.0, 0.0), Vector3(7.0, 6.0, 3.0), Color(0.6, 0.4, 1.0, 0.07), Vector3.ZERO, 0.6)
+	b.zone(PhysicsLayers.WIND, "thin_air_30", Vector3(43.0, 8.5, 0.0), Vector3(9.0, 7.0, 3.0), Color(0.6, 0.4, 1.0, 0.1), Vector3.ZERO, THIN_AIR)
 	shield = Mechanism.new()
 	shield.mechanism_id = &"aerion_30_shield"
 	shield.prompt_text = "Pressione E para desativar a protecao da semente"

@@ -44,7 +44,7 @@ func _stages(tree: SceneTree, out: Array) -> void:
 	TestWorld.rec(out, "TC-055 Zefrion etapa 3: so a protecao responde, e o Triade so na FINISH", level.shield.can_interact() and not level.triad.nodes[0].can_interact())
 	level.rig.body.global_position = Vector3(43.0, 8.0, 0.0)
 	await _settle(tree, 1)
-	TestWorld.rec(out, "TC-055 Zefrion: em volta do nucleo a gravidade e reduzida (escala 0,6)", is_equal_approx(ZoneEffects.gravity_scale(level.rig.body), 0.6))
+	TestWorld.rec(out, "TC-055 Zefrion: em volta do nucleo a gravidade e reduzida (escala 0,35: o heroi flutua bem mais alto)", is_equal_approx(ZoneEffects.gravity_scale(level.rig.body), AerionLevel30.THIN_AIR) and AerionLevel30.THIN_AIR < 0.4)
 	level.shield.interact()
 	await _settle(tree, 3)
 	TestWorld.rec(out, "TC-055 Zefrion: desativar a protecao libera o Golpe Triade (fase FINISH)", b.phase == VyrkanBoss.Phase.FINISH and level.triad.nodes[0].can_interact())
