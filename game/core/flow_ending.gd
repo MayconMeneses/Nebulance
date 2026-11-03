@@ -9,6 +9,7 @@ static func seed_destroyed(flow: GameFlow, first_time: bool) -> void:
 	var reaction: CaeldronReaction = null
 	if first_time:
 		flow.reaction_plays += 1
+		_play_liberation(flow)
 		reaction = CaeldronReaction.new()
 		var custom: Variant = flow.level.get("reaction_message")
 		if custom is String and custom != "":
@@ -41,3 +42,15 @@ static func show_credits(flow: GameFlow, from_ending: bool) -> void:
 		if from_ending:
 			flow._ending_active = false
 			flow.get_tree().paused = false)
+
+
+## Cutscene de libertacao do guardiao (sobreposta, pulavel); so na primeira vez. O nome vem do planeta da fase de arena.
+static func _play_liberation(flow: GameFlow) -> void:
+	var planet: Variant = flow.level.get("planet")
+	if not planet is PlanetDefinition:
+		return
+	flow.liberation_plays += 1
+	var scene := GuardianLiberation.new()
+	scene.guardian_name = planet.guardian_name
+	scene.planet_name = planet.display_name
+	flow.add_child(scene)

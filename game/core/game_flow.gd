@@ -29,6 +29,7 @@ var settings_menu: SettingsMenu
 var map: GalaxyMap
 var origin_level: LevelScene
 var reaction_plays: int = 0
+var liberation_plays: int = 0
 ## Sequencia final (morte de Caeldron) e creditos: contadores para os testes; a sequencia so toca na primeira vez (ProgressLedger).
 var ending_plays: int = 0
 var credits_plays: int = 0

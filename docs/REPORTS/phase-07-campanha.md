@@ -17,7 +17,7 @@ Regressao completa informada nos commits de merge: **792 checagens, 0 falhas** (
 | S01 | O Jardim Alem do Portal | suite_level_03 | LevelBotS01 | 4 | 2/0/0 | gravidade 0,4 e plataformas de ruptura |
 | 04 | O Rio Luminoso | suite_level_04 | LevelBot04 | 9 | 0/0/1 | vento nao usado; pista visual pos-restauracao ausente |
 | 05 | A Torre Esquecida | suite_level_05 | LevelBot05 | 9 | 0/1/0 | holograma sem texto/imagem; bau sem tabela "especial" |
-| 06 | O Guardiao das Raizes (Vyrkan) | suite_boss | LevelBot06 | 6 | 0/0/0 | so erupcoes de raizes; sem cutscene de libertacao; sem compartimento selado da Astralis |
+| 06 | O Guardiao das Raizes (Vyrkan) | suite_boss | LevelBot06 | 6 | 0/0/0 | so erupcoes de raizes; sem compartimento selado da Astralis |
 | 07 | O Despertar dos Cristais | suite_cristalia_07 | LevelBot07 | 9 | 1/0/0 | feixes/prismas deterministicos |
 | 08 | O Labirinto dos Reflexos | suite_cristalia_08 | LevelBot08 | 9 | 1/0/0 | planeio de Pipa ate o dispositivo |
 | 09 | O Jardim das Orquideas | suite_cristalia_09 | LevelBot09 | 9 | 0/1/0 | portal para S02 |
@@ -72,7 +72,7 @@ Desvios em relacao ao PDF, do mais ao menos visivel (todos documentados em `docs
 9. **Fases 21 e 22**: plataforma transparente = `RupturePlatform`; onda = `ChaseWave` sem agua visual. **Fase 23**: a "entrada de Thalassa" e um arco decorativo.
 10. ~~Fase 30: gravidade leve~~ **reforcado**: ar rarefeito em volta do nucleo com escala 0,35 (antes 0,6) e zona maior; segue positivo para o planeio de Pipa (Pipa nao planeia com gravidade invertida).
 11. **Fase 32** (ABERTA): sem atalho dimensional; todos os modulos ficam na mesma cena (a regra de nao manter todos os mundos na memoria nao foi atendida de fato). ~~**Fase 34**: sem seletor de cosmeticos~~ **corrigido**: espelho interativo com seletor por heroi (`suite_cosmetics`).
-12. **Chefes**: so faixas de erupcao como ataque; sem mordidas, espinhos, petalas/projeteis, campo magnetico; sem cutscene de libertacao; sem compartimento selado da Astralis (6 simbolos); sem restauracao visual do planeta.
+12. **Chefes** (parcial): a cutscene de libertacao do guardiao existe (`GuardianLiberation`, 1x, pulavel, `suite_liberation`); so faixas de erupcao como ataque; sem mordidas, espinhos, petalas/projeteis, campo magnetico; sem compartimento selado da Astralis (6 simbolos); sem restauracao visual do planeta.
 13. **Ilusoes de Necryon** testadas por regra (evidencia pisca/forma); legibilidade para uma pessoa nao verificada.
 14. **Sinalizacao de vento**: agora tem faixas de particulas (somem com a corrente desligada, respeitam perfil grafico e "reduzir movimento"; suite_wind_streaks). **Gravidade** invertida/baixa segue so por zona translucida colorida. Aparencia nao avaliada por pessoa.
 15. **Rotulos "TC-04x/05x" duplicados** entre planetas nas suites (ver `docs/QA_PLAN.md`).
