@@ -79,7 +79,7 @@ Estado: IMPLEMENTADA em graybox; bot derrota o chefe e abre o bau (6 moedas, 0 v
 | Camera que enquadre o ponto vulneravel | Camera de arena fixa; `is_position_in_frustum` verificado para o bulbo, bordas e plataformas |
 | Checkpoint pre-boss; transicao de libertacao | `sylvara_06_cp1`; libertacao do guardiao = estado do chefe/bau (visual provisorio; a cutscene de libertacao (`GuardianLiberation`) toca 1x ao destruir a semente |
 | Semente destruida uma vez; Caeldron reage uma vez; planeta restaurado; reliquia; rota Cristalia | Transacao `seed:sylvara` (`ProgressLedger`): grava semente, guardiao, `relic_sylvara` ("Reliquia de Sylvara", sem nome oficial no PDF) e `astralis_memory_sylvara`; salva na hora; reacao de Caeldron so se `first_time`; arena reabre restaurada; mapa: Sylvara Salvo, raiz removida, Cristalia Disponivel (mas em producao) |
-Nao implementado: restauracao visual do planeta, compartimento selado da Astralis (6 simbolos), mordidas e armadilhas de sementes do chefe (so erupcoes de raizes).
+Nao implementado: restauracao visual do planeta, mordidas e armadilhas de sementes do chefe (so erupcoes de raizes).
 
 ## SYLVARA: 6 fases + S01 + Vyrkan implementados (graybox, com bots). Playtest humano, calibracao e arte final pendentes.
 
@@ -173,4 +173,4 @@ Nao implementado em Aerion: arte final, ataques do chefe alem das faixas de erup
 - **Uma vez so**: `ProgressLedger.claim_campaign_end` (transacao `ending:caeldron_death` em `claimed_transaction_ids`) grava a mensagem final `astralis_final_message` e o trofeu `trophy_campaign_complete`; recarregar, morrer na arena ou re-emitir a semente nao repete nada. A sequencia encadeia depois da reacao de Caeldron da sexta semente.
 - **Pos-jogo**: planetas salvos continuam visitaveis (viagem pela flag `playable`), raizes todas removidas, mapa mostra "Campanha concluida" e o botao Creditos (rever nao conta como fim).
 - **Umbraxis jogavel**: `playable = true` (todos os seis planetas jogaveis) depois que a Aerion ficou jogavel; O encadeamento Sylvara>Cristalia>Mecatron>Aquarys>Aerion>Umbraxis e testado (`suite_ending`).
-- Nao implementado: arte/animacao/audio proprios do final, galeria, compartimento selado da Astralis visivel (so a memoria gravada), lista real de creditos.
+- Nao implementado: arte/animacao/audio proprios do final, galeria, lista real de creditos. O compartimento selado da Astralis (6 simbolos + mensagem final, texto PROVISORIO) aparece no Mapa Galactico (`AstralisVault`, derivado do save; `suite_astralis_vault`, TC-064).

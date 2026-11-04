@@ -22,6 +22,7 @@ var _info: Label
 var _message: Label
 var _banner: Label
 var _credits: Button
+var _vault: Label
 var _travel: Button
 var _selected: int = 0
 var _time: float = 0.0
@@ -87,6 +88,11 @@ func _ready() -> void:
 	_credits.custom_minimum_size = Vector2(160.0, 40.0)
 	_credits.pressed.connect(func() -> void: credits_requested.emit())
 	add_child(_credits)
+	_vault = Label.new()
+	_vault.position = Vector2(24.0, 560.0)
+	_vault.custom_minimum_size = Vector2(760.0, 0.0)
+	_vault.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	add_child(_vault)
 	_message = Label.new()
 	_message.position = Vector2(820.0, 580.0)
 	_message.custom_minimum_size = Vector2(420.0, 0.0)
@@ -150,6 +156,7 @@ func _refresh() -> void:
 	_info.text = "\n".join(lines)
 	var complete: bool = GalaxyState.campaign_complete(shown)
 	_banner.text = banner_text()
+	_vault.text = AstralisVault.panel_text(shown)
 	_credits.visible = complete and qa_progress < 0
 	_travel.disabled = not GalaxyState.can_travel(shown, _selected) or qa_progress >= 0
 	if status == GalaxyState.Status.LOCKED:
