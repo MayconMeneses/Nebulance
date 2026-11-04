@@ -9,6 +9,8 @@ func run(tree: SceneTree) -> Array:
 	tree.get_root().add_child(level)
 	await tree.physics_frame
 	var bot := LevelBot.new(tree, level)
+	var used: Dictionary = {level.rig.body.profile.hero_id: true}
+	level.rig.hero_changed.connect(func(p: HeroProfile) -> void: used[p.hero_id] = true)
 	var finished: bool = await bot.play()
 	var c: LevelController = level.controller
 	TestWorld.rec(out, "bot: completa a fase 01 do inicio ao bau sem teleporte", finished,
@@ -20,7 +22,8 @@ func run(tree: SceneTree) -> Array:
 		TestWorld.rec(out, "bot: classificacao Ouro e saldo 150 + 9 moedas",
 				level.save["economy"]["best_grade_by_level"].get("sylvara_01") == RewardLedger.Grade.GOLD
 				and level.save["economy"]["coin_balance"] == 159, "(saldo=%d)" % level.save["economy"]["coin_balance"])
+		## Antes validava o heroi ATIVO no fim (Pipa); o trecho extra termina com outro heroi, entao agora confere que os tres foram usados.
 		TestWorld.rec(out, "bot: usou os tres herois (Rocco quebrou a barreira, Zuri subiu, Pipa planou)",
-				level.rig.active_index == 2)
+				used.has(&"rocco") and used.has(&"zuri") and used.has(&"pipa"), "(%s)" % ",".join(PackedStringArray(used.keys().map(func(k: Variant) -> String: return String(k)))))
 	level.queue_free()
 	return out

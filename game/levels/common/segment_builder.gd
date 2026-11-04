@@ -7,6 +7,8 @@ var parent: Node3D
 var trim_color: Color = Color(0.5, 0.84, 0.78)
 var min_x: float = INF
 var max_x: float = -INF
+## Ultimo bau criado (o trecho extra da fase parte dele, ver LevelExtension).
+var last_chest: Chest
 
 
 func _init(level_root: Node3D) -> void:
@@ -80,6 +82,7 @@ func chest(id: String, pos: Vector3) -> Chest:
 	c.chest_id = StringName(id)
 	c.position = pos
 	parent.add_child(c)
+	last_chest = c
 	return c
 
 

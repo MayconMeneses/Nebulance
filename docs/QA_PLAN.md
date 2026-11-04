@@ -59,7 +59,7 @@ BLOCKED e NOT_RUN **nao** sao aprovacao.
 Contagem dos 40 TC: PASS 21 (003–011, 013–017, 020, 021, 027, 029, 030, 032, 034) · PARCIAL 14 (001, 002, 012, 023–026, 028, 031, 033, 037–040) · NOT_RUN 5 (018, 019, 022, 035, 036) · FAIL 0 · BLOCKED 0. "PASS" vale so para o que o teste automatizado cobre (ver a coluna de evidencia). Playtest humano, gamepad fisico, toque em aparelho real, Android, FPS em hardware-alvo e maquina limpa: NOT_RUN.
 
 ## IDs de teste internos (TC-041 em diante)
-O PDF so define TC-001..040. As suites de fase usam rotulos internos "TC-0xx" acima de 040 para agrupar checagens. **Cada rotulo interno pertence a uma unica suite** (renumerados em 2026-11: antes o mesmo numero era reutilizado por planetas diferentes, e TC-040 em `suite_mecatron_13` colidia com a auditoria de licencas do PDF). Rotulo novo: usar o proximo numero livre (hoje TC-076). Mapa como esta no codigo:
+O PDF so define TC-001..040. As suites de fase usam rotulos internos "TC-0xx" acima de 040 para agrupar checagens. **Cada rotulo interno pertence a uma unica suite** (renumerados em 2026-11: antes o mesmo numero era reutilizado por planetas diferentes, e TC-040 em `suite_mecatron_13` colidia com a auditoria de licencas do PDF). Rotulo novo: usar o proximo numero livre (hoje TC-077). Mapa como esta no codigo:
 | Rotulo | Suite |
 |---|---|
 | TC-041, TC-058 | `suite_mecatron_13` |
@@ -93,6 +93,7 @@ O PDF so define TC-001..040. As suites de fase usam rotulos internos "TC-0xx" ac
 | TC-073 | `suite_planet_music` |
 | TC-074 | `suite_hero_aura` |
 | TC-075 | `suite_hero_expressions` |
+| TC-076 | `suite_extension` |
 
 ## Benchmark historico (NAO e o hardware-alvo; NAO prova 60 FPS)
 Medido antes da campanha completa, bot jogando a fase 01 com HUD e audio, Intel UHD 620, `gl_compatibility`:

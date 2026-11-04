@@ -75,4 +75,4 @@ func play() -> bool:
 		return false
 	if not await walk_to(96.2):
 		return false
-	return await press_until(func() -> bool: return level.controller.completed)
+	return await ExtensionRunner.finish(self)

@@ -18,6 +18,8 @@ var astralis: AstralisView
 var effects: EffectsDirector
 var builder: SegmentBuilder
 var palette: Dictionary = {}
+## Trecho extra da fase (vazio se nao tem): route, start, original, length (ver LevelExtension).
+var extension: Dictionary = {}
 
 
 func _ready() -> void:
@@ -28,6 +30,7 @@ func _ready() -> void:
 	builder.trim_color = palette["trim"]
 	_build_environment()
 	_build_geometry(builder)
+	extension = LevelExtension.build(definition.level_id, builder, palette) if definition != null else {}
 	_build_backdrop()
 	if _has_astralis():
 		astralis = AstralisView.new()

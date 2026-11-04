@@ -82,10 +82,4 @@ func play() -> bool:
 		return false
 	if not await run_to(59.4):
 		return false
-	input.move_axis = 0.0
-	for i in 60:
-		input.press_interact()
-		await tree.physics_frame
-		if level.controller.completed:
-			return true
-	return false
+	return await ExtensionRunner.finish(self)

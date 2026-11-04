@@ -32,7 +32,8 @@ func _ids(tree: SceneTree, out: Array) -> void:
 	var chests: Array[Node] = level.find_children("*", "Chest", true, false)
 	var cps: Array[String] = []
 	for node in level.find_children("*", "LevelZone", true, false):
-		if (node as LevelZone).zone_layer == PhysicsLayers.CHECKPOINT:
+		## Os checkpoints do trecho extra (`_xcpN`, ver LevelExtension) ficam de fora da definicao de proposito (o save nao muda).
+		if (node as LevelZone).zone_layer == PhysicsLayers.CHECKPOINT and not "_xcp" in String((node as LevelZone).zone_id):
 			cps.append(String((node as LevelZone).zone_id))
 	var unique: Dictionary = {}
 	for id in all_ids:
@@ -89,7 +90,7 @@ func _attempt_rules(tree: SceneTree, out: Array) -> void:
 	TestWorld.rec(out, "TC-013 fase 01: morrer depois do checkpoint volta a ele e desfaz so a coleta posterior",
 			absf(level.rig.body.global_position.x - 44.0) < 1.5 and c.session.coin_ids == ["sylvara_01_coin_01"]
 			and level.rig.vitals.lives == 3, "(x=%.1f)" % level.rig.body.global_position.x)
-	await _teleport(level, tree, Vector3(102, 0.6, 0))
+	await _teleport(level, tree, (level.find_children("*", "Chest", true, false)[0] as Chest).global_position)
 	TestWorld.rec(out, "fase 01: bau mostra o aviso de interacao", c._prompt != "")
 	var done := {"n": 0, "receipt": {}}
 	c.level_completed.connect(func(r: Dictionary) -> void:

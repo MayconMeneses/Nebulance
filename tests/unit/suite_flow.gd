@@ -72,7 +72,7 @@ func _full_cycle(tree: SceneTree, out: Array) -> void:
 	var input := ScriptedInput.new()
 	flow.level.rig.body.intent_provider = input.read
 	await _tp(flow, tree, Vector3(4, 1, 0))
-	await _tp(flow, tree, Vector3(102, 0.6, 0))
+	await _tp(flow, tree, (flow.level.find_children("*", "Chest", true, false)[0] as Chest).global_position)
 	input.press_interact()
 	await tree.physics_frame
 	await tree.process_frame
@@ -96,7 +96,7 @@ func _full_cycle(tree: SceneTree, out: Array) -> void:
 	var input2 := ScriptedInput.new()
 	flow.level.rig.body.intent_provider = input2.read
 	await _tp(flow, tree, Vector3(4, 1, 0))
-	await _tp(flow, tree, Vector3(102, 0.6, 0))
+	await _tp(flow, tree, (flow.level.find_children("*", "Chest", true, false)[0] as Chest).global_position)
 	input2.press_interact()
 	await tree.physics_frame
 	await tree.process_frame

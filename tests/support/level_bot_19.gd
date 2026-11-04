@@ -40,4 +40,4 @@ func play() -> bool:
 	if not await run_to(75.4):
 		return false
 	input.move_axis = 0.0
-	return await press_until(func() -> bool: return level.controller.completed)
+	return await ExtensionRunner.finish(self)

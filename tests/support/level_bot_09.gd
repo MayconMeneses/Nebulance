@@ -70,26 +70,20 @@ func play() -> bool:
 			break
 	if not await wait_floor():
 		return false
+	return await ExtensionRunner.finish(self, _visit_portal)
+
+
+## O portal fica ALEM do bau (agora o bau do trecho extra): o bot passa o bau, pede o portal e volta para abri-lo.
+func _visit_portal() -> bool:
 	stage = "portal (alem do bau)"
-	if not await run_to(97.6):
+	var px: float = ((level as CristaliaLevel09).portal as Node3D).global_position.x
+	if not await run_to(px - 0.4):
 		return false
-	if not await walk_to(98.0):
+	if not await walk_to(px):
 		return false
 	for i in 20:
 		input.press_interact()
 		await tree.physics_frame
 		if not portal_requests.is_empty():
 			break
-	if portal_requests.is_empty():
-		return false
-	stage = "bau"
-	if not await run_left_to(85.8):
-		return false
-	if not await walk_to(84.4):
-		return false
-	for i in 60:
-		input.press_interact()
-		await tree.physics_frame
-		if level.controller.completed:
-			return true
-	return false
+	return not portal_requests.is_empty()
