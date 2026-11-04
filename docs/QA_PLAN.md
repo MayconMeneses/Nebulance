@@ -42,7 +42,7 @@ BLOCKED e NOT_RUN **nao** sao aprovacao.
 | 025 | Saltar cutscene mantem recompensa | PARCIAL | introducao da Astralis e reacao de Caeldron pulaveis, sem conceder nem perder nada (`suite_flow`). Outras cutscenes (libertacao, final) nao existem |
 | 026 | Mapa so mostra rotas disponiveis | PARCIAL | `suite_galaxy`, `suite_boss`: estados derivados do save, raizes, contagem de segredos sem spoiler, modo QA. Umbraxis (indice 5) ainda `playable = false`; viagens da Astralis reduzidas a chegada 3D pulavel |
 | 027 | Semente destruida: Caeldron reage 1x | PASS | `suite_boss`, `suite_boss_zythra`, `suite_boss_ferrorraiz`, `suite_aquarys_24`, `suite_boss_zefrion`, `suite_umbraxis_36` (transacao unica, salva na hora; reacao so em `first_time`) |
-| 028 | Semente restaura planeta e liberta guardiao | PARCIAL | estado no save e no mapa (raiz removida, proximo planeta aberto, guardiao em `boss_freed_ids`, arena reabre restaurada, chefe nao ressuscita): PASS nas mesmas suites. **Restauracao visual do planeta e cutscene de libertacao: nao implementadas** |
+| 028 | Semente restaura planeta e liberta guardiao | PARCIAL | estado no save e no mapa (raiz removida, proximo planeta aberto, guardiao em `boss_freed_ids`, arena reabre restaurada, chefe nao ressuscita): PASS nas mesmas suites. Restauracao visual: PARCIAL (cada fase usa a paleta do planeta, corrompida ou restaurada conforme a semente no save; `suite_visual_look`, TC-066; sem arte final, nao avaliada por pessoa). Cutscene de libertacao: implementada (`suite_liberation`) |
 | 029 | Vyrkan: padroes, telegraph, sem armas | PASS | `suite_boss` (aviso >= 0,6 s, so a faixa ativa fere, etapas na ordem certa, Golpe Triade com 3 herois diferentes). O mesmo contrato e testado nos outros 5 chefes |
 | 030 | Zythra: prismas e luz deterministicos | PASS | `suite_beams` (solver), `suite_boss_zythra` |
 | 031 | Ferrorraiz: magnetismo e maquinas consistentes | PARCIAL | maquinas, esteiras, prensas e polaridade deterministicas: PASS (`suite_mecatron_13`..`_17`, `suite_boss_ferrorraiz`). Magnetismo **como forca** nao existe (so polaridade de plataformas) |
@@ -59,7 +59,7 @@ BLOCKED e NOT_RUN **nao** sao aprovacao.
 Contagem dos 40 TC: PASS 21 (003–011, 013–017, 020, 021, 027, 029, 030, 032, 034) · PARCIAL 14 (001, 002, 012, 023–026, 028, 031, 033, 037–040) · NOT_RUN 5 (018, 019, 022, 035, 036) · FAIL 0 · BLOCKED 0. "PASS" vale so para o que o teste automatizado cobre (ver a coluna de evidencia). Playtest humano, gamepad fisico, toque em aparelho real, Android, FPS em hardware-alvo e maquina limpa: NOT_RUN.
 
 ## IDs de teste internos (TC-041 em diante)
-O PDF so define TC-001..040. As suites de fase usam rotulos internos "TC-0xx" acima de 040 para agrupar checagens. **Cada rotulo interno pertence a uma unica suite** (renumerados em 2026-11: antes o mesmo numero era reutilizado por planetas diferentes, e TC-040 em `suite_mecatron_13` colidia com a auditoria de licencas do PDF). Rotulo novo: usar o proximo numero livre (hoje TC-066). Mapa como esta no codigo:
+O PDF so define TC-001..040. As suites de fase usam rotulos internos "TC-0xx" acima de 040 para agrupar checagens. **Cada rotulo interno pertence a uma unica suite** (renumerados em 2026-11: antes o mesmo numero era reutilizado por planetas diferentes, e TC-040 em `suite_mecatron_13` colidia com a auditoria de licencas do PDF). Rotulo novo: usar o proximo numero livre (hoje TC-067). Mapa como esta no codigo:
 | Rotulo | Suite |
 |---|---|
 | TC-041, TC-058 | `suite_mecatron_13` |
@@ -83,6 +83,7 @@ O PDF so define TC-001..040. As suites de fase usam rotulos internos "TC-0xx" ac
 | TC-063 | `suite_ending` |
 | TC-064 | `suite_astralis_vault` |
 | TC-065 | `suite_boss_signature` |
+| TC-066 | `suite_visual_look` |
 
 ## Benchmark historico (NAO e o hardware-alvo; NAO prova 60 FPS)
 Medido antes da campanha completa, bot jogando a fase 01 com HUD e audio, Intel UHD 620, `gl_compatibility`:
@@ -97,4 +98,4 @@ Medido antes da campanha completa, bot jogando a fase 01 com HUD e audio, Intel 
 Pior quadro ~145-150 ms (provavel compilacao de shaders; cache frio/quente nao separados). 60 FPS estaveis NAO foram atingidos em Medio/Alto com vsync nessa maquina. Nenhuma fase posterior a 05 foi medida.
 
 ## Nao verificado (resumo)
-Playtest humano de qualquer fase (diversao, dificuldade, duracao, legibilidade); gamepad fisico; controles de toque em aparelho real e Android (a camada de toque e testada so em PC por `suite_touch`); FPS em hardware-alvo; instalacao em maquina limpa e com rede bloqueada; instalador `installer/nebulance.iss` compilado/executado; loja, cosmeticos equipaveis, selecao de dificuldade, final e pos-jogo; restauracao visual dos planetas.
+Playtest humano de qualquer fase (diversao, dificuldade, duracao, legibilidade); gamepad fisico; controles de toque em aparelho real e Android (a camada de toque e testada so em PC por `suite_touch`); FPS em hardware-alvo; instalacao em maquina limpa e com rede bloqueada; instalador `installer/nebulance.iss` compilado/executado; loja, cosmeticos equipaveis, selecao de dificuldade, final e pos-jogo; aparencia real do visual futurista em hardware-alvo (so conferida em janela real num Intel UHD 620, sem medir FPS); arte final dos planetas.

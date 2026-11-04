@@ -3,6 +3,10 @@ extends RefCounted
 ## Monta pecas de nivel em graybox colorido (visual provisorio). Reutilizavel por todas as fases.
 
 var parent: Node3D
+## Cor do friso emissivo das pecas (vem da paleta do planeta) e extensao em x das pecas solidas (para o fundo de profundidade).
+var trim_color: Color = Color(0.5, 0.84, 0.78)
+var min_x: float = INF
+var max_x: float = -INF
 
 
 func _init(level_root: Node3D) -> void:
@@ -18,14 +22,16 @@ func solid(center: Vector3, size: Vector3, color: Color, emissive: bool = false)
 	box.size = size
 	cs.shape = box
 	body.add_child(cs)
-	body.add_child(_mesh(size, color, emissive))
+	body.add_child(_panel(size, color, emissive))
 	body.position = center
+	min_x = minf(min_x, center.x - size.x * 0.5)
+	max_x = maxf(max_x, center.x + size.x * 0.5)
 	parent.add_child(body)
 	return body
 
 
 func decor(center: Vector3, size: Vector3, color: Color, emissive: bool = false) -> MeshInstance3D:
-	var mi: MeshInstance3D = _mesh(size, color, emissive)
+	var mi: MeshInstance3D = _panel(size, color, emissive)
 	mi.position = center
 	parent.add_child(mi)
 	return mi
@@ -63,7 +69,7 @@ func barrier(center: Vector3, size: Vector3) -> ImpactBarrier:
 	box.size = size
 	cs.shape = box
 	b.add_child(cs)
-	b.add_child(_mesh(size, Color("F08A3B"), true))
+	b.add_child(_panel(size, Color("F08A3B"), true))
 	b.position = center
 	parent.add_child(b)
 	return b
@@ -89,6 +95,16 @@ func enemy(pos: Vector3, min_x: float, max_x: float) -> PatrolEnemy:
 func tree(x: float, height: float) -> void:
 	decor(Vector3(x, height * 0.5, -4.0), Vector3(0.5, height, 0.5), Color("5B3A29"))
 	decor(Vector3(x, height + 0.6, -4.0), Vector3(2.6, 1.8, 2.6), Color("1E7A5C"), true)
+
+
+## Peca solida/decorativa no visual futurista (shader de painel); as zonas translucidas continuam com `_mesh`.
+func _panel(size: Vector3, color: Color, emissive: bool) -> MeshInstance3D:
+	var mi := MeshInstance3D.new()
+	var mesh := BoxMesh.new()
+	mesh.size = size
+	mesh.material = FuturisticLook.panel(size, color, trim_color, emissive)
+	mi.mesh = mesh
+	return mi
 
 
 func _mesh(size: Vector3, color: Color, emissive: bool) -> MeshInstance3D:

@@ -174,3 +174,7 @@ Nao implementado em Aerion: arte final, ataques do chefe alem das faixas de erup
 - **Pos-jogo**: planetas salvos continuam visitaveis (viagem pela flag `playable`), raizes todas removidas, mapa mostra "Campanha concluida" e o botao Creditos (rever nao conta como fim).
 - **Umbraxis jogavel**: `playable = true` (todos os seis planetas jogaveis) depois que a Aerion ficou jogavel; O encadeamento Sylvara>Cristalia>Mecatron>Aquarys>Aerion>Umbraxis e testado (`suite_ending`).
 - Nao implementado: arte/animacao/audio proprios do final, galeria, lista real de creditos. O compartimento selado da Astralis (6 simbolos + mensagem final, texto PROVISORIO) aparece no Mapa Galactico (`AstralisVault`, derivado do save; `suite_astralis_vault`, TC-064).
+
+
+## Visual futurista (graybox evoluido)
+Todas as pecas solidas e decorativas usam o shader `game/vfx/shaders/futuristic_panel.gdshader` (chanfro simulado nas normais, friso de borda emissivo, costuras e brilho de contorno); so a aparencia muda, colisao e fisica ficam iguais. Cada fase tem ceu procedural, nevoa de profundidade, brilho (glow, desligado no perfil Baixo) e fundo de pilones/aneis/estrelas (`LevelAtmosphere`, `FuturisticBackdrop`) com a paleta do planeta em dois estados: CORROMPIDO (roxo escuro, nevoa magenta) e RESTAURADO (cores do planeta, mais claro), decidido pela semente destruida no save (`PlanetPalette`). Nao implementado: arte final, modelos proprios, restauracao com mudanca de cenario (so cor/luz).

@@ -17,13 +17,18 @@ var visual: HeroVisual
 var astralis: AstralisView
 var effects: EffectsDirector
 var builder: SegmentBuilder
+var palette: Dictionary = {}
 
 
 func _ready() -> void:
 	definition = load(_definition_path()) as LevelDefinition
+	var planet_id: StringName = definition.planet_id if definition != null else &""
+	palette = PlanetPalette.of(planet_id, PlanetPalette.restored(save, planet_id))
 	builder = SegmentBuilder.new(self)
+	builder.trim_color = palette["trim"]
 	_build_environment()
 	_build_geometry(builder)
+	_build_backdrop()
 	if _has_astralis():
 		astralis = AstralisView.new()
 		add_child(astralis)
@@ -81,17 +86,22 @@ func _build_rig() -> void:
 
 
 func _build_environment() -> void:
-	var env := Environment.new()
-	env.background_mode = Environment.BG_COLOR
-	env.background_color = Color("0B1F2A")
-	env.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
-	env.ambient_light_color = Color("7FD6C8")
-	env.ambient_light_energy = 0.7
 	var we := WorldEnvironment.new()
-	we.environment = env
+	we.environment = LevelAtmosphere.environment(palette)
+	we.add_to_group(LevelAtmosphere.GROUP)
 	add_child(we)
 	var sun := DirectionalLight3D.new()
 	sun.rotation_degrees = Vector3(-50.0, -30.0, 0.0)
-	sun.light_color = Color("FFE9C4")
+	sun.light_color = palette["sun"]
+	sun.light_energy = palette["sun_energy"]
 	sun.add_to_group(&"main_light")
 	add_child(sun)
+
+
+## Fundo de profundidade (pilones, aneis e estrelas) ao longo do comprimento da fase; so decoracao.
+func _build_backdrop() -> void:
+	var backdrop := FuturisticBackdrop.new()
+	add_child(backdrop)
+	var from_x: float = builder.min_x if builder.min_x < INF else 0.0
+	var to_x: float = builder.max_x if builder.max_x > -INF else 60.0
+	backdrop.build(from_x, to_x, palette, String(definition.level_id) if definition != null else "level")

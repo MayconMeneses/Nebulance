@@ -11,6 +11,9 @@ static func apply(viewport: Viewport, settings: Dictionary, tree: SceneTree) -> 
 	DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED if settings["vsync"] else DisplayServer.VSYNC_DISABLED)
 	Accessibility.set_from(settings)
 	GraphicsProfile.particle_scale = values["particle_scale"] * Accessibility.particle_factor()
+	GraphicsProfile.glow_on = values["glow"]
 	for light in tree.get_nodes_in_group(&"main_light"):
 		(light as Light3D).shadow_enabled = values["shadows"]
+	for node in tree.get_nodes_in_group(LevelAtmosphere.GROUP):
+		LevelAtmosphere.apply_glow((node as WorldEnvironment).environment, values["glow"])
 	return values
