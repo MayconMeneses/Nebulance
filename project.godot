@@ -15,6 +15,10 @@ config/features=PackedStringArray("4.7", "GL Compatibility")
 
 buses/default_bus_layout="res://game/audio/default_bus_layout.tres"
 
+[autoload]
+
+UiTheme="*res://game/ui/ui_theme_loader.gd"
+
 [display]
 
 window/size/viewport_width=1280

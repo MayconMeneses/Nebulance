@@ -20,9 +20,13 @@ func bind(level: LevelScene) -> void:
 
 
 func _ready() -> void:
+	var panel := PanelContainer.new()
+	panel.theme_type_variation = &"HudPanel"
+	panel.position = Vector2(10.0, 6.0)
+	panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(panel)
 	var top := VBoxContainer.new()
-	top.position = Vector2(16.0, 10.0)
-	add_child(top)
+	panel.add_child(top)
 	_hero_label = _label(top)
 	_lives_box = _icon_row(top, "Vidas")
 	_hearts_box = _icon_row(top, "Coracoes")
