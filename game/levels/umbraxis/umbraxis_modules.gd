@@ -6,14 +6,14 @@ extends RefCounted
 
 
 ## Sylvara: barreira marcada (Rocco) no meio de um piso de 20 m.
-static func barrier(lv: LevelScene, b: SegmentBuilder, ox: float) -> Dictionary:
+static func barrier(lv: Node3D, b: SegmentBuilder, ox: float) -> Dictionary:
 	b.solid(Vector3(ox + 10.0, -0.5, 0.0), Vector3(20.0, 1.0, 4.0), Color("2F5D4A"))
 	var gate: ImpactBarrier = b.barrier(Vector3(ox + 10.0, 1.6, 0.0), Vector3(1.2, 3.2, 3.0))
 	return {"len": 20.0, "barrier": gate}
 
 
 ## Cristalia: uma plataforma movel (vai e volta) sobre o vazio entre dois pisos. Com "reduzir movimento" vira uma ponte fixa (assistencia).
-static func moving(lv: LevelScene, b: SegmentBuilder, ox: float, assist: bool = false) -> Dictionary:
+static func moving(lv: Node3D, b: SegmentBuilder, ox: float, assist: bool = false) -> Dictionary:
 	var ground := Color("4A3F73")
 	b.solid(Vector3(ox + 7.0, -0.5, 0.0), Vector3(14.0, 1.0, 4.0), ground)
 	b.zone(PhysicsLayers.ABYSS, "gap_%d" % int(ox), Vector3(ox + 19.0, -6.0, 0.0), Vector3(12.0, 3.0, 4.0), Color(0.3, 0.0, 0.4, 0.3))
@@ -30,7 +30,7 @@ static func moving(lv: LevelScene, b: SegmentBuilder, ox: float, assist: bool = 
 
 
 ## Mecatron: esteira a favor, elevador de polaridade para o patamar e elevador de descida (alavancas de alternancia).
-static func belt_lift(lv: LevelScene, b: SegmentBuilder, ox: float) -> Dictionary:
+static func belt_lift(lv: Node3D, b: SegmentBuilder, ox: float) -> Dictionary:
 	var steel := Color("4B5563")
 	var belt := ConveyorBelt.new()
 	belt.size = Vector3(8.0, 0.4, 4.0)
@@ -46,7 +46,7 @@ static func belt_lift(lv: LevelScene, b: SegmentBuilder, ox: float) -> Dictionar
 
 
 ## Aquarys: a comporta alta ergue tres plataformas flutuantes ate o nivel do piso.
-static func tide(lv: LevelScene, b: SegmentBuilder, ox: float) -> Dictionary:
+static func tide(lv: Node3D, b: SegmentBuilder, ox: float) -> Dictionary:
 	var sand := Color("3E6E8C")
 	b.solid(Vector3(ox + 8.0, -0.5, 0.0), Vector3(16.0, 1.0, 4.0), sand)
 	var water := WaterBody.new()
@@ -71,7 +71,7 @@ static func tide(lv: LevelScene, b: SegmentBuilder, ox: float) -> Dictionary:
 
 
 ## Aerion: muro (Zuri, salto duplo), corrente de ar (Pipa planeia) e passarela alta.
-static func glide(lv: LevelScene, b: SegmentBuilder, ox: float) -> Dictionary:
+static func glide(lv: Node3D, b: SegmentBuilder, ox: float) -> Dictionary:
 	b.solid(Vector3(ox + 17.0, -0.5, 0.0), Vector3(34.0, 1.0, 4.0), Color("5B7FA6"))
 	b.solid(Vector3(ox + 14.0, 1.5, 0.0), Vector3(4.0, 3.0, 4.0), Color("7FA6C4"))
 	b.solid(Vector3(ox + 28.0, 2.75, 0.0), Vector3(6.0, 0.5, 4.0), Color("7FA6C4"))
@@ -80,7 +80,7 @@ static func glide(lv: LevelScene, b: SegmentBuilder, ox: float) -> Dictionary:
 
 
 ## Sylvara: plataformas de ruptura (transparentes quando instaveis) estabilizadas por um mecanismo no fim do piso.
-static func bridge(lv: LevelScene, b: SegmentBuilder, ox: float, link: StringName) -> Dictionary:
+static func bridge(lv: Node3D, b: SegmentBuilder, ox: float, link: StringName) -> Dictionary:
 	var ground := Color("2F5D4A")
 	b.solid(Vector3(ox + 10.0, -0.5, 0.0), Vector3(20.0, 1.0, 4.0), ground)
 	var stabilizer := Mechanism.new()
@@ -104,7 +104,7 @@ static func bridge(lv: LevelScene, b: SegmentBuilder, ox: float, link: StringNam
 	return {"len": 45.5, "stabilizer": stabilizer, "platforms": platforms}
 
 
-static func _lift(lv: LevelScene, pos: Vector3, axis: Vector3, lever_id: StringName) -> PolarityPlatform:
+static func _lift(lv: Node3D, pos: Vector3, axis: Vector3, lever_id: StringName) -> PolarityPlatform:
 	var p := PolarityPlatform.new()
 	p.position = pos
 	p.axis = axis

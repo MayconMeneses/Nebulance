@@ -7,6 +7,9 @@ signal level_completed(receipt: Dictionary)
 signal prompt_changed(text: String)
 signal sfx_requested(sfx_name: StringName)
 signal portal_requested(portal_id: StringName, destination_level_id: StringName)
+## Avisos ANTES de gravar o checkpoint e ANTES de restaurar o inicio: a fase pode carregar/descarregar partes (ver ModuleStreamer) a tempo de o snapshot ficar coerente.
+signal before_checkpoint(zone_id: StringName)
+signal before_restart
 
 var definition: LevelDefinition
 var session: LevelSession = LevelSession.new()
@@ -82,7 +85,8 @@ func _complete() -> void:
 	level_completed.emit(_ledger.commit_completion(save, definition, session))
 
 
-func _on_checkpoint(_zone_id: StringName) -> void:
+func _on_checkpoint(zone_id: StringName) -> void:
+	before_checkpoint.emit(zone_id)
 	session.take_snapshot()
 	_checkpoint_state = _capture_all()
 	sfx_requested.emit(&"checkpoint")
@@ -96,6 +100,7 @@ func _on_life_lost(_reason: StringName) -> void:
 
 ## Zerar as vidas reinicia SOMENTE a fase (o perfil persistente nao e tocado).
 func _on_restart() -> void:
+	before_restart.emit()
 	session = LevelSession.new()
 	_restore_all(_initial)
 	rig.last_checkpoint_id = &""
