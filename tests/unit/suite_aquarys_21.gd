@@ -53,7 +53,7 @@ func _mechanics(tree: SceneTree, out: Array) -> void:
 	level.stabilizer_a.interact()
 	var a_ok: bool = level.reef_platforms.filter(func(p: RupturePlatform) -> bool: return p.link_id == &"reef_a").all(func(p: RupturePlatform) -> bool: return p.stabilized)
 	var b_untouched: bool = level.reef_platforms.filter(func(p: RupturePlatform) -> bool: return p.link_id == &"reef_b").all(func(p: RupturePlatform) -> bool: return not p.stabilized)
-	TestWorld.rec(out, "TC-046 fase 21: o primeiro mecanismo estabiliza so o primeiro grupo de plataformas", a_ok and b_untouched)
+	TestWorld.rec(out, "TC-059 fase 21: o primeiro mecanismo estabiliza so o primeiro grupo de plataformas", a_ok and b_untouched)
 	# Checkpoint do recife: o primeiro mecanismo ja estava ligado ao alcanca-lo; a inscricao e o segundo mecanismo ficam depois.
 	level.rig.body.global_position = Vector3(57.0, 1.0, 0.0)
 	level.rig.body.velocity = Vector3.ZERO
@@ -61,11 +61,11 @@ func _mechanics(tree: SceneTree, out: Array) -> void:
 	TestWorld.rec(out, "fase 21: alcancar o recife registra o checkpoint", level.rig.last_checkpoint_id == &"aquarys_21_cp1")
 	level.inscription.interact()
 	level.stabilizer_b.interact()
-	TestWorld.rec(out, "TC-044 fase 21: a inscricao revela o portal secreto da S04", level.portal.can_interact() and level.stabilizer_b.is_active)
+	TestWorld.rec(out, "TC-059 fase 21: a inscricao revela o portal secreto da S04", level.portal.can_interact() and level.stabilizer_b.is_active)
 	for round_index in 2:
 		level.controller._on_life_lost(&"test")
 		await _settle(tree, 3)
-		TestWorld.rec(out, "TC-046 fase 21: reaparecer (%da vez) volta ao checkpoint do recife (primeiro mecanismo mantido, inscricao e segundo desligados)" % (round_index + 1),
+		TestWorld.rec(out, "TC-059 fase 21: reaparecer (%da vez) volta ao checkpoint do recife (primeiro mecanismo mantido, inscricao e segundo desligados)" % (round_index + 1),
 				level.stabilizer_a.is_active and not level.inscription.is_active and not level.stabilizer_b.is_active and not level.portal.can_interact()
 				and level.reef_platforms[0].stabilized and not level.reef_platforms[4].stabilized)
 		level.inscription.interact()

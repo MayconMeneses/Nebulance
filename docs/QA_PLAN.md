@@ -59,25 +59,28 @@ BLOCKED e NOT_RUN **nao** sao aprovacao.
 Contagem dos 40 TC: PASS 21 (003–011, 013–017, 020, 021, 027, 029, 030, 032, 034) · PARCIAL 14 (001, 002, 012, 023–026, 028, 031, 033, 037–040) · NOT_RUN 5 (018, 019, 022, 035, 036) · FAIL 0 · BLOCKED 0. "PASS" vale so para o que o teste automatizado cobre (ver a coluna de evidencia). Playtest humano, gamepad fisico, toque em aparelho real, Android, FPS em hardware-alvo e maquina limpa: NOT_RUN.
 
 ## IDs de teste internos (TC-041 em diante)
-O PDF so define TC-001..040. As suites de fase usam rotulos internos "TC-0xx" acima de 040 para agrupar checagens; **o mesmo numero foi reutilizado por planetas diferentes** (nao sao identificadores unicos) e TC-040 em `suite_mecatron_13` NAO e a auditoria de licencas do PDF. Mapa dos rotulos como estao no codigo:
-| Rotulo | Suites que o usam |
+O PDF so define TC-001..040. As suites de fase usam rotulos internos "TC-0xx" acima de 040 para agrupar checagens. **Cada rotulo interno pertence a uma unica suite** (renumerados em 2026-11: antes o mesmo numero era reutilizado por planetas diferentes, e TC-040 em `suite_mecatron_13` colidia com a auditoria de licencas do PDF). Rotulo novo: usar o proximo numero livre (hoje TC-064). Mapa como esta no codigo:
+| Rotulo | Suite |
 |---|---|
-| TC-040/041 | `suite_mecatron_13` |
+| TC-041, TC-058 | `suite_mecatron_13` |
 | TC-042 | `suite_mecatron_14` |
 | TC-043 | `suite_mecatron_16` |
-| TC-044 | `suite_mecatron_17`, `suite_aquarys_21`, `suite_umbraxis_33` |
+| TC-044 | `suite_mecatron_17` |
 | TC-045 | `suite_aquarys_19` |
-| TC-046 | `suite_aquarys_20`, `suite_aquarys_21` |
+| TC-046 | `suite_aquarys_20` |
+| TC-059 | `suite_aquarys_21` |
 | TC-047 | `suite_aquarys_23` |
-| TC-048/049 | `suite_aquarys_24` |
-| TC-050 | `suite_aerion_25`, `suite_umbraxis_32` |
-| TC-051 | `suite_aerion_26`, `suite_umbraxis_33` |
-| TC-052 | `suite_aerion_27`, `suite_umbraxis_36` |
-| TC-053 | `suite_aerion_28`, `suite_umbraxis_36` |
+| TC-048, TC-049 | `suite_aquarys_24` |
+| TC-050 | `suite_aerion_25` |
+| TC-051 | `suite_aerion_26` |
+| TC-052 | `suite_aerion_27` |
+| TC-053, TC-057 | `suite_aerion_28` |
 | TC-054 | `suite_aerion_29` |
-| TC-055/056 | `suite_boss_zefrion` |
-| TC-057 | `suite_aerion_28` |
-Recomendacao (nao feita aqui por ser mudanca em testes): renumerar ou prefixar os rotulos por planeta.
+| TC-055, TC-056 | `suite_boss_zefrion` |
+| TC-061 | `suite_umbraxis_32` |
+| TC-060 | `suite_umbraxis_33` |
+| TC-062 | `suite_umbraxis_36` |
+| TC-063 | `suite_ending` |
 
 ## Benchmark historico (NAO e o hardware-alvo; NAO prova 60 FPS)
 Medido antes da campanha completa, bot jogando a fase 01 com HUD e audio, Intel UHD 620, `gl_compatibility`:

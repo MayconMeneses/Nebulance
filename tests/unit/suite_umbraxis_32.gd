@@ -39,7 +39,7 @@ func _mechanics(tree: SceneTree, out: Array) -> void:
 		level.controller._on_life_lost(&"test")
 		level.rig.body.respawn(level.rig.checkpoint_position)
 		await _settle(tree, 3)
-		TestWorld.rec(out, "TC-050 fase 32: reaparecer (%da vez) volta a mare ao nivel do checkpoint e mantem a barreira ja quebrada antes dele" % (round_index + 1),
+		TestWorld.rec(out, "TC-061 fase 32: reaparecer (%da vez) volta a mare ao nivel do checkpoint e mantem a barreira ja quebrada antes dele" % (round_index + 1),
 				level.tide_mod["water"].level == 0 and level.barrier_mod["barrier"].is_broken and level.rig.body.global_position.x > 90.0)
 		level.tide_mod["control"].interact()
 		await _settle(tree, 2)

@@ -75,7 +75,7 @@ Desvios em relacao ao PDF, do mais ao menos visivel (todos documentados em `docs
 12. **Chefes** (parcial): a cutscene de libertacao do guardiao existe (`GuardianLiberation`, 1x, pulavel, `suite_liberation`); so faixas de erupcao como ataque; sem mordidas, espinhos, petalas/projeteis, campo magnetico; sem compartimento selado da Astralis (6 simbolos); sem restauracao visual do planeta.
 13. **Ilusoes de Necryon** testadas por regra (evidencia pisca/forma); legibilidade para uma pessoa nao verificada.
 14. **Sinalizacao de vento**: agora tem faixas de particulas (somem com a corrente desligada, respeitam perfil grafico e "reduzir movimento"; suite_wind_streaks). **Gravidade** invertida/baixa segue so por zona translucida colorida. Aparencia nao avaliada por pessoa.
-15. **Rotulos "TC-04x/05x" duplicados** entre planetas nas suites (ver `docs/QA_PLAN.md`).
+15. ~~**Rotulos "TC-04x/05x" duplicados** entre planetas nas suites~~ **corrigido**: cada rotulo interno pertence a uma unica suite (mapa em `docs/QA_PLAN.md`).
 16. **`game_flow.gd` tem 319 linhas** (acima do limite de 200 do projeto); `actor_controller.gd` 198; `level_bot_umbraxis.gd` 265.
 17. **Rede**: a consulta de atualizacao (ligada por padrao) contraria "sem rede" lido ao pe da letra.
 

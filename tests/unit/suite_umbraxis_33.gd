@@ -35,14 +35,14 @@ func _mechanics(tree: SceneTree, out: Array) -> void:
 		for k in 3:
 			if not level.stones_a[k].steady():
 				changed[k] = true
-	TestWorld.rec(out, "TC-051 fase 33: conjunto 1 - a unica pedra que nunca pisca e a verdadeira (as ilusoes alternam)",
+	TestWorld.rec(out, "TC-060 fase 33: conjunto 1 - a unica pedra que nunca pisca e a verdadeira (as ilusoes alternam)",
 			not changed[UmbraxisLevel33.REAL_A] and changed.count(true) == 2 and level.stones_a.filter(func(s: EchoStone) -> bool: return s.is_real).size() == 1)
 	# Evidencia 2 (forma): ilusoes sao colunas finas; a real e cheia e nao pisca.
 	var shapes_ok: bool = true
 	for k in 3:
 		var s: EchoStone = level.stones_b[k]
 		shapes_ok = shapes_ok and ((s.body_scale() == Vector3.ONE) == s.is_real) and s.steady()
-	TestWorld.rec(out, "TC-051 fase 33: conjunto 2 - a unica pedra de forma cheia e a verdadeira (as ilusoes sao finas, sem piscar)",
+	TestWorld.rec(out, "TC-060 fase 33: conjunto 2 - a unica pedra de forma cheia e a verdadeira (as ilusoes sao finas, sem piscar)",
 			shapes_ok and level.stones_b[UmbraxisLevel33.REAL_B].is_real)
 	# Acessibilidade: sem flashes, a ilusao do conjunto 1 deixa de alternar a cor e continua distinta da real.
 	Accessibility.reduce_flashing = true
@@ -54,11 +54,11 @@ func _mechanics(tree: SceneTree, out: Array) -> void:
 	var real_color: Color = level.stones_a[UmbraxisLevel33.REAL_A]._material.albedo_color
 	var fake_color: Color = level.stones_a[0]._material.albedo_color
 	Accessibility.reduce_flashing = false
-	TestWorld.rec(out, "TC-051 fase 33: com 'reduzir flashes' a ilusao nao alterna cor e continua distinguivel da pedra real", colors.size() == 1 and real_color != fake_color)
+	TestWorld.rec(out, "TC-060 fase 33: com 'reduzir flashes' a ilusao nao alterna cor e continua distinguivel da pedra real", colors.size() == 1 and real_color != fake_color)
 	# Errar custa um coracao e nao estabiliza nada.
 	var hearts: int = level.rig.vitals.hearts
 	level.stones_a[0].interact()
-	TestWorld.rec(out, "TC-051 fase 33: tocar uma ilusao tira um coracao e nao estabiliza a travessia",
+	TestWorld.rec(out, "TC-060 fase 33: tocar uma ilusao tira um coracao e nao estabiliza a travessia",
 			level.rig.vitals.hearts == hearts - 1 and level.platforms_a.all(func(p: RupturePlatform) -> bool: return not p.stabilized))
 	# Checkpoint antes das ilusoes: resolver, perder a vida duas vezes e conferir o estado.
 	level.rig.body.global_position = Vector3(14.0, 1.0, 0.0)
@@ -67,14 +67,14 @@ func _mechanics(tree: SceneTree, out: Array) -> void:
 	TestWorld.rec(out, "fase 33: o primeiro checkpoint vem antes das ilusoes", level.rig.last_checkpoint_id == &"umbraxis_33_cp1" and 14.0 < UmbraxisLevel33.STONES_A_X[0])
 	level.stones_a[UmbraxisLevel33.REAL_A].interact()
 	level.inscription.interact()
-	TestWorld.rec(out, "TC-044 fase 33: a pedra real estabiliza o conjunto 1 (e so ele) e a inscricao revela o portal da S06",
+	TestWorld.rec(out, "TC-060 fase 33: a pedra real estabiliza o conjunto 1 (e so ele) e a inscricao revela o portal da S06",
 			level.platforms_a.all(func(p: RupturePlatform) -> bool: return p.stabilized) and level.platforms_b.all(func(p: RupturePlatform) -> bool: return not p.stabilized)
 			and level.portal.can_interact())
 	for round_index in 2:
 		level.controller._on_life_lost(&"test")
 		level.rig.body.respawn(level.rig.checkpoint_position)
 		await _settle(tree, 3)
-		TestWorld.rec(out, "TC-051 fase 33: reaparecer (%da vez) devolve pedras, plataformas, inscricao e portal ao estado do checkpoint" % (round_index + 1),
+		TestWorld.rec(out, "TC-060 fase 33: reaparecer (%da vez) devolve pedras, plataformas, inscricao e portal ao estado do checkpoint" % (round_index + 1),
 				not level.stones_a[UmbraxisLevel33.REAL_A].solved and level.platforms_a.all(func(p: RupturePlatform) -> bool: return not p.stabilized)
 				and not level.inscription.is_active and not level.portal.can_interact())
 		level.stones_a[UmbraxisLevel33.REAL_A].interact()

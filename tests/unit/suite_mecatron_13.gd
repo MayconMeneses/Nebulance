@@ -20,7 +20,7 @@ func _mechanics(tree: SceneTree, out: Array) -> void:
 	var level: MecatronLevel13 = _level(tree)
 	for i in 3:
 		await tree.physics_frame
-	TestWorld.rec(out, "TC-040 fase 13: as esteiras tem sentidos opostos e velocidade constante",
+	TestWorld.rec(out, "TC-058 fase 13: as esteiras tem sentidos opostos e velocidade constante",
 			level.conveyor_with.constant_linear_velocity.x > 0.0 and level.conveyor_against.constant_linear_velocity.x < 0.0)
 	var body: ActorController = level.rig.body
 	body.respawn(Vector3(19.0, 1.0, 0.0))
@@ -28,14 +28,14 @@ func _mechanics(tree: SceneTree, out: Array) -> void:
 	var x0: float = body.global_position.x
 	for i in 60:
 		await tree.physics_frame
-	TestWorld.rec(out, "TC-040 fase 13: parado sobre a esteira o heroi e arrastado no sentido dela", body.is_on_floor() and body.global_position.x - x0 > 2.0,
+	TestWorld.rec(out, "TC-058 fase 13: parado sobre a esteira o heroi e arrastado no sentido dela", body.is_on_floor() and body.global_position.x - x0 > 2.0,
 			"(dx=%.2f)" % (body.global_position.x - x0))
 	body.respawn(Vector3(40.0, 1.0, 0.0))
 	await tree.physics_frame
 	x0 = body.global_position.x
 	for i in 60:
 		await tree.physics_frame
-	TestWorld.rec(out, "TC-040 fase 13: na esteira contraria o arrasto e para tras", body.global_position.x - x0 < -2.0,
+	TestWorld.rec(out, "TC-058 fase 13: na esteira contraria o arrasto e para tras", body.global_position.x - x0 < -2.0,
 			"(dx=%.2f)" % (body.global_position.x - x0))
 	body.respawn(Vector3(8.0, 1.0, 0.0))
 	for i in 40:
