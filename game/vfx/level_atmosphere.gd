@@ -27,6 +27,9 @@ static func environment(palette: Dictionary) -> Environment:
 	env.fog_light_color = palette["fog"]
 	env.fog_density = palette["fog_density"]
 	env.fog_sky_affect = 0.0
+	env.adjustment_enabled = true
+	env.adjustment_contrast = 1.06
+	env.adjustment_saturation = 1.12
 	env.glow_intensity = palette["glow"]
 	env.glow_bloom = 0.06
 	env.glow_hdr_threshold = 0.85

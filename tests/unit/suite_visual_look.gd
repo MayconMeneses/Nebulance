@@ -12,6 +12,7 @@ func run(tree: SceneTree) -> Array:
 	await _level(tree, out)
 	_backdrop(tree, out)
 	_styles(tree, out)
+	await _ambience(tree, out)
 	_graphics(tree, out)
 	return out
 
@@ -121,6 +122,42 @@ func _styles(tree: SceneTree, out: Array) -> void:
 		sane = sane and bd.get_child_count() > 6 and bd.get_child_count() < 90 and bd.find_children("*", "CollisionObject3D", true, false).is_empty()
 		bd.queue_free()
 	TestWorld.rec(out, "TC-066 visual: cada planeta tem um estilo de fundo proprio (6 diferentes) e todos ficam enxutos, sem colisao e com o piso holografico", styles.size() == 6 and sane)
+
+
+func _ambience(tree: SceneTree, out: Array) -> void:
+	var old_scale: float = GraphicsProfile.particle_scale
+	GraphicsProfile.particle_scale = 1.0
+	var kinds_ok: bool = true
+	for planet in GalaxyState.planets():
+		var w := AmbientWeather.new()
+		tree.get_root().add_child(w)
+		w.setup(planet.planet_id)
+		kinds_ok = kinds_ok and w.kind == planet.planet_id and w.amount >= 10 and w.emitting
+		w.queue_free()
+	var off := AmbientWeather.new()
+	tree.get_root().add_child(off)
+	GraphicsProfile.particle_scale = 0.0
+	off.setup(&"aquarys")
+	var silent: bool = not off.emitting and off.amount == 1
+	off.queue_free()
+	GraphicsProfile.particle_scale = old_scale
+	TestWorld.rec(out, "TC-066 visual: cada planeta tem seu clima de particulas e o perfil/\"reduzir movimento\" com escala 0 apaga tudo", kinds_ok and silent)
+	var states: Array[int] = []
+	for restored in [false, true]:
+		var level := SylvaraLevel01.new()
+		level.use_input_reader = false
+		if restored:
+			level.save["world"]["seed_destroyed_ids"].append("seed_sylvara")
+		tree.get_root().add_child(level)
+		await tree.process_frame
+		var sky: Array = level.camera.get_children().filter(func(n: Node) -> bool: return n is SkyPlanet)
+		var weather: Array = level.camera.get_children().filter(func(n: Node) -> bool: return n is AmbientWeather)
+		var vignette: Array = level.get_children().filter(func(n: Node) -> bool: return n is ScreenVignette)
+		var bodies: int = (sky[0] as Node).find_children("*", "CollisionObject3D", true, false).size() if sky.size() == 1 else -1
+		states.append((sky[0] as SkyPlanet).planet.status if sky.size() == 1 and weather.size() == 1 and vignette.size() == 1 and bodies == 0 else -1)
+		level.queue_free()
+		await tree.process_frame
+	TestWorld.rec(out, "TC-066 visual: a fase tem o planeta gigante no ceu (corrompido sem a semente, restaurado com ela), clima e vinheta, sem colisao", states == [2, 3])
 
 
 func _graphics(tree: SceneTree, out: Array) -> void:

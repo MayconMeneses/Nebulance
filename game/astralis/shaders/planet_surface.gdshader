@@ -1,4 +1,5 @@
 shader_type spatial;
+render_mode fog_disabled;
 // Superficie procedural de um planeta do Mapa Galactico: continentes e mares por ruido 3D, nuvens que derivam, veias de corrupcao
 // (Caeldron) e brilho de atmosfera na borda. So aparencia. `dim` escurece o planeta bloqueado; `corruption` liga as veias magenta.
 

@@ -83,6 +83,13 @@ func _build_rig() -> void:
 	camera.target = rig.body
 	camera.position = Vector3(_start_position().x, 3.0, 12.0)
 	add_child(camera)
+	_build_ambience()
+	rig.body.landed.connect(func() -> void: camera.shake(0.07, 0.16))
+	var hearts: Array[int] = [rig.vitals.hearts]
+	rig.vitals.hearts_changed.connect(func(now: int) -> void:
+		if now < hearts[0]:
+			camera.shake(0.22, 0.3)
+		hearts[0] = now)
 
 
 func _build_environment() -> void:
@@ -99,6 +106,19 @@ func _build_environment() -> void:
 	sun.directional_shadow_max_distance = 45.0
 	sun.add_to_group(&"main_light")
 	add_child(sun)
+
+
+## Clima do planeta (particulas), planeta gigante no ceu e vinheta: tudo preso a camera; so aparencia.
+func _build_ambience() -> void:
+	var planet_id: StringName = definition.planet_id if definition != null else &""
+	var weather := AmbientWeather.new()
+	camera.add_child(weather)
+	weather.setup(planet_id)
+	if PlanetPalette.TINTS.has(planet_id):
+		var sky := SkyPlanet.new()
+		camera.add_child(sky)
+		sky.setup(planet_id, PlanetPalette.restored(save, planet_id))
+	add_child(ScreenVignette.new())
 
 
 ## Fundo de profundidade (pilones, aneis e estrelas) ao longo do comprimento da fase; so decoracao.
