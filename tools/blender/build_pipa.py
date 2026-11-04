@@ -45,7 +45,7 @@ def add(obj, bone):
 
 # Corpo compacto, colete e lenco
 add(H.sphere("body", (0, 0, 0.62), (0.3, 0.3, 0.3), white), "spine")
-add(H.cube("vest", (0.02, 0, 0.6), (0.62, 0.64, 0.26), vest), "spine")
+add(H.sphere("vest", (0.0, 0, 0.58), (0.325, 0.325, 0.2), vest), "spine")
 add(H.cube("vest_light", (0.33, 0, 0.62), (0.03, 0.14, 0.14), cyan), "spine")
 add(H.cube("belt", (0, 0, 0.5), (0.36, 0.52, 0.05), leather), "hips")
 add(H.cube("belt_buckle", (0.18, 0, 0.5), (0.03, 0.08, 0.06), gold), "hips")
@@ -60,6 +60,9 @@ add(H.cone("crest_b", (0.08, 0, 1.2), 0.05, 0.11, red, verts=6), "head")
 add(H.cone("crest_c", (-0.08, 0, 1.2), 0.05, 0.11, red, verts=6), "head")
 add(H.sphere("eye_l", (0.19, 0.09, 1.04), (0.05, 0.05, 0.055), dark), "head")
 add(H.sphere("eye_r", (0.19, -0.09, 1.04), (0.05, 0.05, 0.055), dark), "head")
+# Palpebras (a engine as mostra no piscar e ao tomar dano; ocultas no resto do tempo)
+add(H.sphere("lid_l", (0.2, 0.09, 1.04), (0.062, 0.062, 0.066), white), "head")
+add(H.sphere("lid_r", (0.2, -0.09, 1.04), (0.062, 0.062, 0.066), white), "head")
 add(H.cylinder("goggle_l", (0.2, 0.09, 1.04), 0.075, 0.04, glass, rot=(0, math.radians(90), 0)), "head")
 add(H.cylinder("goggle_r", (0.2, -0.09, 1.04), 0.075, 0.04, glass, rot=(0, math.radians(90), 0)), "head")
 add(H.cube("goggle_band", (0.0, 0, 1.06), (0.4, 0.42, 0.04), leather), "head")

@@ -41,6 +41,10 @@ func _initialize() -> void:
 	world.add_child(fill)
 	var model: Node3D = (load("res://assets/models/%s.glb" % hero) as PackedScene).instantiate()
 	world.add_child(model)
+	for lid_name in ["lid_l", "lid_r"]:
+		var lid := model.find_child(lid_name, true, false) as Node3D
+		if lid != null:
+			lid.visible = false
 	var ap := model.find_child("AnimationPlayer", true, false) as AnimationPlayer
 	if ap != null and ap.has_animation(clip):
 		ap.play(clip)

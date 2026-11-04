@@ -24,7 +24,7 @@ def hex_color(value):
 _MATS = {}
 
 
-def material(name, hex_value, emission=0.0, roughness=0.65):
+def material(name, hex_value, emission=0.0, roughness=0.65, metallic=0.0):
     if name in _MATS:
         return _MATS[name]
     mat = bpy.data.materials.new(name)
@@ -32,6 +32,7 @@ def material(name, hex_value, emission=0.0, roughness=0.65):
     bsdf = mat.node_tree.nodes["Principled BSDF"]
     bsdf.inputs["Base Color"].default_value = hex_color(hex_value)
     bsdf.inputs["Roughness"].default_value = roughness
+    bsdf.inputs["Metallic"].default_value = metallic
     if emission > 0.0:
         bsdf.inputs["Emission Color"].default_value = hex_color(hex_value)
         bsdf.inputs["Emission Strength"].default_value = emission
@@ -39,7 +40,18 @@ def material(name, hex_value, emission=0.0, roughness=0.65):
     return mat
 
 
+def _apply_modifiers(obj):
+    """Assenta bevel/subdivisao na malha: o export NAO aplica modificadores (export_apply=False), entao sem isto as quinas saem duras."""
+    bpy.ops.object.select_all(action="DESELECT")
+    obj.select_set(True)
+    bpy.context.view_layer.objects.active = obj
+    for mod in list(obj.modifiers):
+        if mod.type != "ARMATURE":
+            bpy.ops.object.modifier_apply(modifier=mod.name)
+
+
 def _finish(obj, name, mat, smooth=True):
+    _apply_modifiers(obj)
     obj.name = name
     obj.data.name = name
     obj.data.materials.append(mat)
@@ -49,7 +61,12 @@ def _finish(obj, name, mat, smooth=True):
     return obj
 
 
-def sphere(name, loc, scale, mat, segments=14, rings=9):
+def sphere(name, loc, scale, mat, segments=16, rings=10):
+    """Esfera com detalhe proporcional ao tamanho (peca pequena = poucos triangulos): o orcamento dos herois e de 4000 triangulos."""
+    if max(scale) < 0.1:
+        segments, rings = 10, 6
+    elif max(scale) < 0.2:
+        segments, rings = 12, 8
     bpy.ops.mesh.primitive_uv_sphere_add(segments=segments, ring_count=rings, radius=1.0, location=loc)
     obj = bpy.context.active_object
     obj.scale = scale
@@ -60,10 +77,18 @@ def cube(name, loc, scale, mat, rot=(0, 0, 0)):
     bpy.ops.mesh.primitive_cube_add(size=1.0, location=loc, rotation=rot)
     obj = bpy.context.active_object
     obj.scale = scale
+    bpy.ops.object.transform_apply(location=False, rotation=False, scale=True)
     bevel = obj.modifiers.new("bevel", "BEVEL")
-    bevel.width = min(scale) * 0.18
-    bevel.segments = 2
+    bevel.width = min(scale) * 0.32
+    bevel.segments = 2 if max(scale) >= 0.3 else 1
     return _finish(obj, name, mat)
+
+
+def limb(name, top, bottom, radius, mat):
+    """Membro macio (elipsoide) entre dois pontos na vertical: bem mais organico que um cilindro."""
+    center = ((top[0] + bottom[0]) / 2.0, (top[1] + bottom[1]) / 2.0, (top[2] + bottom[2]) / 2.0)
+    half = abs(top[2] - bottom[2]) / 2.0 + radius * 0.45
+    return sphere(name, center, (radius, radius, half), mat, segments=12, rings=8)
 
 
 def cylinder(name, loc, radius, depth, mat, rot=(0, 0, 0), verts=12, scale=(1, 1, 1)):

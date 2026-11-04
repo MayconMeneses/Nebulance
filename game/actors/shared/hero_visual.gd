@@ -28,9 +28,16 @@ var uses_fallback: bool = false
 ## Visual vestido (cosmetico): devolve o id do item do heroi pedido ("" = original). So colore; nao muda fisica nem habilidades.
 var outfit_provider: Callable = Callable()
 var outfit_id: String = ""
+## Expressao: palpebras (lid_l/lid_r no modelo) fecham no piscar (a cada 2,5 a 5,5 s) e ao tomar dano; "reduzir movimento" para o piscar.
+var eyes_closed: bool = false
 
 var _body: ActorController
 var _profile: HeroProfile
+var _lids: Array[Node3D] = []
+var _state: int = MovementState.State.IDLE
+var _blink_timer: float = 2.5
+var _blink_left: float = 0.0
+var _rng := RandomNumberGenerator.new()
 
 
 func bind(body: ActorController, rig: TrioRig) -> void:
@@ -56,6 +63,7 @@ func show_hero(profile: HeroProfile) -> void:
 	current_clip = &""
 	_play(&"idle")
 	refresh_outfit()
+	_find_lids()
 
 
 ## Reaplica o cosmetico do heroi ativo no modelo atual (brilho translucido sobre todas as malhas).
@@ -77,6 +85,7 @@ func refresh_outfit() -> void:
 
 
 func set_state(state: int) -> void:
+	_state = state
 	_play(STATE_CLIPS.get(state, &"idle"))
 
 
@@ -91,6 +100,7 @@ func _process(delta: float) -> void:
 			player.speed_scale = clampf(absf(_body.velocity.x) / _profile.tuning.run_speed, 0.5, 1.4)
 		elif player != null:
 			player.speed_scale = 1.0
+	_update_eyes(delta)
 	var target_y: float = 0.0 if facing_target >= 0.0 else PI
 	rotation.y = lerp_angle(rotation.y, target_y, clampf(18.0 * delta, 0.0, 1.0))
 	if _body != null and _profile != null:
@@ -98,6 +108,38 @@ func _process(delta: float) -> void:
 		var upside_down: bool = _body.gravity_dir < 0.0
 		rotation.x = lerp_angle(rotation.x, PI if upside_down else 0.0, clampf(18.0 * delta, 0.0, 1.0))
 		position.y = -_profile.capsule_height * 0.5 * _body.gravity_dir
+
+
+func _find_lids() -> void:
+	_lids.clear()
+	for lid_name in ["lid_l", "lid_r"]:
+		var node := model.find_child(lid_name, true, false) as Node3D
+		if node != null:
+			_lids.append(node)
+	_rng.seed = hash(String(hero_id))
+	_blink_timer = _rng.randf_range(2.0, 4.0)
+	set_eyes_closed(false)
+
+
+func set_eyes_closed(closed: bool) -> void:
+	eyes_closed = closed
+	for lid in _lids:
+		lid.visible = closed
+
+
+func _update_eyes(delta: float) -> void:
+	if _lids.is_empty():
+		return
+	var hurt: bool = _state == MovementState.State.HURT or _state == MovementState.State.DEAD
+	if not Accessibility.reduce_motion:
+		_blink_timer -= delta
+		if _blink_timer <= 0.0:
+			_blink_left = 0.12
+			_blink_timer = _rng.randf_range(2.5, 5.5)
+		_blink_left = maxf(_blink_left - delta, 0.0)
+	var closed: bool = hurt or _blink_left > 0.0
+	if closed != eyes_closed:
+		set_eyes_closed(closed)
 
 
 func _play(clip: StringName) -> void:
