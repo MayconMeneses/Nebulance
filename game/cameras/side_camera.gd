@@ -3,10 +3,14 @@ extends Camera3D
 ## Camera lateral 2.5D: segue o alvo suavemente em X/Y e mantem Z fixo (plano de jogo). Acabamento de movimento: tremor curto nos impactos
 ## (pouso, dano) e leve abertura do campo de visao com a velocidade. Tudo desligado por "reduzir movimento" (Accessibility).
 
+## Distancia padrao ate o plano de jogo: mais perto = heroi maior na tela (era 12; 9 deixa o heroi ~40% maior).
+const DEFAULT_DISTANCE: float = 9.0
+
 @export var target: Node3D
-@export var offset: Vector3 = Vector3(0.0, 2.0, 12.0)
+@export var offset: Vector3 = Vector3(0.0, 2.0, DEFAULT_DISTANCE)
 @export var follow_speed: float = 6.0
-@export var look_ahead: float = 1.5
+## Antecipacao do movimento (m): maior que antes para compensar o campo de visao horizontal mais estreito da camera mais proxima.
+@export var look_ahead: float = 2.2
 @export var min_y: float = 0.0
 ## Abertura extra do campo de visao (graus) a velocidade maxima de corrida.
 @export var speed_fov: float = 3.0

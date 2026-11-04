@@ -84,7 +84,7 @@ func _build_rig() -> void:
 	aura.bind(rig.body, rig)
 	camera = SideCamera.new()
 	camera.target = rig.body
-	camera.position = Vector3(_start_position().x, 3.0, 12.0)
+	camera.position = Vector3(_start_position().x, 3.0, SideCamera.DEFAULT_DISTANCE)
 	add_child(camera)
 	_build_ambience()
 	rig.body.landed.connect(func() -> void: camera.shake(0.07, 0.16))

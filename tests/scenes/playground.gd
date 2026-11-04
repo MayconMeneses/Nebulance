@@ -21,7 +21,7 @@ func _ready() -> void:
 	_build_rig()
 	var cam := SideCamera.new()
 	cam.target = rig.body
-	cam.position = Vector3(0.0, 3.0, 12.0)
+	cam.position = Vector3(0.0, 3.0, SideCamera.DEFAULT_DISTANCE)
 	add_child(cam)
 	var sun := DirectionalLight3D.new()
 	sun.rotation_degrees = Vector3(-50.0, -30.0, 0.0)
