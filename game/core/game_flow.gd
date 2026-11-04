@@ -36,6 +36,9 @@ var credits_plays: int = 0
 var _ending_active: bool = false
 ## Consulta de atualizacao ao abrir (so o jogo real liga; testes e benchmark nao usam a rede).
 @export var check_updates: bool = false
+## Qualidade automatica e medidor de FPS (F3): so o jogo real liga (main.tscn); testes e benchmark ficam sem.
+@export var quality_tools: bool = false
+var adaptive: AdaptiveQuality
 var latest_update: Dictionary = {}
 
 var _pause_layer: CanvasLayer
@@ -54,6 +57,11 @@ func _ready() -> void:
 	GraphicsApplier.apply(get_viewport(), settings.data, get_tree())
 	audio = AudioDirector.new()
 	add_child(audio)
+	if quality_tools:
+		adaptive = AdaptiveQuality.new()
+		adaptive.settings = settings.data
+		add_child(adaptive)
+		add_child(FpsOverlay.new())
 	_show_menu()
 	if check_updates and settings.data["check_updates"]:
 		var checker := UpdateChecker.new()

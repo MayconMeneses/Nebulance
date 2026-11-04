@@ -8,7 +8,7 @@ var data: Dictionary = defaults()
 
 
 static func defaults() -> Dictionary:
-	return {"version": 1, "graphics_profile": "medium", "max_fps": 0, "vsync": true, "keys": {}, "reduce_motion": false, "reduce_flashing": false, "check_updates": true, "touch_mode": "auto", "touch_size": 1, "touch_opacity": 1, "touch_mirror": false}
+	return {"version": 1, "graphics_profile": "medium", "max_fps": 0, "vsync": true, "keys": {}, "reduce_motion": false, "reduce_flashing": false, "check_updates": true, "auto_quality": true, "touch_mode": "auto", "touch_size": 1, "touch_opacity": 1, "touch_mirror": false}
 
 
 func _init(settings_path: String) -> void:
@@ -40,7 +40,7 @@ func load_settings() -> bool:
 	var opacity_i: Variant = parsed.get("touch_opacity")
 	if typeof(opacity_i) in [TYPE_INT, TYPE_FLOAT] and int(opacity_i) >= 0 and int(opacity_i) < TouchLayout.OPACITIES.size():
 		data["touch_opacity"] = int(opacity_i)
-	for flag in ["reduce_motion", "reduce_flashing", "check_updates", "touch_mirror"]:
+	for flag in ["reduce_motion", "reduce_flashing", "check_updates", "auto_quality", "touch_mirror"]:
 		if typeof(parsed.get(flag)) == TYPE_BOOL:
 			data[flag] = parsed[flag]
 	data["keys"] = KeyBindings.sanitize(parsed.get("keys"))

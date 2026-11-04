@@ -9,6 +9,7 @@ var _store: SettingsStore
 var _profile: OptionButton
 var _fps: OptionButton
 var _vsync: CheckBox
+var _auto: CheckBox
 var _back: Button
 var _key_buttons: Dictionary = {}
 var _message: Label
@@ -47,6 +48,7 @@ func _ready() -> void:
 	_vsync = CheckBox.new()
 	_vsync.text = "Sincronia vertical (vsync)"
 	box.add_child(_vsync)
+	_auto = _flag(box, "Qualidade automatica (reduz os efeitos se o jogo ficar lento; F3 mostra o FPS)", "auto_quality")
 	_motion = _flag(box, "Reduzir movimento (menos particulas, sem pulsos)", "reduce_motion")
 	_flashing = _flag(box, "Reduzir flashes (sem cores alternando)", "reduce_flashing")
 	_updates = _flag(box, "Avisar de atualizacoes ao abrir (usa a internet)", "check_updates")
