@@ -12,6 +12,11 @@ const SFX: Dictionary = {
 	&"hurt": "res://assets/audio/sfx_hurt.wav",
 }
 const POOL_SIZE: int = 8
+## Tema de cada planeta (tools/make_audio.py gera Sylvara; tools/make_music.py gera os outros cinco).
+const MUSIC: Dictionary = {
+	&"sylvara": "res://assets/audio/music_sylvara.wav", &"cristalia": "res://assets/audio/music_cristalia.wav", &"mecatron": "res://assets/audio/music_mecatron.wav",
+	&"aquarys": "res://assets/audio/music_aquarys.wav", &"aerion": "res://assets/audio/music_aerion.wav", &"umbraxis": "res://assets/audio/music_umbraxis.wav",
+}
 
 var _streams: Dictionary = {}
 var _pool: Array[AudioStreamPlayer] = []
@@ -44,11 +49,17 @@ func play_sfx(sfx_name: StringName) -> void:
 	player.play()
 
 
+## Caminho da musica do planeta (Sylvara se o planeta for desconhecido).
+static func music_for(planet_id: StringName) -> String:
+	return MUSIC.get(planet_id, MUSIC[&"sylvara"])
+
+
 func play_music(path: String) -> void:
 	var stream := (load(path) as AudioStreamWAV).duplicate() as AudioStreamWAV
 	stream.loop_mode = AudioStreamWAV.LOOP_FORWARD
 	stream.loop_begin = 0
-	stream.loop_end = stream.data.size() / 2
+	# Em amostras: vale para PCM e para o WAV importado como QOA (comprimido), onde `data.size()` NAO e a contagem de amostras.
+	stream.loop_end = int(stream.get_length() * float(stream.mix_rate))
 	_music.stream = stream
 	_music.play()
 

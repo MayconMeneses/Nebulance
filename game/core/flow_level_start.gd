@@ -33,7 +33,7 @@ static func start(flow: GameFlow, level_id: String) -> void:
 		touch.configure(flow.settings.data)
 		flow.level.add_child(touch)
 		touch.process_mode = Node.PROCESS_MODE_ALWAYS
-	flow.audio.play_music("res://assets/audio/music_sylvara.wav")
+	flow.audio.play_music(AudioDirector.music_for(flow.level.definition.planet_id))
 	if flow.warmup_frames > 0:
 		flow.level.rig.body.set_locked_state(MovementState.State.CUTSCENE)
 		var warm := ShaderWarmup.new()
