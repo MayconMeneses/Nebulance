@@ -20,4 +20,5 @@ static func panel(size: Vector3, base: Color, trim: Color, glowing: bool = false
 	mat.set_shader_parameter("bevel", clampf(thin * 0.3, 0.04, 0.22))
 	mat.set_shader_parameter("trim_width", clampf(thin * 0.12, 0.02, 0.06))
 	mat.set_shader_parameter("fill_glow", 0.55 if glowing else 0.0)
+	mat.set_shader_parameter("pulse_amount", 0.0 if Accessibility.reduce_motion else 1.0)
 	return mat

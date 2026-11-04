@@ -79,6 +79,9 @@ func _build_rig() -> void:
 	rig.body.add_child(visual)
 	visual.outfit_provider = func(hero: StringName) -> String: return CosmeticCatalog.equipped(save, hero)
 	visual.bind(rig.body, rig)
+	var aura := HeroAura.new()
+	rig.body.add_child(aura)
+	aura.bind(rig.body, rig)
 	camera = SideCamera.new()
 	camera.target = rig.body
 	camera.position = Vector3(_start_position().x, 3.0, 12.0)

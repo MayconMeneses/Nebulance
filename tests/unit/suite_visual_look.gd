@@ -63,6 +63,13 @@ func _blocks(tree: SceneTree, out: Array) -> void:
 	TestWorld.rec(out, "TC-066 visual: o construtor guarda a extensao em x das pecas solidas (para o fundo)", is_equal_approx(b.min_x, 8.0) and is_equal_approx(b.max_x, 12.0))
 	var zone: LevelZone = b.zone(PhysicsLayers.CHECKPOINT, "z", Vector3.ZERO, Vector3(1.0, 1.0, 1.0), Color(1.0, 1.0, 1.0, 0.3))
 	TestWorld.rec(out, "TC-066 visual: as zonas translucidas continuam com material padrao", (zone.get_child(zone.get_child_count() - 1) as MeshInstance3D).mesh.material is StandardMaterial3D)
+	var old_reduce: bool = Accessibility.reduce_motion
+	Accessibility.reduce_motion = true
+	var calm: ShaderMaterial = FuturisticLook.panel(Vector3.ONE, Color.WHITE, Color.WHITE)
+	Accessibility.reduce_motion = false
+	var lively: ShaderMaterial = FuturisticLook.panel(Vector3.ONE, Color.WHITE, Color.WHITE)
+	Accessibility.reduce_motion = old_reduce
+	TestWorld.rec(out, "TC-066 visual: o pulso de energia dos blocos some com 'reduzir movimento'", is_zero_approx(float(calm.get_shader_parameter("pulse_amount"))) and is_equal_approx(float(lively.get_shader_parameter("pulse_amount")), 1.0))
 	holder.queue_free()
 
 

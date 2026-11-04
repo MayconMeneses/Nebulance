@@ -184,3 +184,12 @@ Os seis planetas sao esferas 3D (`PlanetSphere`, shader procedural `planet_surfa
 
 ## Fundos por planeta e piso holografico
 O fundo de cada fase segue o estilo do planeta (`BackdropStyles`): Sylvara torres organicas com bulbos luminosos, Cristalia espetos de cristal, Mecatron chamines e aneis, Aquarys ilhas flutuantes com colunas de luz, Aerion faixas de nuvem e aneis, Umbraxis fragmentos de mundo flutuando. Abaixo da fase ha um piso holografico (`grid_floor`: grade em perspectiva que some com a distancia, sem nevoa). Os blocos tem circuitos no topo e pulso de energia nos frisos (desligado em "reduzir movimento" apenas no piso; o pulso do friso ainda nao respeita a opcao). Custo medido (Intel UHD 620, 1080p, vsync off): perfil Medio ~4 ms por quadro; Alto (com brilho) ~7,5 ms.
+
+## Evolucao 0.8.0 (realismo e visual futurista)
+- **Qualidade automatica** (`AdaptiveQuality`, opcao nas configuracoes, ligada por padrao): desce um perfil se a media ficar abaixo de 85% da taxa alvo em duas janelas de 150 quadros; nunca sobe sozinha; F3 mostra FPS/ms/pior quadro (`FpsOverlay`).
+- **Acabamento de imagem**: correcao de cor leve no ambiente e vinheta (`ScreenVignette`). **Clima por planeta** (`AmbientWeather`: esporos, poeira de cristal, faiscas, bolhas, vento, cinzas) e o **planeta da fase girando no ceu** (`SkyPlanet`, corrompido ou restaurado conforme o save).
+- **Camera** (`SideCamera`): tremor curto no pouso e no dano, campo de visao que abre com a velocidade; tudo desligado por reduzir movimento.
+- **Guardioes 3D procedurais** (`BossModels`/`BossAvatar`, so primitivas): Vyrkan (planta de maxilas), Zythra (orquidea de cristal), Ferrorraiz (cacto mecanico), Thalassa (vitoria-regia), Zefrion (dente-de-leao), Necryon (flor-cadaver com fenda); reagem ao ciclo (aviso = junta forca, erupcao = golpe, derrota = forma calma). Nao sao modelos de arte final.
+- **Interface futurista** (`FuturisticTheme`, autoload `UiTheme`): paineis de vidro, botoes com foco forte, texto com contraste >= 7:1; painel de vidro no HUD.
+- **Musica por planeta** (`tools/make_music.py`, sintese propria): cinco temas novos de 24 s. Corrigido o fim do loop (antes cortava em ~5 s porque o WAV e importado comprimido). Gosto musical nao avaliado.
+- **Heroi**: luz propria na cor do heroi e poeira ao correr (`HeroAura`).
