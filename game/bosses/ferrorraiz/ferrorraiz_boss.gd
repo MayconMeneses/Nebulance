@@ -7,3 +7,4 @@ extends VyrkanBoss
 
 func _init() -> void:
 	stage_keys = {1: &"power", 2: &"anchors", 3: &"shield"}
+	signature = &"spike"

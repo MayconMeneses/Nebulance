@@ -8,6 +8,7 @@ extends VyrkanBoss
 
 func _init() -> void:
 	stage_keys = {1: &"combine", 2: &"real", 3: &"core"}
+	signature = &"rift"
 
 
 ## Pedra errada: penalidade (reinicia o ciclo de ataques da fase atual); o jogador precisa tentar de novo com mais cuidado.

@@ -23,14 +23,14 @@ Regressao completa informada nos commits de merge: **792 checagens, 0 falhas** (
 | 09 | O Jardim das Orquideas | suite_cristalia_09 | LevelBot09 | 9 | 0/1/0 | portal para S02 |
 | 10 | O Trem de Luz | suite_cristalia_10 | LevelBot04 | 9 | 1/0/1 | bot compartilhado com a fase 04 |
 | 11 | A Catedral Prismatica | suite_cristalia_11 | LevelBot11 | 9 | 0/1/0 | sem texto/imagem do arquivo |
-| 12 | Zythra, a Orquidea de Cristal (chefe) | suite_boss_zythra | LevelBot12 | 6 | 0/0/0 | ilusoes so como flor real x falsas; sem petalas/projeteis alem das faixas |
+| 12 | Zythra, a Orquidea de Cristal (chefe) | suite_boss_zythra | LevelBot12 | 6 | 0/0/0 | ilusoes so como flor real x falsas; petalas so como faixa no ar (assinatura, fase 2+); sem projeteis |
 | S02 | Camara das Frequencias Perdidas | suite_cristalia_09 | LevelBotS02 | 4 | 2/0/0 | sequencia de 4 cristais musicais |
 | 13 | O Porto das Engrenagens | suite_mecatron_13 | LevelBot13 | 9 | 1/0/0 | esteiras + elevador de polaridade |
 | 14 | As Esteiras de Titanio | suite_mecatron_14 | LevelBot14 | 9 | 1/0/0 | 3 prensas deterministicas |
 | 15 | O Trem do Eclipse | suite_mecatron_15 | LevelBot04 | 9 | 1/0/1 | reaproveita a geometria da fase 10; acessorio **nao** esta num vagao elevado |
 | 16 | O Labirinto Magnetico | suite_mecatron_16 | LevelBot16 | 9 | 1/1/0 | so polaridade de plataformas (sem magnetismo como forca); a Oficina Zero nao tem portal aqui |
 | 17 | A Forja Autonoma | suite_mecatron_17 | LevelBot17 | 9 | 1/1/0 | portal para S03 aberto por painel escondido |
-| 18 | Ferrorraiz, o Cacto Mecanico (chefe) | suite_boss_ferrorraiz | LevelBot18 | 6 | 0/0/0 | sem bracos/espinhos/campo magnetico |
+| 18 | Ferrorraiz, o Cacto Mecanico (chefe) | suite_boss_ferrorraiz | LevelBot18 | 6 | 0/0/0 | espinhos rasteiros como assinatura (fase 2+); sem bracos/campo magnetico |
 | S03 | Oficina Zero | suite_mecatron_s03 | LevelBotS03 | 4 | 1/1/0 | elevador + trilho compactos |
 | 19 | A Costa das Luzes | suite_aquarys_19 | LevelBot19 | 9 | 1/0/0 | nivel de agua discreto, sem fisica de fluidos |
 | 20 | Os Canais Suspensos | suite_aquarys_20 | LevelBot20 | 9 | 1/0/0 | barreira de Rocco + escalada de Zuri |
@@ -72,7 +72,7 @@ Desvios em relacao ao PDF, do mais ao menos visivel (todos documentados em `docs
 9. **Fases 21 e 22**: plataforma transparente = `RupturePlatform`; onda = `ChaseWave` sem agua visual. **Fase 23**: a "entrada de Thalassa" e um arco decorativo.
 10. ~~Fase 30: gravidade leve~~ **reforcado**: ar rarefeito em volta do nucleo com escala 0,35 (antes 0,6) e zona maior; segue positivo para o planeio de Pipa (Pipa nao planeia com gravidade invertida).
 11. **Fase 32** (ABERTA): sem atalho dimensional; todos os modulos ficam na mesma cena (a regra de nao manter todos os mundos na memoria nao foi atendida de fato). ~~**Fase 34**: sem seletor de cosmeticos~~ **corrigido**: espelho interativo com seletor por heroi (`suite_cosmetics`).
-12. **Chefes** (parcial): a cutscene de libertacao do guardiao existe (`GuardianLiberation`, 1x, pulavel, `suite_liberation`); so faixas de erupcao como ataque; sem mordidas, espinhos, petalas/projeteis, campo magnetico; o compartimento selado da Astralis (6 simbolos) existe no mapa (`AstralisVault`, `suite_astralis_vault`; texto da mensagem final provisorio); sem restauracao visual do planeta.
+12. **Chefes** (parcial): a cutscene de libertacao do guardiao existe (`GuardianLiberation`, 1x, pulavel, `suite_liberation`); cada chefe tem um ataque de ASSINATURA (perfil de volume nas faixas 0 e 1 da fase 2 em diante: mordida, petalas, espinhos, onda, rajada, fenda; `suite_boss_signature`); sem projeteis reais, campo magnetico com puxao nem armadilhas de sementes; o compartimento selado da Astralis (6 simbolos) existe no mapa (`AstralisVault`, `suite_astralis_vault`; texto da mensagem final provisorio); sem restauracao visual do planeta.
 13. **Ilusoes de Necryon** testadas por regra (evidencia pisca/forma); legibilidade para uma pessoa nao verificada.
 14. **Sinalizacao de vento**: agora tem faixas de particulas (somem com a corrente desligada, respeitam perfil grafico e "reduzir movimento"; suite_wind_streaks). **Gravidade** invertida/baixa segue so por zona translucida colorida. Aparencia nao avaliada por pessoa.
 15. ~~**Rotulos "TC-04x/05x" duplicados** entre planetas nas suites~~ **corrigido**: cada rotulo interno pertence a uma unica suite (mapa em `docs/QA_PLAN.md`).

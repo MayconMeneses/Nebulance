@@ -79,7 +79,7 @@ Estado: IMPLEMENTADA em graybox; bot derrota o chefe e abre o bau (6 moedas, 0 v
 | Camera que enquadre o ponto vulneravel | Camera de arena fixa; `is_position_in_frustum` verificado para o bulbo, bordas e plataformas |
 | Checkpoint pre-boss; transicao de libertacao | `sylvara_06_cp1`; libertacao do guardiao = estado do chefe/bau (visual provisorio; a cutscene de libertacao (`GuardianLiberation`) toca 1x ao destruir a semente |
 | Semente destruida uma vez; Caeldron reage uma vez; planeta restaurado; reliquia; rota Cristalia | Transacao `seed:sylvara` (`ProgressLedger`): grava semente, guardiao, `relic_sylvara` ("Reliquia de Sylvara", sem nome oficial no PDF) e `astralis_memory_sylvara`; salva na hora; reacao de Caeldron so se `first_time`; arena reabre restaurada; mapa: Sylvara Salvo, raiz removida, Cristalia Disponivel (mas em producao) |
-Nao implementado: restauracao visual do planeta, mordidas e armadilhas de sementes do chefe (so erupcoes de raizes).
+Vyrkan: mordida alta nas faixas 0 e 1 a partir da fase 2 (assinatura). Nao implementado: armadilhas de sementes do chefe. **Ataque de assinatura (`RootLane.PROFILES`, `suite_boss_signature`, TC-065)**: a partir da fase 2 as faixas 0 e 1 trocam a erupcao baixa pelo volume proprio do chefe (mordida alta de 8 m, petalas no ar, espinhos rasteiros, onda baixa, rajada alta, fenda de 5 m); aviso >= 0,6 s e so a faixa ATIVA fere, no volume avisado. So perfis de VOLUME: projeteis reais, campo magnetico com puxao e armadilhas de sementes seguem NAO implementados.
 
 ## SYLVARA: 6 fases + S01 + Vyrkan implementados (graybox, com bots). Playtest humano, calibracao e arte final pendentes.
 
@@ -93,7 +93,7 @@ Nao implementado: restauracao visual do planeta, mordidas e armadilhas de sement
 | 11 A Catedral Prismatica | parede de luz (prisma) -> torre (Zuri escala) -> 2 mecanismos SINCRONIZADOS (6 s) -> salao do arquivo (memoria `memory_astralis_expedition_11`, confirma a Astralis); checkpoint antes da sequencia final |
 | 12 Zythra, a Orquidea de Cristal | chefe: 3 etapas (prisma ao nucleo; flor real x ilusoes; planeio de Pipa) + Golpe Triade com 3 herois; semente `seed_cristalia`, guardiao `zythra`, `relic_cristalia`, `astralis_memory_cristalia`; reacao de Caeldron (Cristalia): "Reconhece a Astralis; fissura forte" |
 | S02 Camara das Frequencias Perdidas | sequencia de 4 cristais musicais (ordem fixa, dica que pisca); itens Lente do Primeiro Explorador e item Prisma Cosmico |
-Nao implementado em Cristalia: restauracao visual do planeta, ilusoes visuais mais ricas do chefe (so a flor real x falsas), pétalas/projeteis do chefe alem das faixas de erupcao, texto/imagem do arquivo.
+Nao implementado em Cristalia: ilusoes visuais mais ricas do chefe (so a flor real x falsas), projeteis reais do chefe (petalas existem como faixa no ar nas faixas 0 e 1 da fase 2 em diante), texto/imagem do arquivo.
 
 ## MECATRON (fases 13-18 + S03) — mecanica: esteiras, prensas e polaridade (graybox, todas com bot)
 Pecas novas: `ConveyorBelt` (corpo estatico com velocidade constante, sentido por alavanca), `PolarityPlatform` (elevador/trilho que vai ao outro polo
@@ -107,7 +107,7 @@ a velocidade fixa; progresso capturavel), `HydraulicPress` (ciclo fixo IDLE 2,0 
 | 17 A Forja Autonoma | esteira + 2 prensas + 2 elevadores + esteira invertida; painel escondido no alto (Zuri) abre o portal `mecatron_17_portal` para a S03; arquivo `memory_failed_expedition_17`; item `mecatron_17_forge_core` |
 | 18 Ferrorraiz, o Cacto Mecanico | chefe: 1) dois interruptores ligados ao mesmo tempo (cada um dura 8 s), 2) ancora magnetica = elevador de polaridade que sobe com o heroi, 3) protecao no patamar alto; depois Golpe Triade com 3 herois; semente `seed_mecatron`, guardiao `ferrorraiz`, `relic_mecatron`, `astralis_memory_mecatron` |
 | S03 Oficina Zero | elevador + trilho de polaridade em espaco compacto; `mecatron_s03_tech_accessory` e `memory_astralis_maintenance_s03` |
-Nao implementado em Mecatron: arte final (tudo graybox), restauracao visual do planeta, bracos/espinhos/campo magnetico do chefe alem das faixas de erupcao,
+Nao implementado em Mecatron: arte final (tudo graybox), bracos e campo magnetico do chefe (espinhos rasteiros existem como assinatura nas faixas 0 e 1 da fase 2 em diante),
 magnetismo como forca (so polaridade de plataformas), segredo do acessorio no vagao elevado (fase 15), calibracao por playtest humano.
 
 
@@ -120,7 +120,7 @@ Pecas novas: `TideFlux` (fluxo luminoso: acende quando todos os `WaterBody` exig
 | 23 O Templo das Mares | comporta Oeste alta leva ao templo (checkpoint na entrada, antes do puzzle); no templo, dois reservatorios independentes (Oeste e Leste) com comportas para cada nivel; combinacao correta Oeste=1 + Leste=2 acende o fluxo e abre a porta; combinacoes erradas (2+2, 1+1) nao abrem; depois da porta: memoria antiga `memory_ancient_roots_23` (explica as raizes ligadas as sementes), bau especial `aquarys_23_chest` e o arco luminoso da entrada para Thalassa (a conclusao do bau leva a fase 24) |
 | 24 Thalassa, a Vitoria-Regia | chefe: 1) comportas Oeste=2 + Leste=1 estabilizam o fluxo (ha uma comporta-isca do Leste que leva ao nivel errado), 2) a onda (reservatorio com degraus de 2 m) ergue a folha flutuante com o heroi ate o patamar, 3) desativar a protecao no alto; depois Golpe Triade com 3 herois; semente `seed_aquarys`, guardiao `thalassa`, `relic_aquarys`, `astralis_memory_aquarys`; Caeldron sente MEDO apos a quarta perda; os reservatorios reiniciam no checkpoint (snapshotable) |
 Aquarys e jogavel no mapa (`playable = true`).
-Nao implementado em Aquarys 23-24: arte final (tudo graybox), agua com fisica/visual de fluido, ataques do chefe alem das faixas de erupcao, portal real para Thalassa (a "entrada" e um arco decorativo; a ligacao e a ordem de fases), calibracao por playtest humano. As fases 21, 22 e S04 estao documentadas abaixo.
+Nao implementado em Aquarys 23-24: arte final (tudo graybox), agua com fisica/visual de fluido, ataques do chefe alem das faixas de erupcao e da onda baixa de assinatura, portal real para Thalassa (a "entrada" e um arco decorativo; a ligacao e a ordem de fases), calibracao por playtest humano. As fases 21, 22 e S04 estao documentadas abaixo.
 
 
 ### Fases 21-22 + S04 — mecanica: mares e comportas (graybox, todas com bot)
@@ -166,7 +166,7 @@ Pecas novas: `WindVent` (corrente de vento na camada WIND; permanente ou depende
 | 30 Zefrion, o Dente-de-Leao | chefe: 1) dois controles de vento ancorados ao mesmo tempo (8 s cada), 2) Zuri escala ate o farol no deck alto (liga a corrente), 3) Pipa planeia na corrente ate o nucleo e desativa a protecao (zona de baixa gravidade 0,6 em volta do nucleo); depois Golpe Triade com 3 herois; semente `seed_aerion`, guardiao `zefrion`, `relic_aerion`, `astralis_memory_aerion`; Caeldron entra em DESESPERO (quinta raiz) e a rota direta para Umbraxis fica aberta |
 | S05 Jardim Sem Gravidade | secreta (fora de `MAIN_ORDER`); acesso: painel escondido na fase 28 (`aerion_28_secret_panel`, a pista esta na memoria da fase 27 e no item da 28) abre o portal `aerion_28_portal` na ilha final; baixa gravidade 0,4 em toda a area, tres saltos de Rocco, planeio de precisao de Pipa e salto ate a ilha do bau; `aerion_s05_legendary_cosmetic` e `memory_stellar_record_s05`. O portal fica numa ilhota entre as duas ilhas de teto da fase 28 (gravidade normal), alcancavel so pelo salto duplo de Zuri |
 Aerion e jogavel no mapa (`playable = true`); Umbraxis (indice 5) passa a ser o planeta ainda em producao.
-Nao implementado em Aerion: arte final, ataques do chefe alem das faixas de erupcao, calibracao por playtest humano.
+Nao implementado em Aerion: arte final, ataques do chefe alem das faixas de erupcao e da rajada alta de assinatura, calibracao por playtest humano.
 ## FINAL E POS-JOGO (graybox)
 - **Campanha concluida** = as seis sementes destruidas (`GalaxyState.campaign_complete`, derivado do save; `caeldron_alive` e o inverso). Nenhuma flag nova no save.
 - **Morte de Caeldron** (`CaeldronDeath`): cutscene curta de TEXTO (4 telas de 3 s, sem arte, sem batalha extra), pulavel (E/Espaco depois de 0,5 s), e depois a tela de creditos simples (`CreditsScreen`, 12 s, pulavel). O jogo fica pausado durante a sequencia e o botao de pausa e ignorado.

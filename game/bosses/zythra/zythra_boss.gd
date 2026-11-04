@@ -6,6 +6,7 @@ extends VyrkanBoss
 
 func _init() -> void:
 	stage_keys = {1: &"prism", 2: &"real", 3: &"pipa"}
+	signature = &"petal"
 
 
 ## Flor errada: penalidade (reinicia o ciclo de ataques da fase atual); o jogador precisa tentar de novo com mais cuidado.

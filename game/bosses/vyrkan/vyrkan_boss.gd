@@ -16,9 +16,14 @@ const PATTERNS: Dictionary = {1: [[1, 3], [0, 2]], 2: [[0, 2, 4], [1, 3]], 3: [[
 ## (aviso, ativo, recuperacao) em segundos por fase; todos os avisos >= 0,6 s.
 const TIMING: Dictionary = {1: Vector3(1.0, 0.5, 1.2), 2: Vector3(0.85, 0.5, 1.0), 3: Vector3(0.7, 0.5, 0.9)}
 const MIN_TELEGRAPH: float = 0.6
+## Ataque de ASSINATURA: a partir da fase 2 as faixas `signature_lanes` usam o perfil proprio do chefe (altura/alcance do golpe).
+## So as faixas 0 e 1: nenhuma plataforma alta das arenas cruza essas colunas, entao os refugios continuam validos.
+const SIGNATURE_FROM_PHASE: int = 2
 
 ## Chave do mecanismo esperado em cada fase (outros chefes sobrescrevem).
 var stage_keys: Dictionary = {1: &"rocco", 2: &"zuri", 3: &"pipa"}
+var signature: StringName = &"bite"
+var signature_lanes: Array[int] = [0, 1]
 var phase: int = Phase.ONE
 var lanes: Array[RootLane] = []
 ## Ligados pela fase de arena.
@@ -40,6 +45,7 @@ func _ready() -> void:
 		lane.position = Vector3(LANE_X[i], 0.0, 0.0)
 		add_child(lane)
 		lanes.append(lane)
+	_apply_profiles()
 
 
 func is_defeated() -> bool:
@@ -53,6 +59,7 @@ func mechanism_done(which: StringName) -> bool:
 		return false
 	phase += 1
 	_pattern = 0
+	_apply_profiles()
 	phase_changed.emit(phase)
 	return true
 
@@ -115,10 +122,18 @@ func restore(_state_value: Variant) -> void:
 func restart_cycle() -> void:
 	_pattern = 0
 	_active_set = []
+	_apply_profiles()
 	for lane in lanes:
 		lane.set_state(RootLane.State.IDLE, 0.0)
 	_state = RootLane.State.RECOVER
 	_timer = 0.3
+
+
+## Perfil de cada faixa conforme a fase: assinatura nas faixas escolhidas da fase 2 em diante; o resto continua erupcao de raiz.
+func _apply_profiles() -> void:
+	var armed: bool = phase >= SIGNATURE_FROM_PHASE and phase < Phase.DEFEATED
+	for i in lanes.size():
+		lanes[i].set_profile(signature if armed and i in signature_lanes else &"root")
 
 
 func _enter(new_state: RootLane.State, time: float) -> void:
