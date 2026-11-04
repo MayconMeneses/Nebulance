@@ -66,8 +66,6 @@ func _build_geometry(b: SegmentBuilder) -> void:
 	triad.build(spots)
 	chest = b.chest("cristalia_12_chest", Vector3(32.0, 0.6, 0.0))
 	chest.locked = true
-	b.decor(Vector3(15.0, 3.0, -3.5), Vector3(8.0, 6.0, 2.0), Color("7C3AED"), true)
-	b.decor(Vector3(15.0, 3.5, -2.4), Vector3(1.6, 1.6, 0.6), Color("56DDB5"), true)
 	for x in range(-2, 34, 6):
 		b.decor(Vector3(float(x), 2.0, -4.0), Vector3(1.4, 4.0, 1.4), Color("7C6BC4"), true)
 	var coins: Array[Vector3] = [Vector3(1.0, 1, 0), Vector3(6.5, 1, 0), Vector3(11.5, 1, 0), Vector3(16.5, 1, 0), Vector3(21.5, 1, 0), Vector3(26.5, 1, 0)]

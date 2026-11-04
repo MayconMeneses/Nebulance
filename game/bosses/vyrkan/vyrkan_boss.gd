@@ -24,6 +24,8 @@ const SIGNATURE_FROM_PHASE: int = 2
 var stage_keys: Dictionary = {1: &"rocco", 2: &"zuri", 3: &"pipa"}
 var signature: StringName = &"bite"
 var signature_lanes: Array[int] = [0, 1]
+## Corpo 3D do guardiao (so aparencia; le o ciclo de ataques).
+var avatar: BossAvatar
 var phase: int = Phase.ONE
 var lanes: Array[RootLane] = []
 ## Ligados pela fase de arena.
@@ -46,6 +48,9 @@ func _ready() -> void:
 		add_child(lane)
 		lanes.append(lane)
 	_apply_profiles()
+	avatar = BossAvatar.new()
+	add_child(avatar)
+	avatar.setup(signature, self)
 
 
 func is_defeated() -> bool:
@@ -78,6 +83,11 @@ func lane_safe(index: int, seconds: float) -> bool:
 		RootLane.State.ACTIVE: return false
 		RootLane.State.TELEGRAPH: return _timer >= seconds
 	return true
+
+
+## Estado atual do ciclo de ataques (RootLane.State), para o corpo 3D reagir.
+func attack_state() -> int:
+	return _state
 
 
 func current_timing() -> Vector3:

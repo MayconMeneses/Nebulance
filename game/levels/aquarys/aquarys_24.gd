@@ -91,8 +91,6 @@ func _build_geometry(b: SegmentBuilder) -> void:
 	triad.build(spots)
 	chest = b.chest("aquarys_24_chest", Vector3(32.0, 0.6, 0.0))
 	chest.locked = true
-	b.decor(Vector3(15.0, 5.0, -5.0), Vector3(14.0, 0.4, 7.0), Color("2FD2B0"), true)
-	b.decor(Vector3(15.0, 2.5, -5.0), Vector3(0.8, 5.0, 0.8), Color("167A66"), true)
 	var coins: Array[Vector3] = [Vector3(1.0, 1, 0), Vector3(6.5, 1, 0), Vector3(11.5, 1, 0), Vector3(16.5, 1, 0), Vector3(27.5, 5.0, 0), Vector3(30.0, 1, 0)]
 	for i in coins.size():
 		b.pickup("aquarys_24_coin_%02d" % (i + 1), Pickup.Kind.COIN, coins[i])

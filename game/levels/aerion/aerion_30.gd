@@ -73,8 +73,6 @@ func _build_geometry(b: SegmentBuilder) -> void:
 	chest.locked = true
 	b.zone(PhysicsLayers.ABYSS, "sky_30", Vector3(27.0, -9.0, 0.0), Vector3(100.0, 3.0, 4.0), Color(0.1, 0.1, 0.3, 0.2))
 	# Dente-de-leao gigante ao fundo (decoracao): haste e pluma de sementes.
-	b.decor(Vector3(15.0, 4.0, -4.5), Vector3(0.8, 8.0, 0.8), Color("5B3A29"))
-	b.decor(Vector3(15.0, 9.0, -4.5), Vector3(7.0, 3.0, 2.0), Color("F3E9C6"), true)
 	var coins: Array[Vector3] = [Vector3(1.0, 1, 0), Vector3(6.5, 1, 0), Vector3(11.5, 1, 0), Vector3(16.5, 1, 0), Vector3(28.5, 6.2, 0), Vector3(44.0, 6.2, 0)]
 	for i in coins.size():
 		b.pickup("aerion_30_coin_%02d" % (i + 1), Pickup.Kind.COIN, coins[i])

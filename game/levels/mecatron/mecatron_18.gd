@@ -65,8 +65,6 @@ func _build_geometry(b: SegmentBuilder) -> void:
 	triad.build(spots)
 	chest = b.chest("mecatron_18_chest", Vector3(32.0, 0.6, 0.0))
 	chest.locked = true
-	b.decor(Vector3(15.0, 3.0, -3.5), Vector3(8.0, 6.0, 2.0), Color("B45309"), true)
-	b.decor(Vector3(15.0, 3.5, -2.4), Vector3(1.6, 1.6, 0.6), Color("F08A3B"), true)
 	for i in 6:
 		var g := GearDecor.new()
 		g.radius = 1.4 + float(i % 3) * 0.5

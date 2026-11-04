@@ -94,8 +94,6 @@ func _build_geometry(b: SegmentBuilder) -> void:
 	chest = b.chest("umbraxis_36_chest", Vector3(86.0, 0.6, 0.0))
 	chest.locked = true
 	# Coracao do Colapso ao fundo: nucleo pulsante e raizes colossais.
-	b.decor(Vector3(30.0, 8.0, -7.0), Vector3(10.0, 10.0, 1.0), Color("5B1F4F"), true)
-	b.decor(Vector3(30.0, 8.0, -6.4), Vector3(3.0, 3.0, 0.6), Color("FFE14A"), true)
 	for x in range(-4, 90, 11):
 		b.decor(Vector3(float(x), 6.0, -5.0), Vector3(2.0, 12.0, 2.0), Color("5B1F4F"), true)
 	var coins: Array[Vector3] = [Vector3(1.0, 1, 0), Vector3(6.5, 1, 0), Vector3(11.5, 1, 0), Vector3(16.5, 1, 0), Vector3(69.2, 6.0, 0), Vector3(84.0, 1, 0)]
