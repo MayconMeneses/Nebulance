@@ -18,6 +18,7 @@ var qa_progress: int = -1
 var _planets: Array[PlanetDefinition] = []
 var _buttons: Array[Button] = []
 var _canvas: Control
+var _stage: SpaceStage
 var _info: Label
 var _message: Label
 var _banner: Label
@@ -45,6 +46,14 @@ func _ready() -> void:
 	_canvas.set_anchors_preset(Control.PRESET_FULL_RECT)
 	_canvas.draw.connect(_draw_map)
 	add_child(_canvas)
+	_stage = SpaceStage.new()
+	add_child(_stage)
+	var positions: Array[Vector2] = []
+	var radii: Array[float] = []
+	for i in _planets.size():
+		positions.append(_planet_pos(i))
+		radii.append(_radius(i))
+	_stage.build(_planets, positions, radii)
 	var title := Label.new()
 	title.text = "MAPA GALACTICO VIVO"
 	title.position = Vector2(24.0, 16.0)
@@ -53,7 +62,7 @@ func _ready() -> void:
 	for i in _planets.size():
 		var b := Button.new()
 		b.custom_minimum_size = Vector2(150.0, 44.0)
-		b.position = _planet_pos(i) - Vector2(75.0, 22.0)
+		b.position = _planet_pos(i) + Vector2(-75.0, _radius(i) + 8.0)
 		b.pressed.connect(select.bind(i))
 		b.focus_entered.connect(func() -> void:
 			if _selected != i:
@@ -89,8 +98,9 @@ func _ready() -> void:
 	_credits.pressed.connect(func() -> void: credits_requested.emit())
 	add_child(_credits)
 	_vault = Label.new()
-	_vault.position = Vector2(24.0, 560.0)
-	_vault.custom_minimum_size = Vector2(760.0, 0.0)
+	_vault.position = Vector2(820.0, 440.0)
+	_vault.custom_minimum_size = Vector2(420.0, 0.0)
+	_vault.add_theme_font_size_override(&"font_size", 15)
 	_vault.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	add_child(_vault)
 	_message = Label.new()
@@ -132,6 +142,10 @@ func displayed_save() -> Dictionary:
 	return GalaxyState.qa_save(qa_progress) if qa_progress >= 0 else save
 
 
+func _radius(i: int) -> float:
+	return 46.0 if i < 5 else 58.0
+
+
 func _planet_pos(i: int) -> Vector2:
 	if i == _planets.size() - 1:
 		return CENTER
@@ -167,22 +181,18 @@ func _refresh() -> void:
 		_message.text = "Modo QA: somente visualizacao (o save real nao e alterado)."
 	else:
 		_message.text = ""
+	if _stage != null:
+		_stage.show_state(shown)
 	_canvas.queue_redraw()
 
 
 func _draw_map() -> void:
 	if _planets.is_empty() or save.is_empty():
 		return
-	_canvas.draw_rect(Rect2(Vector2.ZERO, Vector2(1280.0, 720.0)), Color("070B1A"))
+	GalaxyBackdrop.draw(_canvas, _time, CENTER, RADIUS, not Accessibility.reduce_motion)
 	var shown: Dictionary = displayed_save()
 	var pulse: float = 0.55 if Accessibility.reduce_motion else 0.55 + 0.25 * sin(_time * 2.0)
 	for i in _planets.size() - 1:
 		if GalaxyState.root_visible(shown, i):
 			_canvas.draw_line(CENTER, _planet_pos(i), Color(0.76, 0.24, 0.66, pulse), 5.0)
-	for i in _planets.size():
-		var st: GalaxyState.Status = GalaxyState.status(shown, i)
-		var c: Color = _planets[i].tint
-		c.a = [0.25, 0.9, 0.9, 1.0][st]
-		_canvas.draw_circle(_planet_pos(i), 46.0 if i < 5 else 58.0, c)
-		if i == _selected:
-			_canvas.draw_arc(_planet_pos(i), 64.0, 0.0, TAU, 40, Color.WHITE, 3.0)
+	_canvas.draw_arc(_planet_pos(_selected), _radius(_selected) + 18.0, 0.0, TAU, 40, Color.WHITE, 3.0)
