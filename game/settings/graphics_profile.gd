@@ -1,14 +1,15 @@
 class_name GraphicsProfile
 extends RefCounted
 ## Perfis Baixo/Medio/Alto. So controles que EXISTEM no renderizador Compatibility (ADR-0007).
+## Custos medidos num Intel UHD 620 a 1080p (ms/quadro): MSAA 2x ~5, brilho (glow) ~3,5, sombra ~2; ceu, nevoa e fundo ~0. Medio = sem MSAA nem brilho.
 
 const IDS: Array[String] = ["low", "medium", "high"]
 const FPS_OPTIONS: Array[int] = [0, 30, 60, 120]
 
 const PROFILES: Dictionary = {
 	"low": {"msaa": 0, "render_scale": 0.75, "shadows": false, "particle_scale": 0.3, "glow": false},
-	"medium": {"msaa": 1, "render_scale": 1.0, "shadows": true, "particle_scale": 0.6, "glow": true},
-	"high": {"msaa": 2, "render_scale": 1.0, "shadows": true, "particle_scale": 1.0, "glow": true},
+	"medium": {"msaa": 0, "render_scale": 1.0, "shadows": true, "particle_scale": 0.6, "glow": false},
+	"high": {"msaa": 1, "render_scale": 1.0, "shadows": true, "particle_scale": 1.0, "glow": true},
 }
 ## Escala de particulas em vigor (lida pelos efeitos; atualizada pelo GraphicsApplier).
 static var particle_scale: float = 1.0

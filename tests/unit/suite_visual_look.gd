@@ -110,7 +110,7 @@ func _backdrop(tree: SceneTree, out: Array) -> void:
 func _graphics(tree: SceneTree, out: Array) -> void:
 	var low: Dictionary = GraphicsProfile.values("low")
 	var high: Dictionary = GraphicsProfile.values("high")
-	TestWorld.rec(out, "TC-066 visual: o perfil Baixo desliga o brilho (glow) e o Medio/Alto liga", not low["glow"] and high["glow"] and GraphicsProfile.values("medium")["glow"])
+	TestWorld.rec(out, "TC-066 visual: so o perfil Alto liga o brilho (glow, ~3,5 ms medidos no Intel UHD 620); Baixo e Medio ficam sem ele", not low["glow"] and high["glow"] and not GraphicsProfile.values("medium")["glow"])
 	var we := WorldEnvironment.new()
 	we.environment = LevelAtmosphere.environment(PlanetPalette.of(&"sylvara", false))
 	we.add_to_group(LevelAtmosphere.GROUP)

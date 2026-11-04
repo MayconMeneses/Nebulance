@@ -21,6 +21,7 @@ func build(min_x: float, max_x: float, palette: Dictionary, seed_text: String) -
 		box.size = size
 		box.material = FuturisticLook.panel(size, dark, trim)
 		pylon.mesh = box
+		pylon.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 		pylon.position = Vector3(x, h * 0.5 - 44.0, FAR_Z - rng.randf_range(0.0, 10.0))
 		add_child(pylon)
 		if rng.randf() < 0.55:
@@ -41,6 +42,7 @@ func _ring(at: Vector3, rng: RandomNumberGenerator, trim: Color) -> MeshInstance
 	mat.emission_energy_multiplier = 0.9
 	torus.material = mat
 	mi.mesh = torus
+	mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	mi.position = at
 	mi.rotation_degrees = Vector3(rng.randf_range(55.0, 85.0), rng.randf_range(-25.0, 25.0), 0.0)
 	return mi
@@ -62,4 +64,5 @@ func _stars(min_x: float, max_x: float, rng: RandomNumberGenerator, tint: Color)
 		multi.set_instance_transform(i, Transform3D(Basis.IDENTITY.scaled(Vector3.ONE * rng.randf_range(0.6, 1.8)), pos))
 	var mmi := MultiMeshInstance3D.new()
 	mmi.multimesh = multi
+	mmi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	return mmi

@@ -94,6 +94,9 @@ func _build_environment() -> void:
 	sun.rotation_degrees = Vector3(-50.0, -30.0, 0.0)
 	sun.light_color = palette["sun"]
 	sun.light_energy = palette["sun_energy"]
+	# Sombra barata: uma so camada ortogonal e alcance curto (a camera lateral so ve a vizinhanca do heroi).
+	sun.directional_shadow_mode = DirectionalLight3D.SHADOW_ORTHOGONAL
+	sun.directional_shadow_max_distance = 45.0
 	sun.add_to_group(&"main_light")
 	add_child(sun)
 
