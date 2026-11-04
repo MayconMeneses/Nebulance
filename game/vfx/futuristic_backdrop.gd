@@ -1,50 +1,41 @@
 class_name FuturisticBackdrop
 extends Node3D
-## Fundo de profundidade da fase: pilones e aneis gigantes ao longe (atras da nevoa) e um campo de estrelas (um unico MultiMesh).
-## So decoracao: sem colisao, sem fisica, sem estado. Posicoes DETERMINISTICAS (semente do planeta), espalhadas pelo comprimento da fase.
+## Fundo de profundidade da fase: silhuetas ao longe no ESTILO DO PLANETA (BackdropStyles: torres organicas, cristais, chamines, ilhas
+## flutuantes, nuvens, fragmentos), campo de estrelas (um unico MultiMesh) e piso holografico no abismo (grade que some com a distancia).
+## So decoracao: sem colisao, sem fisica, sem estado. Posicoes DETERMINISTICAS (semente da fase), espalhadas pelo comprimento da fase.
 
 const STAR_COUNT: int = 110
 const FAR_Z: float = -26.0
+const GRID_SHADER: String = "res://game/vfx/shaders/grid_floor.gdshader"
+
+var style: StringName = &"industrial"
 
 
 func build(min_x: float, max_x: float, palette: Dictionary, seed_text: String) -> void:
 	var rng := RandomNumberGenerator.new()
 	rng.seed = hash(seed_text)
-	var trim: Color = palette["trim"]
-	var dark: Color = (palette["ground"] as Color).lerp(palette["sky_horizon"], 0.25)
 	var x: float = min_x - 24.0
 	while x < max_x + 40.0:
-		var h: float = rng.randf_range(50.0, 70.0)
-		var size := Vector3(rng.randf_range(1.2, 2.4), h, rng.randf_range(1.2, 2.4))
-		var pylon := MeshInstance3D.new()
-		var box := BoxMesh.new()
-		box.size = size
-		box.material = FuturisticLook.panel(size, dark, trim)
-		pylon.mesh = box
-		pylon.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-		pylon.position = Vector3(x, h * 0.5 - 44.0, FAR_Z - rng.randf_range(0.0, 10.0))
-		add_child(pylon)
-		if rng.randf() < 0.55:
-			add_child(_ring(Vector3(x + rng.randf_range(6.0, 12.0), rng.randf_range(10.0, 26.0), FAR_Z - rng.randf_range(10.0, 22.0)), rng, trim))
+		for node in BackdropStyles.make(style, rng, palette, x, FAR_Z):
+			add_child(node)
 		x += rng.randf_range(20.0, 30.0)
 	add_child(_stars(min_x, max_x, rng, palette["sky_horizon"]))
+	add_child(_grid_floor(min_x, max_x, palette["trim"]))
 
 
-func _ring(at: Vector3, rng: RandomNumberGenerator, trim: Color) -> MeshInstance3D:
+## Piso holografico bem abaixo da fase: o abismo deixa de ser preto vazio e ganha profundidade.
+func _grid_floor(min_x: float, max_x: float, trim: Color) -> MeshInstance3D:
+	var plane := PlaneMesh.new()
+	plane.size = Vector2(max_x - min_x + 240.0, 150.0)
+	var mat := ShaderMaterial.new()
+	mat.shader = load(GRID_SHADER) as Shader
+	mat.set_shader_parameter("line_color", trim.lightened(0.1))
+	mat.set_shader_parameter("scroll", 0.0 if Accessibility.reduce_motion else 0.6)
+	plane.material = mat
 	var mi := MeshInstance3D.new()
-	var torus := TorusMesh.new()
-	torus.outer_radius = rng.randf_range(5.0, 9.0)
-	torus.inner_radius = torus.outer_radius - 0.35
-	var mat := StandardMaterial3D.new()
-	mat.albedo_color = trim.darkened(0.4)
-	mat.emission_enabled = true
-	mat.emission = trim
-	mat.emission_energy_multiplier = 0.9
-	torus.material = mat
-	mi.mesh = torus
+	mi.mesh = plane
 	mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-	mi.position = at
-	mi.rotation_degrees = Vector3(rng.randf_range(55.0, 85.0), rng.randf_range(-25.0, 25.0), 0.0)
+	mi.position = Vector3((min_x + max_x) * 0.5, -18.0, -34.0)
 	return mi
 
 

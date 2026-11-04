@@ -104,6 +104,7 @@ func _build_environment() -> void:
 ## Fundo de profundidade (pilones, aneis e estrelas) ao longo do comprimento da fase; so decoracao.
 func _build_backdrop() -> void:
 	var backdrop := FuturisticBackdrop.new()
+	backdrop.style = BackdropStyles.style_of(definition.planet_id if definition != null else &"")
 	add_child(backdrop)
 	var from_x: float = builder.min_x if builder.min_x < INF else 0.0
 	var to_x: float = builder.max_x if builder.max_x > -INF else 60.0

@@ -11,6 +11,7 @@ func run(tree: SceneTree) -> Array:
 	_blocks(tree, out)
 	await _level(tree, out)
 	_backdrop(tree, out)
+	_styles(tree, out)
 	_graphics(tree, out)
 	return out
 
@@ -105,6 +106,21 @@ func _backdrop(tree: SceneTree, out: Array) -> void:
 					bd.find_children("*", "CollisionObject3D", true, false).is_empty() and bd.get_child_count() < 60)
 		bd.queue_free()
 	TestWorld.rec(out, "TC-066 visual: o fundo e deterministico (mesma semente, mesmas posicoes)", counts[0] == counts[1] and first[0] == first[1])
+
+
+func _styles(tree: SceneTree, out: Array) -> void:
+	var styles: Dictionary = {}
+	var sane: bool = true
+	for planet in GalaxyState.planets():
+		var style: StringName = BackdropStyles.style_of(planet.planet_id)
+		styles[style] = true
+		var bd := FuturisticBackdrop.new()
+		bd.style = style
+		tree.get_root().add_child(bd)
+		bd.build(0.0, 120.0, PlanetPalette.of(planet.planet_id, false), "estilo_" + String(planet.planet_id))
+		sane = sane and bd.get_child_count() > 6 and bd.get_child_count() < 90 and bd.find_children("*", "CollisionObject3D", true, false).is_empty()
+		bd.queue_free()
+	TestWorld.rec(out, "TC-066 visual: cada planeta tem um estilo de fundo proprio (6 diferentes) e todos ficam enxutos, sem colisao e com o piso holografico", styles.size() == 6 and sane)
 
 
 func _graphics(tree: SceneTree, out: Array) -> void:
