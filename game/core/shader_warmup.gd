@@ -22,11 +22,17 @@ func run(level: LevelScene, frame_count: int) -> void:
 		_finish()
 		return
 	var at: Vector3 = level.rig.body.global_position + Vector3(0.0, 0.0, -0.5)
+	# Os modelos dos tres herois do visual REAL ficam prontos (escondidos): trocar de heroi em jogo nao instancia mais o .glb (15-40 ms).
+	level.visual.preload_models(level.rig.profiles)
+	_temps.append_array(LevelWarmup.spawn(level, level.rig.body.global_position))
+	_temps.append_array(LevelWarmup.dust_copy(level, level.rig.body.global_position))
 	for profile in level.rig.profiles:
 		var visual := HeroVisual.new()
 		level.add_child(visual)
 		visual.global_position = at + Vector3(0.0, 0.0, -0.5)
 		visual.show_hero(profile)
+		# Estado de dano: olhos fechados (pálpebras) e clipe de dano, que so apareceriam ao tomar dano em jogo.
+		visual.set_state(MovementState.State.HURT)
 		_temps.append(visual)
 	if level.effects != null:
 		for kind in EffectsDirector.KINDS:

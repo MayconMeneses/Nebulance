@@ -34,6 +34,7 @@ var eyes_closed: bool = false
 var _body: ActorController
 var _profile: HeroProfile
 var _lids: Array[Node3D] = []
+var _models: Dictionary = {}
 var _state: int = MovementState.State.IDLE
 var _blink_timer: float = 2.5
 var _blink_left: float = 0.0
@@ -51,19 +52,41 @@ func show_hero(profile: HeroProfile) -> void:
 	_profile = profile
 	hero_id = profile.hero_id
 	if model != null:
-		model.queue_free()
+		# Instanciar o .glb custa 15-40 ms (pico visivel a cada troca de heroi): o modelo sai de cena escondido e volta na proxima troca.
+		model.visible = false
+		model.process_mode = Node.PROCESS_MODE_DISABLED
 		model = null
 		player = null
-	var path: String = "%s%s.glb" % [MODEL_DIR, String(profile.hero_id)]
-	uses_fallback = not ResourceLoader.exists(path)
-	model = _fallback(profile) if uses_fallback else (load(path) as PackedScene).instantiate() as Node3D
-	add_child(model)
+	model = _models.get(profile.hero_id) as Node3D
+	if model == null:
+		model = _instantiate(profile)
+		add_child(model)
+		_models[profile.hero_id] = model
+	model.visible = true
+	model.process_mode = Node.PROCESS_MODE_INHERIT
 	position = Vector3(0.0, -profile.capsule_height * 0.5, 0.0)
 	player = model.find_child("AnimationPlayer", true, false) as AnimationPlayer
 	current_clip = &""
 	_play(&"idle")
 	refresh_outfit()
 	_find_lids()
+
+
+## Instancia (e guarda) o modelo de cada heroi antes de precisar dele: usado atras da tela de carregamento para a 1a troca nao travar.
+func preload_models(profiles: Array[HeroProfile]) -> void:
+	for profile in profiles:
+		if not _models.has(profile.hero_id):
+			var cached: Node3D = _instantiate(profile)
+			cached.visible = false
+			cached.process_mode = Node.PROCESS_MODE_DISABLED
+			add_child(cached)
+			_models[profile.hero_id] = cached
+
+
+func _instantiate(profile: HeroProfile) -> Node3D:
+	var path: String = "%s%s.glb" % [MODEL_DIR, String(profile.hero_id)]
+	uses_fallback = not ResourceLoader.exists(path)
+	return _fallback(profile) if uses_fallback else (load(path) as PackedScene).instantiate() as Node3D
 
 
 ## Reaplica o cosmetico do heroi ativo no modelo atual (brilho translucido sobre todas as malhas).
